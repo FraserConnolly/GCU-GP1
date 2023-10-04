@@ -127,8 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterScreenRenderer.cpp" />
     <ClCompile Include="GameSource.cpp" />
+    <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CharacterScreenRenderer.h" />
+    <ClInclude Include="KeyboardInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

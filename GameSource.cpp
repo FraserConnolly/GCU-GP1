@@ -6,35 +6,58 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "CharacterScreenRenderer.h"
+#include "KeyboardInput.h"
 
 class GameSource
 {
 public:
-	GameSource() { };
-	
+	GameSource()
+	{ 
+		initaliseGame();
+	};
+
 	void initaliseGame()
 	{
-		std::cout << "Game initalised" << '\n';
+		std::cout << "Game initialised" << '\n';
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		renderer = CharacterScreenRenderer(hOut);
+		HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
+		kInput = KeyboardInput(hIn);
 	};
 
 	void processInput()
 	{
-		std::cout << "Processing input" << '\n';
+		kInput.tick();
 	};
 
 	void updateGame()
 	{
-		std::cout << "Update game" << '\n';
+		
 	};
 
 	void drawGame()
 	{
-		std::cout << "Draw game" << '\n';
+		renderer.draw();
 	};
 
-	void gameLoop()
+	void quit()
 	{
-		initaliseGame();
+		m_runLoop = false;
+	}
+
+	int gameLoop()
+	{
+
+		if (&renderer == NULL)
+		{
+			return 0x01;
+		}
+
+		if (&kInput == NULL)
+		{
+			return 0x02;
+		}
 
 		for (; m_runLoop == true ; )
 		{
@@ -42,11 +65,15 @@ public:
 			updateGame();
 			drawGame();
 		}
+
+		return 0;
 	};
+	
+	KeyboardInput kInput = NULL;
+	CharacterScreenRenderer renderer = NULL;
 
 private:
 	int m_width, m_height;
 	bool m_runLoop = true;
-
 };
 
