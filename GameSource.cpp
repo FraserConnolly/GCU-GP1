@@ -1,60 +1,46 @@
 /*
 * Created By: Fraser Connolly
 * Created Date: 2023-09-28
+* 
+* 2023-10-12 Seperated out implementation from header files.
 */
 
-#pragma once
-#include <iostream>
-#include <string>
-#include "Window.cpp"
-#include "Ground.cpp"
+#include "GameSource.h"
 
-class GameSource
+void GameSource::initaliseGame()
 {
-public:
-	GameSource() { };
-	
-	void initaliseGame()
+	std::cout << "Game initalised" << std::endl;
+	m_runLoop = true;
+	m_window.setWindow(160, 50);
+}
+
+void GameSource::processInput()
+{
+	//std::cout << "Processing input" << '\n';
+}
+
+void GameSource::updateGame()
+{
+	//std::cout << "Update game" << '\n';
+}
+
+void GameSource::drawGame()
+{
+	system("cls");
+	m_ground.draw(m_window.getWidth(), m_window.getHeight());
+}
+
+void GameSource::gameLoop()
+{
+	if (!m_runLoop)
 	{
-		std::cout << "Game initalised" << std::endl;
-		m_runLoop = true;
-		m_window.setWindow(160, 50);
-	};
+		initaliseGame();
+	}
 
-	void processInput()
+	for (; m_runLoop == true; )
 	{
-		//std::cout << "Processing input" << '\n';
-	};
-
-	void updateGame()
-	{
-		//std::cout << "Update game" << '\n';
-	};
-
-	void drawGame()
-	{
-		system("cls");
-		m_ground.draw(160, 50);
-	};
-
-	void gameLoop()
-	{
-		if (!m_runLoop)
-		{
-			initaliseGame();
-		}
-
-		for (; m_runLoop == true ; )
-		{
-			processInput();
-			updateGame();
-			drawGame();
-		}
-	};
-
-private:
-	bool m_runLoop = false;
-	Window m_window;
-	Ground m_ground;
-};
-
+		processInput();
+		updateGame();
+		drawGame();
+	}
+}

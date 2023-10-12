@@ -3,7 +3,7 @@
 * Created Date: 2023-09-28
 */
 
-#include "GameSource.cpp"
+#include "GameSource.h"
 
 int main()
 {
