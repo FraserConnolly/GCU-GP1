@@ -9,25 +9,30 @@
 
 void GameSource::initaliseGame()
 {
-	std::cout << "Game initalised" << std::endl;
-	m_runLoop = true;
+	deltaTime = 0;
+	m_frameTimer.start();
 	m_window.setWindow(160, 50);
+	HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
+	kInput = KeyboardInput(hIn);
+	m_runLoop = true;
+	std::cout << "Game initalised" << std::endl;
 }
 
 void GameSource::processInput()
 {
-	//std::cout << "Processing input" << '\n';
+	kInput.tick();
 }
 
 void GameSource::updateGame()
 {
-	//std::cout << "Update game" << '\n';
+	this->m_musicPlayer.tick(deltaTime);
 }
 
 void GameSource::drawGame()
 {
-	system("cls");
-	m_ground.draw(m_window.getWidth(), m_window.getHeight());
+	//system("cls");
+	//m_ground.draw(m_window.getWidth(), m_window.getHeight());
+	cout << deltaTime << "    " << deltaTimeSecond << endl;
 }
 
 void GameSource::gameLoop()
@@ -42,5 +47,18 @@ void GameSource::gameLoop()
 		processInput();
 		updateGame();
 		drawGame();
+		m_frameTimer.restart();
+		deltaTime = m_frameTimer.elapsedMilliseconds();
+		deltaTimeSecond = m_frameTimer.elapsedSeconds();
 	}
+};
+
+void GameSource::quit()
+{
+	this -> m_runLoop = false;
+}
+
+void GameSource::playMusic()
+{
+	this->m_musicPlayer.PlaySong();
 }
