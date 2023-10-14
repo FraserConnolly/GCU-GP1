@@ -2,7 +2,8 @@
 * Created By: Fraser Connolly
 * Created Date: 2023-10-05
 * 
-* 2023-10-12 Seperated declerations from definitions.
+* 2023-10-12 Separated decelerations from definitions.
+* 2023-10-14 Stopped using the string class as it has several calls to allocate and deallocate for every usage.
 */
 
 #include "Ground.h"
@@ -13,9 +14,20 @@ void Ground :: draw(int width, int height)
 {
 	for (int i = 0; i <= height; i++)
 	{
-		// the string constructor used here repeats the underscore character the number of times specified in the first parameter.
-		i == height ? cout << std::string(width, '_') : cout << std::endl ;
+		i == height ? drawChar(cout, '_', width) : drawChar(cout, '\n' ); 
 	}
 }
 
+inline void Ground :: drawChar(ostream& o, char c)
+{
+	o << c;
+}
+
+inline void Ground :: drawChar(ostream &o, char c, int count )
+{
+	for (int i = 0; i <= count; i++)
+	{
+		o << c;
+	}
+}
 
