@@ -1,6 +1,6 @@
 #pragma once
 #include "Window.h"
-#include <mutex>
+#include <future>
 
 using namespace std;
 
@@ -78,6 +78,15 @@ public:
         Play(Mary, 13);
     }
 
+    void PlayNote(Tone tone)
+    {
+        if (tone == Tone::REST)
+        {
+            return;
+        }
+
+        Beep(tone, 250);
+    }
 
     void tick(float deltaTime)
     {
@@ -88,22 +97,28 @@ public:
 
         if (noteIndex >= tuneLength)
         {
+            if (tune != NULL)
+            {
+                delete [] tune;
+            }
+
             tune = NULL;
             return;
         }
 
         timer -= deltaTime;
 
-        if ( timer <= 0 )
+        if ( timer <= 0 && !notePlaying )
         {
 
             Note n = tune[noteIndex++];
             
-            this->timer = n.durVal;
+            timer = n.durVal;
 
             if (n.toneVal != Tone::REST)
             {
-                Beep(n.toneVal, n.durVal);
+                //Beep(n.toneVal, n.durVal);
+                asyncBeep(n.toneVal, n.durVal);
             }
         }
     }
@@ -124,4 +139,24 @@ private:
         this->noteIndex = 0;
     }
 
+    inline void asyncBeep(int tone, int duration)
+    {
+        if (this->notePlaying)
+        {
+            cout << "Can not play note at the moment" << endl;
+            return;
+        }
+
+        asyncResult =
+            std::async(std::launch::async, &MusicPlayer::playBeepAsync, this, tone, duration);
+    }
+
+    void playBeepAsync(int frequency, int duration) {
+        this->notePlaying = true;
+        Beep(frequency, duration);
+        this->notePlaying = false;
+    }
+
+    std::future<void> asyncResult;
+    bool notePlaying = false;
 };
