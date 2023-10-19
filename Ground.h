@@ -5,7 +5,6 @@
 
 #pragma once
 #include <iostream>
-#include <string>
 
 class Ground
 {
@@ -13,5 +12,10 @@ class Ground
 public:
 
 	void draw(int width, int height);
+
+private:
+
+	void drawChar(std::ostream& o, char c);
+	void drawChar(std::ostream& o, char c, int count);
 
 };
