@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Aliens.cpp" />
     <ClCompile Include="Barriers.cpp" />
+    <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GameSource.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -139,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="Aliens.h" />
     <ClInclude Include="Barriers.h" />
+    <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GameSource.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Missiles.h" />

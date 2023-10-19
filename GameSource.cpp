@@ -9,19 +9,19 @@
 
 void GameSource::initaliseGame()
 {
-	std::cout << "Game initalised" << std::endl;
-	m_runLoop = true;
+	deltaTime = 0;
+	m_frameTimer.start();
 	m_window.setWindow(160, 50);
+	m_runLoop = true;
+	std::cout << "Game initalised" << std::endl;
 }
 
 void GameSource::processInput()
 {
-	//std::cout << "Processing input" << '\n';
 }
 
 void GameSource::updateGame()
 {
-	//std::cout << "Update game" << '\n';
 }
 
 void GameSource::drawGame()
@@ -42,5 +42,13 @@ void GameSource::gameLoop()
 		processInput();
 		updateGame();
 		drawGame();
+		m_frameTimer.restart();
+		deltaTime = m_frameTimer.elapsedMilliseconds();
+		deltaTimeSecond = m_frameTimer.elapsedSeconds();
 	}
+};
+
+void GameSource::quit()
+{
+	this -> m_runLoop = false;
 }
