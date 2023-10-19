@@ -3,11 +3,11 @@
 * Created Date: 2023-09-28
 */
 
-#include "GameSource.h"
+#include "AliensGameSource.h"
 
 int main()
 {
-	GameSource game;
+	AliensGameSource game;
 
 	game.initaliseGame();
 	game.gameLoop();

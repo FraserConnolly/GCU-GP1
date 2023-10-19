@@ -27,7 +27,6 @@ void GameSource::updateGame()
 void GameSource::drawGame()
 {
 	system("cls");
-	m_ground.draw(m_window.getWidth(), m_window.getHeight());
 }
 
 void GameSource::gameLoop()

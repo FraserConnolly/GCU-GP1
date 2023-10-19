@@ -1,6 +1,8 @@
 /*
 * Created By: Fraser Connolly
 * Created Date: 2023-10-12
+* 
+* 2023-10-19 Moved Aliens game code to its own derived class.
 */
 
 #pragma once
@@ -16,19 +18,18 @@ public:
 	GameSource() { };
 
 	void initaliseGame();
-	void processInput();
-	void updateGame();
-	void drawGame();
+	virtual void processInput();
+	virtual void updateGame();
+	virtual void drawGame();
 	void gameLoop();
 	void quit();
 
 	float deltaTime = 0;
 	float deltaTimeSecond = 0;
 
-private:
+protected:
 	bool m_runLoop = false;
 	Window m_window;
-	Ground m_ground;
 	FrameTimer m_frameTimer;
 };
 
