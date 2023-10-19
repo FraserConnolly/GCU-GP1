@@ -8,25 +8,3 @@
 
 #include "Ground.h"
 
-using namespace std;
-	
-void Ground :: draw(int width, int height)
-{
-	for (int i = 0; i <= height; i++)
-	{
-		i == height ? drawChar(cout, '_', width) : drawChar(cout, '\n');
-	}
-}
-
-inline void Ground::drawChar(ostream& o, char c)
-{
-	o << c;
-}
-
-inline void Ground::drawChar(ostream& o, char c, int count)
-{
-	for (int i = 0; i <= count; i++)
-	{
-		o << c;
-	}
-}

@@ -17,7 +17,7 @@ class GameSource
 public:
 	GameSource() { };
 
-	void initaliseGame();
+	virtual void initaliseGame();
 	virtual void processInput();
 	virtual void updateGame();
 	virtual void drawGame();
@@ -28,6 +28,10 @@ public:
 	float deltaTimeSecond = 0;
 
 protected:
+
+	// returns true if a non space character is drawn.
+	bool drawChar(ostream& o, int * row, int * column) { };
+	
 	bool m_runLoop = false;
 	Window m_window;
 	FrameTimer m_frameTimer;

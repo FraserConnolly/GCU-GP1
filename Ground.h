@@ -5,17 +5,27 @@
 
 #pragma once
 #include <iostream>
+#include "GameObject.h"
 
 class Ground
+	: public GameObject
 {
 
 public:
 
-	void draw(int width, int height);
+	Ground(int width) : GameObject (width, 1)
+	{
+		for (int i = 0; i < sizeof(ground); i++)
+		{
+			ground[i] = ( i <= width ? '_' : '\0' );
+		}
+	}
+
+	// Inherited via GameObject
+	char* draw() override { return ground; };
 
 private:
 
-	void drawChar(std::ostream& o, char c);
-	void drawChar(std::ostream& o, char c, int count);
+	char ground[600];
 
 };
