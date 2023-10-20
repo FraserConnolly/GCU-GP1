@@ -65,11 +65,11 @@ private:
     inline void asyncBeep(int tone, int duration);
     void playBeepAsync(int frequency, int duration);
 
-    std::future<void> asyncResult;
-    bool notePlaying = false;
-    float timer;
-    Note* tune = NULL;
-    int tuneLength;
-    int noteIndex;
+    std::future<void> m_asyncResult;
+    bool m_notePlaying = false;
+    float m_timer;
+    Note* m_tune = NULL;
+    int m_tuneLength;
+    int m_noteIndex;
 
 };

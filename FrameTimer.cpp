@@ -1,21 +1,24 @@
 #include "FrameTimer.h"
 
-FrameTimer::FrameTimer()
+FrameTimer::FrameTimer() 
+	: m_startingTime(), 
+	m_endingTime(), 
+	m_elapsedMicroseconds(), 
+	m_frequency()
 {
-	QueryPerformanceFrequency(& this -> Frequency);
+	QueryPerformanceFrequency(&m_frequency);
 	start();
 }
 
 void FrameTimer::start()
 {
-	QueryPerformanceCounter(& this -> StartingTime);
+	QueryPerformanceCounter(&m_startingTime);
 }
-
 
 void FrameTimer::restart()
 {
-	QueryPerformanceCounter(&EndingTime);
-	this -> ElapsedMicroseconds.QuadPart = this -> EndingTime.QuadPart - this -> StartingTime.QuadPart;
+	QueryPerformanceCounter(&m_endingTime);
+	m_elapsedMicroseconds.QuadPart = m_endingTime.QuadPart - m_startingTime.QuadPart;
 
 	//
 	// We now have the elapsed number of ticks, along with the
@@ -25,17 +28,17 @@ void FrameTimer::restart()
 	// to microseconds *before* dividing by ticks-per-second.
 	//
 
-	this -> ElapsedMicroseconds.QuadPart *= 1000000;
-	this -> ElapsedMicroseconds.QuadPart /= this -> Frequency.QuadPart;
-	this -> StartingTime = EndingTime;
+	m_elapsedMicroseconds.QuadPart *= 1000000;
+	m_elapsedMicroseconds.QuadPart /= m_frequency.QuadPart;
+	m_startingTime = m_endingTime;
 }
 
 float FrameTimer::elapsedMilliseconds()
 {
-	return this -> ElapsedMicroseconds.QuadPart / 1000.0;
+	return ( float ) m_elapsedMicroseconds.QuadPart / 1000.0f;
 }
 
 float FrameTimer::elapsedSeconds()
 {
-	return this -> ElapsedMicroseconds.QuadPart / 1000000.0;
+	return ( float ) m_elapsedMicroseconds.QuadPart / 1000000.0f;
 }

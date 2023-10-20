@@ -18,7 +18,9 @@ public:
 
 private:
 
-    LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
-    LARGE_INTEGER Frequency;
+    LARGE_INTEGER m_frequency;
+    LARGE_INTEGER m_startingTime;
+    LARGE_INTEGER m_endingTime;
+    LARGE_INTEGER m_elapsedMicroseconds;
 
 };

@@ -2,22 +2,22 @@
 * Created By: Fraser Connolly
 * Created Date: 2023-10-05
 * 
-* 2023-10-12 Seperated out definitions from declerations. 
+* 2023-10-12 Separated out definitions from decelerations. 
 */
 
 #include "Window.h"
 
-Window::Window()
+Window::Window() : 
+	hConsole( GetStdHandle ( STD_OUTPUT_HANDLE ) ), 
+	m_width( 0 ), 
+	m_height( 0 )
 {
-	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	this->m_width = 0;
-	this->m_height = 0;
 }
 
 void Window::setWindow(short width, short height) {
 
-	this->m_width = width;
-	this->m_height = height;
+	m_width = width;
+	m_height = height;
 
 	_COORD coord{ m_width + 21 , m_height + 21 };
 
@@ -26,7 +26,7 @@ void Window::setWindow(short width, short height) {
 		cout << "SetConsoleScreenBufferSize failed with error " << GetLastError() << endl;
 	}
 
-	SMALL_RECT windowSize = { 10, 10, width + 20, height + 20 };
+	SMALL_RECT windowSize = { 10, 10, m_width + 20, m_height + 20 };
 	if (!SetConsoleWindowInfo(hConsole, TRUE, &windowSize))
 	{
 		cout << "SetConsoleWindowInfo failed with error " << GetLastError() << endl;

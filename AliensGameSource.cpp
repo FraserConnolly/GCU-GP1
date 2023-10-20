@@ -6,22 +6,20 @@ void AliensGameSource::initaliseGame()
 	
 	for (int a = 0; a < ALIENT_COUNT; a++)
 	{
-		Alien * alien = &this->m_aliens[a];
-		alien->m_X = a * 2;
-		alien->m_Y = 0;
+		m_aliens [ a ].m_X = a * 2;
+		m_aliens [ a ].m_Y = 0;
 	}
 
 	for (int b = 0; b < BARRIER_COUNT; b++)
 	{
-		Barrier * barrier = &this->m_barriers[b];
-		barrier->m_X = b * 10;
-		barrier->m_Y = 20;
+		m_barriers [ b ].m_X = b * 10;
+		m_barriers [ b ].m_Y = 20;
 	}
 
-	this->m_player.m_X = 40;
-	this->m_player.m_Y = 40;
+	m_player.m_X = 40;
+	m_player.m_Y = 40;
 
-	this->m_ground.m_Y = 49;
+	m_ground.m_Y = 49;
 	
 	m_keyboardInput.registerOnKey(VK_SPACE,
 		[this](KEY_EVENT_RECORD ker) {
@@ -76,19 +74,19 @@ bool AliensGameSource::drawChar(ostream& o, int& row, int& column)
 
 	// Draw player
 
-	if (this->m_player.inPosition(column, row))
+	if (m_player.inPosition(column, row))
 	{
-		o << this->m_player.draw();
-		column += this->m_player.getWidth();
+		o << m_player.draw();
+		column += m_player.getWidth();
 		return true;
 	}
 
 	// Draw ground
 
-	if (this->m_ground.inPosition(column, row))
+	if (m_ground.inPosition(column, row))
 	{
-		o << this->m_ground.draw();
-		column += this->m_ground.getWidth();
+		o << m_ground.draw();
+		column += m_ground.getWidth();
 		return true;
 	}
 
