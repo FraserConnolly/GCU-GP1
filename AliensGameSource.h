@@ -30,11 +30,12 @@ protected:
 
 private:
 
-
 	/* Game specific member variables*/
 	Player m_player;
 	Alien m_aliens[ALIENT_COUNT];
 	Barrier m_barriers[BARRIER_COUNT];
 	Ground m_ground;
+
+	void playMuisc(KEY_EVENT_RECORD ker);
 };
 

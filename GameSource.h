@@ -11,6 +11,8 @@
 #include "Window.h"
 #include "Ground.h"
 #include "FrameTimer.h"
+#include "KeyboardInput.h"
+#include "MusicPlayer.h"
 
 class GameSource
 {
@@ -26,6 +28,8 @@ public:
 
 	float deltaTime = 0;
 	float deltaTimeSecond = 0;
+	
+	KeyboardInput m_keyboardInput = NULL;
 
 protected:
 
@@ -35,5 +39,11 @@ protected:
 	bool m_runLoop = false;
 	Window m_window;
 	FrameTimer m_frameTimer;
+	MusicPlayer m_musicPlayer;
+
+private:
+
+	void quitKeyPressed(KEY_EVENT_RECORD ker);
+
 };
 

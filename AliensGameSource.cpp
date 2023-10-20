@@ -2,6 +2,8 @@
 
 void AliensGameSource::initaliseGame()
 {
+	GameSource::initaliseGame();
+	
 	for (int a = 0; a < ALIENT_COUNT; a++)
 	{
 		Alien * alien = &this->m_aliens[a];
@@ -20,8 +22,11 @@ void AliensGameSource::initaliseGame()
 	this->m_player.m_Y = 40;
 
 	this->m_ground.m_Y = 49;
-
-	GameSource::initaliseGame();
+	
+	m_keyboardInput.registerOnKey(VK_SPACE,
+		[this](KEY_EVENT_RECORD ker) {
+			this->playMuisc(ker);
+		});
 }
 
 void AliensGameSource::drawGame()
@@ -95,6 +100,31 @@ bool AliensGameSource::drawChar(ostream& o, int& row, int& column)
 	return false;
 }
 
+void AliensGameSource::playMuisc(KEY_EVENT_RECORD ker)
+{
+	// Declare the first few notes of the song, "Mary Had A Little Lamb".
+	Note* Mary = new Note[13]
+	{
+		Note(Tone::B, Duration::QUARTER),
+		Note(Tone::A, Duration::QUARTER),
+		Note(Tone::GbelowC, Duration::QUARTER),
+		Note(Tone::A, Duration::QUARTER),
+		Note(Tone::B, Duration::QUARTER),
+		Note(Tone::B, Duration::QUARTER),
+		Note(Tone::B, Duration::HALF),
+		Note(Tone::A, Duration::QUARTER),
+		Note(Tone::A, Duration::QUARTER),
+		Note(Tone::A, Duration::HALF),
+		Note(Tone::B, Duration::QUARTER),
+		Note(Tone::D, Duration::QUARTER),
+		Note(Tone::D, Duration::HALF)
+	};
+
+	// Play the song
+	// note that the memory for Marry will be deallocated at the end of the playback.
+	m_musicPlayer.Play(Mary, 13);
+}
+
 void AliensGameSource::setAlientPositions()
 {
 }
@@ -102,3 +132,4 @@ void AliensGameSource::setAlientPositions()
 void AliensGameSource::setBarrierPositions()
 {
 }
+

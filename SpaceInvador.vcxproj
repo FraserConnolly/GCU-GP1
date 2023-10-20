@@ -134,8 +134,10 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSource.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Missiles.cpp" />
+    <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -147,7 +149,9 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSource.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="Missiles.h" />
+    <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
