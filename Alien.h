@@ -6,18 +6,18 @@ class Alien
 {
 public:
 
-	Alien() : GameObject ( 1, 1 ), symbol("X")
+	Alien ( ) : GameObject ( 1, 1 ), symbol ( "X" )
 	{
 
 	}
 
 	// Inherited via GameObject
-	char* draw() override
+	char * draw ( ) override
 	{
 		return symbol;
 	};
 
 private:
-	char symbol[2];
+	char symbol [ 2 ];
 };
 

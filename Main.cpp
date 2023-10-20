@@ -5,12 +5,12 @@
 
 #include "AliensGameSource.h"
 
-int main()
+int main ( )
 {
 	AliensGameSource game;
 
-	game.initaliseGame();
-	game.gameLoop();
+	game.initaliseGame ( );
+	game.gameLoop ( );
 
 	return 0;
 }

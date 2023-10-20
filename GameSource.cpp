@@ -7,66 +7,67 @@
 
 #include "GameSource.h"
 
-void GameSource::initaliseGame()
+void GameSource::initaliseGame ( )
 {
 	deltaTime = 0;
-	m_frameTimer.start();
-	m_window.setWindow(160, 50);
+	m_frameTimer.start ( );
+	m_window.setWindow ( 160, 50 );
 	m_runLoop = true;
-	
-	m_keyboardInput = KeyboardInput(GetStdHandle(STD_INPUT_HANDLE));
-	m_keyboardInput.registerOnKey(VK_ESCAPE, 
-		[this](KEY_EVENT_RECORD ker) {
-			this->quitKeyPressed(ker);
-		} );
+
+	m_keyboardInput = KeyboardInput ( GetStdHandle ( STD_INPUT_HANDLE ) );
+	m_keyboardInput.registerOnKey ( VK_ESCAPE,
+									[ this ] ( KEY_EVENT_RECORD ker )
+									{
+										this->quitKeyPressed ( ker );
+									} );
 
 	std::cout << "Game initialised" << std::endl;
 }
 
-void GameSource::processInput()
+void GameSource::processInput ( )
 {
-	m_keyboardInput.tick();
+	m_keyboardInput.tick ( );
 }
 
-void GameSource::updateGame()
+void GameSource::updateGame ( )
 {
-	m_musicPlayer.tick(deltaTime);
+	m_musicPlayer.tick ( deltaTime );
 }
 
-void GameSource::drawGame()
+void GameSource::drawGame ( )
 {
-	system("cls");
+	system ( "cls" );
 }
 
-void GameSource::gameLoop()
+void GameSource::gameLoop ( )
 {
-	if (!m_runLoop)
+	if ( !m_runLoop )
 	{
-		initaliseGame();
+		initaliseGame ( );
 	}
 
-	for (; m_runLoop == true; )
+	for ( ; m_runLoop == true; )
 	{
-		processInput();
-		updateGame();
-		drawGame();
-		m_frameTimer.restart();
-		deltaTime = m_frameTimer.elapsedMilliseconds();
-		deltaTimeSecond = m_frameTimer.elapsedSeconds();
+		processInput ( );
+		updateGame ( );
+		drawGame ( );
+		m_frameTimer.restart ( );
+		deltaTime = m_frameTimer.elapsedMilliseconds ( );
+		deltaTimeSecond = m_frameTimer.elapsedSeconds ( );
 	}
-};
-
-void GameSource::quit()
-{
-	this -> m_runLoop = false;
 }
 
-void GameSource::quitKeyPressed(KEY_EVENT_RECORD ker)
+void GameSource::quit ( )
 {
-	if (!ker.bKeyDown)
+	this->m_runLoop = false;
+}
+
+void GameSource::quitKeyPressed ( KEY_EVENT_RECORD ker )
+{
+	if ( !ker.bKeyDown )
 	{
 		return;
 	}
 
-	quit();
+	quit ( );
 }

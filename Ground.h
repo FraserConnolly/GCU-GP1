@@ -13,19 +13,22 @@ class Ground
 
 public:
 
-	Ground(int width) : GameObject (width, 1)
+	Ground ( int width ) : GameObject ( width, 1 )
 	{
-		for (int i = 0; i < sizeof(ground); i++)
+		for ( int i = 0; i < sizeof ( ground ); i++ )
 		{
-			ground[i] = ( i <= width ? '_' : '\0' );
+			ground [ i ] = ( i <= width ? '_' : '\0' );
 		}
 	}
 
 	// Inherited via GameObject
-	char* draw() override { return ground; };
+	char * draw ( ) override
+	{
+		return ground;
+	};
 
 private:
 
-	char ground[600];
+	char ground [ 600 ];
 
 };

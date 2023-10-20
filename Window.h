@@ -14,15 +14,23 @@ using namespace std;
 class Window
 {
 public:
-	Window();
+	Window ( );
 
-	void setWindow(short width, short height);
-	short getWidth() { return m_width; };
-	short getHeight() { return m_height; };
+	void setWindow ( short width, short height );
+
+	short getWidth ( )
+	{
+		return m_width;
+	};
+	short getHeight ( )
+	{
+		return m_height;
+	};
 
 private:
-	HANDLE hConsole = NULL;
+	HANDLE m_hConsole;
 	short m_width;
 	short m_height;
+
 };
 

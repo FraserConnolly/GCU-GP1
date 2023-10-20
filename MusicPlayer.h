@@ -42,7 +42,7 @@ struct Note
     Duration durVal;
 
     // Define a constructor to create a specific note.
-    Note(Tone frequency, Duration time)
+    Note ( Tone frequency, Duration time )
     {
         toneVal = frequency;
         durVal = time;
@@ -53,22 +53,22 @@ struct Note
 class MusicPlayer
 {
 public:
-   
-    // Play the notes in a song.
-    void Play(Note* tune, int length);
-    void PlayNote(const Tone tone);
 
-    void tick(const float deltaTime);
+    // Play the notes in a song.
+    void Play ( Note * tune, int length );
+    void PlayNote ( const Tone tone );
+
+    void tick ( const float deltaTime );
 
 private:
 
-    inline void asyncBeep(int tone, int duration);
-    void playBeepAsync(int frequency, int duration);
+    inline void asyncBeep ( int tone, int duration );
+    void playBeepAsync ( int frequency, int duration );
 
     std::future<void> m_asyncResult;
     bool m_notePlaying = false;
     float m_timer;
-    Note* m_tune = NULL;
+    Note * m_tune = NULL;
     int m_tuneLength;
     int m_noteIndex;
 

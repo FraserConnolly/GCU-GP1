@@ -10,11 +10,11 @@ class FrameTimer
 {
 public:
 
-    FrameTimer();
-    void start();
-    void restart();
-    float elapsedMilliseconds();
-    float elapsedSeconds();
+    FrameTimer ( );
+    void start ( );
+    void restart ( );
+    float elapsedMilliseconds ( );
+    float elapsedSeconds ( );
 
 private:
 

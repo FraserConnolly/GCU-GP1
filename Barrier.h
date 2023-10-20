@@ -6,18 +6,18 @@ class Barrier
 {
 public:
 
-	Barrier() : GameObject ( 5, 1 ), symbol("*****")
+	Barrier ( ) : GameObject ( 5, 1 ), symbol ( "*****" )
 	{
 
 	}
 
 	// Inherited via GameObject
-	char* draw() override
+	char * draw ( ) override
 	{
 		return symbol;
 	};
 
 private:
-	char symbol[6];
+	char symbol [ 6 ];
 };
 

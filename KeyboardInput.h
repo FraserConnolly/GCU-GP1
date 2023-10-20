@@ -13,21 +13,21 @@ class KeyboardInput
 
 public:
 
-	KeyboardInput();
-	KeyboardInput(HANDLE bufferHandle);
-	~KeyboardInput();
+	KeyboardInput ( );
+	KeyboardInput ( HANDLE bufferHandle );
+	~KeyboardInput ( );
 
-	void tick();
+	void tick ( );
 
-	bool registerOnKey(WORD key, std::function<void(KEY_EVENT_RECORD)> callback);
+	bool registerOnKey ( WORD key, std::function<void ( KEY_EVENT_RECORD )> callback );
 private:
 	HANDLE m_bufferHandle = NULL;
 	BOOL m_ready = false;
 	DWORD fdwSaveOldMode = 0;
-	
-	void init();
-	VOID KeyEventProc(KEY_EVENT_RECORD ker);
-	std::map<WORD, std::function<void(KEY_EVENT_RECORD)>> keyRegistrations;
+
+	void init ( );
+	VOID KeyEventProc ( KEY_EVENT_RECORD ker );
+	std::map<WORD, std::function<void ( KEY_EVENT_RECORD )>> keyRegistrations;
 
 };
 

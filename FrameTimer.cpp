@@ -10,14 +10,14 @@ FrameTimer::FrameTimer()
 	start();
 }
 
-void FrameTimer::start()
+void FrameTimer::start ( )
 {
-	QueryPerformanceCounter(&m_startingTime);
+	QueryPerformanceCounter ( &m_startingTime );
 }
 
-void FrameTimer::restart()
+void FrameTimer::restart ( )
 {
-	QueryPerformanceCounter(&m_endingTime);
+	QueryPerformanceCounter ( &m_endingTime );
 	m_elapsedMicroseconds.QuadPart = m_endingTime.QuadPart - m_startingTime.QuadPart;
 
 	//
@@ -33,12 +33,12 @@ void FrameTimer::restart()
 	m_startingTime = m_endingTime;
 }
 
-float FrameTimer::elapsedMilliseconds()
+float FrameTimer::elapsedMilliseconds ( )
 {
 	return ( float ) m_elapsedMicroseconds.QuadPart / 1000.0f;
 }
 
-float FrameTimer::elapsedSeconds()
+float FrameTimer::elapsedSeconds ( )
 {
 	return ( float ) m_elapsedMicroseconds.QuadPart / 1000000.0f;
 }
