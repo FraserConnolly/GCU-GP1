@@ -30,7 +30,7 @@ public:
 	float deltaTime = 0;
 	float deltaTimeSecond = 0;
 
-	KeyboardInput m_keyboardInput = NULL;
+	KeyboardInput m_keyboardInput = nullptr;
 
 protected:
 

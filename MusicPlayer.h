@@ -54,6 +54,8 @@ class MusicPlayer
 {
 public:
 
+    ~MusicPlayer();
+
     // Play the notes in a song.
     void Play ( Note * tune, int length );
     void PlayNote ( const Tone tone );
@@ -68,7 +70,7 @@ private:
     std::future<void> m_asyncResult;
     bool m_notePlaying = false;
     float m_timer;
-    Note * m_tune = NULL;
+    Note * m_tune = nullptr;
     int m_tuneLength;
     int m_noteIndex;
 

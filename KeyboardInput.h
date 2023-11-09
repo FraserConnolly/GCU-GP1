@@ -21,7 +21,7 @@ public:
 
 	bool registerOnKey ( WORD key, std::function<void ( KEY_EVENT_RECORD )> callback );
 private:
-	HANDLE m_bufferHandle = NULL;
+	HANDLE m_bufferHandle = nullptr;
 	BOOL m_ready = false;
 	DWORD fdwSaveOldMode = 0;
 

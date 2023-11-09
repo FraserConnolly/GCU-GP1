@@ -1,5 +1,13 @@
 #include "MusicPlayer.h"
 
+MusicPlayer::~MusicPlayer()
+{
+    if (m_tune != nullptr)
+    {
+        delete[] m_tune;
+    }
+}
+
 void MusicPlayer::PlayNote ( const Tone tone )
 {
     if ( tone == Tone::REST )
@@ -12,19 +20,20 @@ void MusicPlayer::PlayNote ( const Tone tone )
 
 void MusicPlayer::tick ( const float deltaTime )
 {
-    if ( m_tune == NULL )
+    if ( m_tune == nullptr )
     {
         return;
     }
 
     if ( m_noteIndex >= m_tuneLength )
     {
-        if ( m_tune != NULL )
+        // tune had finished so delete the tune.
+        if ( m_tune != nullptr )
         {
             delete [ ] m_tune;
         }
 
-        m_tune = NULL;
+        m_tune = nullptr;
         return;
     }
 
@@ -47,6 +56,13 @@ void MusicPlayer::tick ( const float deltaTime )
 // Play the notes in a song.
 void MusicPlayer::Play ( Note * tune, int length )
 {
+    if (m_tune != nullptr)
+    {
+        // delete existing memory
+        delete [ ] m_tune;
+        m_tune = nullptr;
+    }
+
     m_timer = 0;
     m_tune = tune;
     m_tuneLength = length;
