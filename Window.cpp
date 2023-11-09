@@ -14,6 +14,19 @@ Window::Window() :
 {
 }
 
+Window::~Window()
+{
+	// this code restores the cursor
+	// note to self this should really restore the curosr to however it was before running this game.
+	// at the moment it is assuiming that cursor was visible.
+
+	HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE); 
+	CONSOLE_CURSOR_INFO cursorInfo;
+	GetConsoleCursorInfo(out, &cursorInfo);
+	cursorInfo.bVisible = true; 
+	SetConsoleCursorInfo(out, &cursorInfo);
+}
+
 void Window::setWindow ( short width, short height )
 {
 
@@ -44,4 +57,5 @@ void Window::setWindow ( short width, short height )
 	cursorInfo.bVisible = false; // set the cursor visibility
 	SetConsoleCursorInfo ( out, &cursorInfo );
 }
+
 

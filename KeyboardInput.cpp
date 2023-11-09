@@ -18,6 +18,12 @@ KeyboardInput::KeyboardInput ( HANDLE bufferHandle ) : m_bufferHandle ( bufferHa
 KeyboardInput::~KeyboardInput ( )
 {
     keyRegistrations.clear ( );
+
+    if (m_ready)
+    {
+        // reset console mode
+        SetConsoleMode(m_bufferHandle, fdwSaveOldMode);
+    }
 }
 
 void KeyboardInput::tick ( )
@@ -94,20 +100,20 @@ bool KeyboardInput::registerOnKey ( WORD key, std::function<void ( KEY_EVENT_REC
 
 void KeyboardInput::init ( )
 {
-    // Save the current input mode, to be restored on exit.
+    // FC note to self this function probably should be moved outside of the keyboard input
+    // and into somewhere that handles the console setup specifically.
 
+    // Save the current input mode, to be restored on exit.
     if ( !GetConsoleMode ( m_bufferHandle, &fdwSaveOldMode ) )
     {
-        //ErrorExit("GetConsoleMode");
         return;
     }
 
     // Enable the window and mouse input events.
-
-    DWORD fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
+    // ENABLE_EXTENDED_FLAGS without ENABLE_QUICK_EDIT_MODE will disable quick edit mode.
+    DWORD fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS;
     if ( !SetConsoleMode ( m_bufferHandle, fdwMode ) )
     {
-        //ErrorExit("SetConsoleMode");
         return;
     }
 
