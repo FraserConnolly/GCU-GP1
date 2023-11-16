@@ -12,7 +12,7 @@ public:
 	}
 
 	// Inherited via GameObject
-	char * draw ( ) override
+	const char * draw ( ) const override
 	{
 		return symbol;
 	};

@@ -3,24 +3,25 @@ class GameObject
 {
 public:
 
-	GameObject ( int width, int height )
+	GameObject ( const int width, const int height )
 		: m_width ( width ), m_height ( height ),
 		m_X ( 0 ), m_Y ( 0 )
 	{ }
 
 	// =0 marks this function as a pure virtual void (i.e. abstract)
-	virtual char * draw ( ) = 0;
+	virtual const char * draw ( ) const = 0;
 
-	bool inPosition ( int x, int y )
+	bool inPosition ( const int x, const int y ) const
 	{
 		return ( x == m_X && y == m_Y );
 	}
 
-	int getHeight ( )
+	const int getHeight ( ) const
 	{
 		return m_height;
 	}
-	int getWidth ( )
+	
+	const int getWidth ( ) const
 	{
 		return m_width;
 	}

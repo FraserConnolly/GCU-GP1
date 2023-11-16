@@ -19,11 +19,12 @@ public:
 
 	void setWindow ( short width, short height );
 
-	short getWidth ( )
+	short getWidth ( ) const
 	{
 		return m_width;
 	};
-	short getHeight ( )
+
+	short getHeight ( ) const
 	{
 		return m_height;
 	};

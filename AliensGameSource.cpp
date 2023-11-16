@@ -51,7 +51,7 @@ bool AliensGameSource::drawChar ( ostream & o, int & row, int & column )
 
 	for ( int a = 0; a < ALIENT_COUNT; a++ )
 	{
-		Alien * alien = &this->m_aliens [ a ];
+		const Alien * alien = &this->m_aliens [ a ];
 		if ( alien->inPosition ( column, row ) )
 		{
 			o << alien->draw ( );
@@ -59,6 +59,12 @@ bool AliensGameSource::drawChar ( ostream & o, int & row, int & column )
 			return true;
 		}
 	}
+
+	// altnertaive method to iterate through an array
+	/*for (const Alien& alien : m_aliens)
+	{
+
+	}*/
 
 	// Draw barrier
 
