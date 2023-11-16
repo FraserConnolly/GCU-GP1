@@ -14,7 +14,7 @@ using namespace std;
 class Window
 {
 public:
-	Window()
+	Window() : m_width(0), m_height(0)
 	{
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	}

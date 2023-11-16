@@ -6,6 +6,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "CharacterScreenRenderer.h"
 
 using namespace std;
 
@@ -13,26 +14,25 @@ class Ground
 {
 public:
 	
-	void draw(int width, int height)
+	Ground(CharacterScreenRenderer * renderer)
 	{
-		for (int i = 0; i <= height; i++)
+		m_renderer = renderer;
+	}
+
+	void draw()
+	{
+		m_renderer->moveCursorToLastLine();
+		m_renderer->enterSequence("(0"); // enable line drawing mode
+		printf("q");
+		/*for (int i = 0; i < 1; i++)
 		{
-			if (i == height)
-			{
-				for (int j = 0; j < width; j++)
-				{
-					cout << "_";
-				}
-			}
-			else
-			{
-				cout << endl;
-			}
-		}
+		}*/
+		m_renderer->enterSequence("(B"); // enable ASCII mode
 	}
 
 
 private:
 
+	CharacterScreenRenderer* m_renderer;
 };
 
