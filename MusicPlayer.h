@@ -69,9 +69,9 @@ private:
 
     std::future<void> m_asyncResult;
     bool m_notePlaying = false;
-    float m_timer;
+    float m_timer = 0;
     Note * m_tune = nullptr;
-    int m_tuneLength;
-    int m_noteIndex;
+    int m_tuneLength = 0;
+    int m_noteIndex = 0;
 
 };

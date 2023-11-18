@@ -4,17 +4,28 @@
 * 2023-09-11 Added menu system
 */
 
+// set this to skip the menu and play a specific game.
+#define TestGame SPACE_INVADERS
+//#define TestGame PARANOID
+
 #include "GameSelectionMenu.h"
 #include "AliensGameSource.h"
+#include "ParanoidGameSource.h"
 
 int main ( )
 {
 	GameSelectionMenu menu;
 	std::unique_ptr<GameSource> game;
 
+	system("cls");
+
+#ifndef TestGame
 	for ( ; ; )
 	{
-		auto selection = menu.GetMenuSelection();
+		GameSelectionMenu::MenuOption selection = menu.GetMenuSelection();
+#else
+		GameSelectionMenu::MenuOption selection = GameSelectionMenu::TestGame;
+#endif // !TestGame
 
 		switch (selection)
 		{
@@ -24,7 +35,8 @@ int main ( )
 				game = std::make_unique<AliensGameSource>();
 				break;
 			case GameSelectionMenu::PARANOID:
-				return -1; // game not implemented
+				game = std::make_unique<ParanoidGameSource>();
+				break;
 			default:
 				return -2; // unknwon menu selection
 		}
@@ -34,7 +46,10 @@ int main ( )
 
 		// the game has finished so clear the pointer so the destructors can run.
 		game.reset( );
-	}
 
+#ifndef TestGame
+}
+#endif // !TestGame
+	
 	return 0;
 }

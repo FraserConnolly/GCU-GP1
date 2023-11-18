@@ -13,12 +13,23 @@
 #include "FrameTimer.h"
 #include "KeyboardInput.h"
 #include "MusicPlayer.h"
+#include "ScreenBuffer.h"
 
 class GameSource
 {
 public:
-	GameSource ( )
+	GameSource()
+		: m_stdWindow(GetStdHandle(STD_OUTPUT_HANDLE))
 	{ };
+
+	~GameSource()
+	{
+		delete m_backBuffer;
+		delete m_frontBuffer;
+
+		// restore the screen buffer to the standard output.
+		SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
+	}
 
 	virtual void initaliseGame ( );
 	virtual void processInput ( );
@@ -39,13 +50,20 @@ protected:
 	{ };
 
 	bool m_runLoop = false;
-	Window m_window;
 	FrameTimer m_frameTimer;
 	MusicPlayer m_musicPlayer;
+	
+	/// <summary>
+	/// This screen buffer pointed to by m_backBuffer 
+	/// will never be the active console buffer.
+	/// </summary>
+	ScreenBuffer* m_backBuffer = nullptr;
 
 private:
 
 	void quitKeyPressed ( KEY_EVENT_RECORD ker );
+	ScreenBuffer* m_frontBuffer = nullptr;
+	Window m_stdWindow;
 
 };
 

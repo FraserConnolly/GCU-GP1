@@ -17,14 +17,14 @@ public:
 
 	void initaliseGame ( ) override;
 	//void processInput( ) override;
-	//void updateGame( ) override;
+	void updateGame( ) override;
 	void drawGame ( ) override;
 
 	void setAlientPositions ( );
 	void setBarrierPositions ( );
 
 protected:
-	bool drawChar ( ostream & o, int & row, int & column );
+	void drawGameObjects ( );
 
 private:
 
@@ -33,6 +33,8 @@ private:
 	Alien m_aliens [ ALIENT_COUNT ];
 	Barrier m_barriers [ BARRIER_COUNT ];
 	Ground m_ground;
+
+	float playerMoveTimer = 0;
 
 	void playMuisc ( KEY_EVENT_RECORD ker );
 };

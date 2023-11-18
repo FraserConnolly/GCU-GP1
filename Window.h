@@ -14,7 +14,7 @@ using namespace std;
 class Window
 {
 public:
-	Window();
+	Window(HANDLE handle);
 	~Window ( );
 
 	void setWindow ( short width, short height );

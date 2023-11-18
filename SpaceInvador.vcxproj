@@ -139,7 +139,9 @@
     <ClCompile Include="GameSelectionMenu.cpp" />
     <ClCompile Include="Missiles.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
+    <ClCompile Include="ParanoidGameSource.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ScreenBuffer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +156,9 @@
     <ClInclude Include="GameSelectionMenu.h" />
     <ClInclude Include="Missiles.h" />
     <ClInclude Include="MusicPlayer.h" />
+    <ClInclude Include="ParanoidGameSource.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ScreenBuffer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,8 +6,8 @@ void AliensGameSource::initaliseGame ( )
 
 	for ( int a = 0; a < ALIENT_COUNT; a++ )
 	{
-		m_aliens [ a ].m_X = a * 2;
-		m_aliens [ a ].m_Y = 0;
+		m_aliens [ a ].m_X = (a + 5) * 5;
+		m_aliens [ a ].m_Y = 5;
 	}
 
 	for ( int b = 0; b < BARRIER_COUNT; b++ )
@@ -16,10 +16,10 @@ void AliensGameSource::initaliseGame ( )
 		m_barriers [ b ].m_Y = 20;
 	}
 
-	m_player.m_X = 40;
-	m_player.m_Y = 40;
+	m_player.m_X = 10;
+	m_player.m_Y = 30;
 
-	m_ground.m_Y = 49;
+	m_ground.m_Y = 40;
 
 	m_keyboardInput.registerOnKey ( VK_SPACE,
 									[ this ] ( KEY_EVENT_RECORD ker )
@@ -28,81 +28,85 @@ void AliensGameSource::initaliseGame ( )
 									} );
 }
 
-void AliensGameSource::drawGame ( )
+void AliensGameSource::updateGame()
 {
-	GameSource::drawGame ( );
-
-	for ( int row = 0; row < m_window.getHeight ( ) ; row++ )
+	playerMoveTimer += deltaTimeSecond;
+	if (playerMoveTimer > 0.5f)
 	{
-		bool drawnToScreen = false;
-
-		for ( int column = 0; column < m_window.getWidth ( ) ; )
+		playerMoveTimer = 0;
+		m_player.m_X++;
+		if (m_player.m_X >= 160)
 		{
-			drawnToScreen = drawChar ( std::cout, row, column );
+			m_player.m_X = 0;
 		}
-
-		std::cout << std::endl;
 	}
 }
 
-bool AliensGameSource::drawChar ( ostream & o, int & row, int & column )
+void AliensGameSource::drawGame ( )
 {
+	// populate the back buffer
+	drawGameObjects( );
+	
+	GameSource::drawGame( );
+}
+
+void AliensGameSource::drawGameObjects( )
+{
+	const char* toBeDrawn = nullptr;
+
 	// Draw Aliens
 
 	for ( int a = 0; a < ALIENT_COUNT; a++ )
 	{
 		const Alien * alien = &this->m_aliens [ a ];
-		if ( alien->inPosition ( column, row ) )
+		toBeDrawn = alien->draw();
+
+		for (int i = 0; i < alien->getWidth(); i++)
 		{
-			o << alien->draw ( );
-			column += alien->getWidth ( );
-			return true;
+			m_backBuffer->setChar(alien->m_X + i, alien->m_Y, toBeDrawn[i]);
+			m_backBuffer->setCharColour(alien->m_X + i, alien->m_Y, ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black);
 		}
 	}
 
 	// altnertaive method to iterate through an array
+	// remove before submission.
 	/*for (const Alien& alien : m_aliens)
 	{
 
 	}*/
 
 	// Draw barrier
-
+	
 	for ( int b = 0; b < BARRIER_COUNT; b++ )
 	{
 		Barrier * barrier = &this->m_barriers [ b ];
-		if ( barrier->inPosition ( column, row ) )
+		toBeDrawn = barrier->draw();
+
+		for (int i = 0; i < barrier->getWidth(); i++)
 		{
-			o << barrier->draw ( );
-			column += barrier->getWidth ( );
-			return true;
+			m_backBuffer->setChar(barrier->m_X + i, barrier->m_Y, toBeDrawn[i]);
+			m_backBuffer->setCharColour(barrier->m_X + i, barrier->m_Y, ScreenBuffer::Colour::Fore_Cyan, ScreenBuffer::Colour::Back_Yellow );
 		}
 	}
 
 	// Draw player
 
-	if ( m_player.inPosition ( column, row ) )
+	toBeDrawn = m_player.draw();
+
+	for (int i = 0; i < m_player.getWidth(); i++)
 	{
-		o << m_player.draw ( );
-		column += m_player.getWidth ( );
-		return true;
+		m_backBuffer->setChar(m_player.m_X + i, m_player.m_Y, toBeDrawn[i]);
 	}
 
 	// Draw ground
 
-	if ( m_ground.inPosition ( column, row ) )
+	toBeDrawn = m_ground.draw();
+
+	for (int i = 0; i < m_ground.getWidth(); i++)
 	{
-		o << m_ground.draw ( );
-		column += m_ground.getWidth ( );
-		return true;
+		m_backBuffer->setChar(m_ground.m_X + i, m_ground.m_Y, toBeDrawn[i]);
 	}
 
-	// nothing drawn so lets draw a space character
-
-	o << ' ';
-	column += 1;
-
-	return false;
 }
 
 void AliensGameSource::playMuisc ( KEY_EVENT_RECORD ker )
