@@ -3,14 +3,24 @@
 * Created Date: 2023-10-05
 * 
 * 2023-10-12 Separated out definitions from decelerations. 
+* 2023-11-23 Added copy constructor
 */
 
 #include "Window.h"
 
-Window::Window(HANDLE handle) : 
-	m_hConsole( handle ), 
+#pragma region Constructors, destructors, and operators
+
+Window::Window(HANDLE handle) 
+	: m_hConsole( handle ),
 	m_width( 0 ), 
 	m_height( 0 )
+{
+}
+
+Window::Window(const Window& other) 
+	: m_hConsole(other.m_hConsole),
+	m_width(other.m_width),
+	m_height(other.m_height)
 {
 }
 
@@ -25,6 +35,8 @@ Window::~Window()
 	cursorInfo.bVisible = true; 
 	SetConsoleCursorInfo(m_hConsole, &cursorInfo);
 }
+
+#pragma endregion
 
 void Window::setWindow ( short width, short height )
 {

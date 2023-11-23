@@ -30,17 +30,14 @@ public:
 		Back_Yellow  = Back_Red  | Back_Green,
 	};
 
-	//enum BackgroundColour
-	//{
-	//	Black = 0x0000,
-	//	Blue = 0x0010,
-	//	Green = 0x0020,
-	//	Red   = 0x0040,
-	//	White = 0x0070
-	//};
-
 	ScreenBuffer(const int x, const int y);
-	
+
+	ScreenBuffer(const ScreenBuffer& other );		// Copy constructor
+	ScreenBuffer(ScreenBuffer&& other) noexcept;	// Move constructor
+
+	ScreenBuffer& operator=(const ScreenBuffer& other);		// Copy Assignment Operator
+	ScreenBuffer& operator=(ScreenBuffer&& other) noexcept;	// Move Assignment Operator
+
 	~ScreenBuffer();
 
 	char getChar(const int x, const int y) const;
@@ -61,11 +58,11 @@ public:
 	void displayBuffer();
 
 private:
-	const int row;
-	const int col;
-	CHAR_INFO** m_buffer;
+	int m_row;
+	int m_col;
 	HANDLE m_bufferHandle;
 	WORD m_defaultAttribute;
 	Window* m_window;
+	CHAR_INFO** m_buffer;
 };
 

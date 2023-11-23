@@ -15,6 +15,7 @@ class Window
 {
 public:
 	Window(HANDLE handle);
+	Window(const Window& other); // copy constructor
 	~Window ( );
 
 	void setWindow ( short width, short height );
