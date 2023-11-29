@@ -30,7 +30,8 @@ void AliensGameSource::initaliseGame ( )
 
 void AliensGameSource::updateGame()
 {
-	playerMoveTimer += deltaTimeSecond;
+	GameSource::updateGame ( );
+	playerMoveTimer += deltaTime;
 	if (playerMoveTimer > 0.5f)
 	{
 		playerMoveTimer = 0;

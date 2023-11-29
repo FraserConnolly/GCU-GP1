@@ -11,7 +11,7 @@
 
 void GameSource::initaliseGame ( )
 {
-	deltaTime = 0;
+	deltaTimeMs = 0;
 	m_frameTimer.start ( );
 	
 	m_stdWindow.setWindow(160, 50);
@@ -38,7 +38,7 @@ void GameSource::processInput ( )
 
 void GameSource::updateGame ( )
 {
-	m_musicPlayer.tick ( deltaTime );
+	m_musicPlayer.tick ( deltaTimeMs );
 }
 
 void GameSource::drawGame ( )
@@ -100,8 +100,9 @@ void GameSource::gameLoop ( )
 		updateGame ( );
 		drawGame ( );
 		m_frameTimer.restart ( );
-		deltaTime = m_frameTimer.elapsedMilliseconds ( );
-		deltaTimeSecond = m_frameTimer.elapsedSeconds ( );
+		deltaTimeMs = m_frameTimer.elapsedMilliseconds ( );
+		deltaTime = m_frameTimer.elapsedSeconds ( );
+		gameTime += deltaTime;
 	}
 }
 

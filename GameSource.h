@@ -38,8 +38,11 @@ public:
 	void gameLoop ( );
 	void quit ( );
 
-	float deltaTime = 0;
-	float deltaTimeSecond = 0;
+	KeyboardInput m_keyboardInput;
+
+	float deltaTimeMs = 0;
+	float deltaTime   = 0;
+	float gameTime    = 0;
 
 	KeyboardInput m_keyboardInput = nullptr;
 
