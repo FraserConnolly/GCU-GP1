@@ -10,13 +10,11 @@ public:
 	{ }
 
 	void initaliseGame() override;
-	//void processInput( ) override;
-	//void updateGame( ) override;
+	void updateGame( ) override;
 	void drawGame() override;
 
 
 protected:
-	bool drawChar(ostream& o, int& row, int& column);
 
 private:
 

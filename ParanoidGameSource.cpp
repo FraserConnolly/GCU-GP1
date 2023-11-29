@@ -4,14 +4,14 @@ void ParanoidGameSource::initaliseGame()
 {
 }
 
-void ParanoidGameSource::drawGame()
-{
-	GameSource::quit();
+void ParanoidGameSource::updateGame ( )
+{ 
+	GameSource::updateGame ( );
 }
 
-bool ParanoidGameSource::drawChar(ostream& o, int& row, int& column)
+void ParanoidGameSource::drawGame()
 {
-	return false;
+	GameSource::quit ( );
 }
 
 void ParanoidGameSource::playMuisc( )
