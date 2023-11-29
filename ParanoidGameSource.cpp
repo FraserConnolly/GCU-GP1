@@ -14,6 +14,6 @@ bool ParanoidGameSource::drawChar(ostream& o, int& row, int& column)
 	return false;
 }
 
-void ParanoidGameSource::playMuisc(KEY_EVENT_RECORD ker)
+void ParanoidGameSource::playMuisc( )
 {
 }

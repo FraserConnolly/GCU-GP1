@@ -22,7 +22,7 @@ private:
 
 	/* Game specific member variables*/
 
-	void playMuisc(KEY_EVENT_RECORD ker);
+	void playMuisc( );
 
 };
 

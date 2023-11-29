@@ -22,10 +22,14 @@ void AliensGameSource::initaliseGame ( )
 	m_ground.m_Y = 40;
 
 	m_keyboardInput.registerOnKey ( VK_SPACE,
-									[ this ] ( KEY_EVENT_RECORD ker )
+									[ this ] ( WORD key, short status )
 									{
-										this->playMuisc ( ker );
+										this->playMuisc ( );
 									} );
+
+	m_keyboardInput.registerKey ( VK_LEFT );
+	m_keyboardInput.registerKey ( VK_RIGHT );
+	m_keyboardInput.registerKey ( VK_RCONTROL );
 }
 
 void AliensGameSource::updateGame()
@@ -110,7 +114,7 @@ void AliensGameSource::drawGameObjects( )
 
 }
 
-void AliensGameSource::playMuisc ( KEY_EVENT_RECORD ker )
+void AliensGameSource::playMuisc ( )
 {
 	// Declare the first few notes of the song, "Mary Had A Little Lamb".
 	Note * Mary = new Note [ 13 ]

@@ -8,6 +8,14 @@
 #include <map>
 #include <functional>
 
+typedef struct
+{
+	bool isPressed;
+	float pressedDuration;
+	std::function<void ( WORD key, short status )> onPressCallback;
+} keyEventStatus, *pKeyEventStatus;
+
+
 class KeyboardInput
 {
 
@@ -17,17 +25,19 @@ public:
 	KeyboardInput ( HANDLE bufferHandle );
 	~KeyboardInput ( );
 
-	void tick ( );
+	void tick ( const float deltaTime );
 
-	bool registerOnKey ( WORD key, std::function<void ( KEY_EVENT_RECORD )> callback );
+	bool registerKey ( WORD key );
+	bool registerOnKey ( WORD key, std::function<void ( WORD, short )> callback );
+
+	bool wasPressThisFrame ( WORD key );
+	bool isPressed ( WORD key );
 private:
 	HANDLE m_bufferHandle = nullptr;
 	BOOL m_ready = false;
 	DWORD fdwSaveOldMode = 0;
-
+	
 	void init ( );
-	VOID KeyEventProc ( KEY_EVENT_RECORD ker );
-	std::map<WORD, std::function<void ( KEY_EVENT_RECORD )>> keyRegistrations;
+	std::map<WORD, pKeyEventStatus> m_keyRegistrations;
 
 };
-

@@ -1,6 +1,5 @@
 #include "KeyboardInput.h"
 
-
 KeyboardInput::KeyboardInput()
 {
 }
@@ -17,85 +16,109 @@ KeyboardInput::KeyboardInput ( HANDLE bufferHandle ) : m_bufferHandle ( bufferHa
 
 KeyboardInput::~KeyboardInput ( )
 {
-    keyRegistrations.clear ( );
+    m_keyRegistrations.clear ( );
 
     if (m_ready)
     {
         // reset console mode
         SetConsoleMode(m_bufferHandle, fdwSaveOldMode);
     }
+
+    for ( auto & key : m_keyRegistrations )
+    {
+        delete key.second;
+    }
 }
 
-void KeyboardInput::tick ( )
+void KeyboardInput::tick ( const float deltaTime )
 {
     if ( !m_ready )
     {
         return;
     }
 
-    INPUT_RECORD irInBuf [ 128 ];
-    DWORD cNumRead;             // records read
-    DWORD eventsInBuffer = 0;
-    if ( !GetNumberOfConsoleInputEvents ( m_bufferHandle, &eventsInBuffer ) || eventsInBuffer == 0 )
+    for ( auto & key : m_keyRegistrations )
     {
-        // no events to process
-        return;
-    }
+        auto result = GetAsyncKeyState ( key.first );
 
-    if ( !ReadConsoleInput (
-        m_bufferHandle,     // input buffer handle
-        irInBuf,            // buffer to read into
-        128,                // size of read buffer
-        &cNumRead ) )         // number of records read
-    {
-        //ErrorExit("ReadConsoleInput");
-        return;
-    }
-
-    for ( DWORD i = 0; i < cNumRead; i++ )
-    {
-        switch ( irInBuf [ i ].EventType )
+        if ( result & 0x8000 ) // check most significant bit
         {
-            case KEY_EVENT: // keyboard input
-                KeyEventProc ( irInBuf [ i ].Event.KeyEvent );
-                break;
-
-            case WINDOW_BUFFER_SIZE_EVENT: // screen buffer resizing
-                //ResizeEventProc(irInBuf[i].Event.WindowBufferSizeEvent);
-                break;
-
-            case MOUSE_EVENT:  // disregard mouse input
-            case FOCUS_EVENT:  // disregard focus events
-            case MENU_EVENT:   // disregard menu events
-                break;
-
-            default:
-                //ErrorExit("Unknown event type");
-                break;
+            // key is down
+            if ( key.second->isPressed )
+            {
+                key.second->pressedDuration += deltaTime;
+            }
+            else
+            {
+                key.second->isPressed = true;
+                key.second->pressedDuration = 0;
+                if ( key.second->onPressCallback != nullptr )
+                {
+                    key.second->onPressCallback ( key.first, result );
+                }
+            }
         }
+        else
+        {
+            // key is up
+            if ( key.second->isPressed )
+            {
+                key.second->isPressed = false;
+            }
+        }
+
     }
 }
 
-VOID KeyboardInput::KeyEventProc ( KEY_EVENT_RECORD ker )
-{
-    if ( keyRegistrations.find ( ker.wVirtualKeyCode ) == keyRegistrations.end ( ) )
-    {
-        // no registrations
-        return;
-    }
-
-    keyRegistrations [ ker.wVirtualKeyCode ] ( ker );
-}
-
-bool KeyboardInput::registerOnKey ( WORD key, std::function<void ( KEY_EVENT_RECORD )> callback )
+bool KeyboardInput::registerKey ( WORD key )
 {
     if ( !m_ready )
     {
         return false;
     }
 
-    keyRegistrations [ key ] = callback;
+    if ( m_keyRegistrations.find ( key ) != m_keyRegistrations.end ( ) )
+    {
+        // this key has already been registered.
+        return true;
+    }
+
+    auto data = new keyEventStatus ( );
+    data->onPressCallback = nullptr;
+
+    m_keyRegistrations [ key ] = data;
     return true;
+}
+
+bool KeyboardInput::registerOnKey ( WORD key, std::function<void ( WORD , short  )> callback )
+{
+    if ( !m_ready )
+    {
+        return false;
+    }
+
+    if ( m_keyRegistrations.find ( key ) != m_keyRegistrations.end ( ) )
+    {
+        // this key has already been registered.
+        delete m_keyRegistrations [ key ];
+    }
+
+    auto data = new keyEventStatus ( );
+    data->onPressCallback = callback;
+
+    m_keyRegistrations [ key ] = data;
+    return true;
+}
+
+bool KeyboardInput::wasPressThisFrame ( WORD key )
+{
+    auto const status = m_keyRegistrations [ key ];
+    return status->isPressed && status->pressedDuration == 0;
+}
+
+bool KeyboardInput::isPressed ( WORD key )
+{
+    return m_keyRegistrations [ key ]->isPressed;
 }
 
 void KeyboardInput::init ( )

@@ -23,9 +23,9 @@ void GameSource::initaliseGame ( )
 	
 	m_keyboardInput = KeyboardInput ( GetStdHandle ( STD_INPUT_HANDLE ) );
 	m_keyboardInput.registerOnKey ( VK_ESCAPE,
-									[ this ] ( KEY_EVENT_RECORD ker )
+									[ this ] ( WORD key, short status )
 									{
-										this->quitKeyPressed ( ker );
+										this->quitKeyPressed ( );
 									} );
 
 	std::cout << "Game initialised" << std::endl;
@@ -33,7 +33,7 @@ void GameSource::initaliseGame ( )
 
 void GameSource::processInput ( )
 {
-	m_keyboardInput.tick ( );
+	m_keyboardInput.tick ( deltaTime );
 }
 
 void GameSource::updateGame ( )
@@ -111,12 +111,7 @@ void GameSource::quit ( )
 	this->m_runLoop = false;
 }
 
-void GameSource::quitKeyPressed ( KEY_EVENT_RECORD ker )
-{
-	if ( !ker.bKeyDown )
+void GameSource::quitKeyPressed ( )
 	{
-		return;
-	}
-
 	quit ( );
 }

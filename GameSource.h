@@ -64,7 +64,7 @@ protected:
 
 private:
 
-	void quitKeyPressed ( KEY_EVENT_RECORD ker );
+	void quitKeyPressed ( );
 	ScreenBuffer* m_frontBuffer = nullptr;
 	Window m_stdWindow;
 

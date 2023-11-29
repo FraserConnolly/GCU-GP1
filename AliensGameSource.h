@@ -36,6 +36,6 @@ private:
 
 	float playerMoveTimer = 0;
 
-	void playMuisc ( KEY_EVENT_RECORD ker );
+	void playMuisc ( );
 };
 
