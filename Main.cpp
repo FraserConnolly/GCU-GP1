@@ -14,7 +14,6 @@
 
 int main ( )
 {
-	GameSelectionMenu menu;
 	std::unique_ptr<GameSource> game;
 
 	system("cls");
@@ -22,6 +21,7 @@ int main ( )
 #ifndef TestGame
 	for ( ; ; )
 	{
+		GameSelectionMenu menu;
 		GameSelectionMenu::MenuOption selection = menu.GetMenuSelection();
 #else
 		GameSelectionMenu::MenuOption selection = GameSelectionMenu::TestGame;
