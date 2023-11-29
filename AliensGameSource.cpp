@@ -68,7 +68,7 @@ void AliensGameSource::drawGameObjects( )
 		}
 	}
 
-	// altnertaive method to iterate through an array
+	// alternative method to iterate through an array
 	// remove before submission.
 	/*for (const Alien& alien : m_aliens)
 	{

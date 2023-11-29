@@ -38,7 +38,7 @@ int main ( )
 				game = std::make_unique<ParanoidGameSource>();
 				break;
 			default:
-				return -2; // unknwon menu selection
+				return -2; // unknown menu selection
 		}
 
 		game -> initaliseGame ( );

@@ -27,8 +27,8 @@ Window::Window(const Window& other)
 Window::~Window()
 {
 	// this code restores the cursor
-	// note to self this should really restore the curosr to however it was before running this game.
-	// at the moment it is assuiming that cursor was visible.
+	// note to self this should really restore the cursor to however it was before running this game.
+	// at the moment it is assuming that cursor was visible.
 
 	CONSOLE_CURSOR_INFO cursorInfo;
 	GetConsoleCursorInfo(m_hConsole, &cursorInfo);
