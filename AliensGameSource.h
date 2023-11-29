@@ -16,7 +16,6 @@ public:
 	{ }
 
 	void initaliseGame ( ) override;
-	//void processInput( ) override;
 	void updateGame( ) override;
 	void drawGame ( ) override;
 

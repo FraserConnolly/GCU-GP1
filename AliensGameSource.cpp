@@ -6,20 +6,17 @@ void AliensGameSource::initaliseGame ( )
 
 	for ( int a = 0; a < ALIENT_COUNT; a++ )
 	{
-		m_aliens [ a ].m_X = (a + 5) * 5;
-		m_aliens [ a ].m_Y = 5;
+		m_aliens [ a ].setGridPosition ( ( a + 5 ) * 5, 5 );
 	}
 
 	for ( int b = 0; b < BARRIER_COUNT; b++ )
 	{
-		m_barriers [ b ].m_X = b * 10;
-		m_barriers [ b ].m_Y = 20;
+		m_barriers [ b ].setGridPosition ( b * 10, 20 );
 	}
 
-	m_player.m_X = 10;
-	m_player.m_Y = 30;
+	m_player.setGridPosition ( 10, 30 );
 
-	m_ground.m_Y = 40;
+	m_ground.setGridPosition ( 0, 40 );
 
 	m_keyboardInput.registerOnKey ( VK_SPACE,
 									[ this ] ( WORD key, short status )
@@ -68,8 +65,8 @@ void AliensGameSource::drawGameObjects( )
 
 		for (int i = 0; i < alien->getWidth(); i++)
 		{
-			m_backBuffer->setChar(alien->m_X + i, alien->m_Y, toBeDrawn[i]);
-			m_backBuffer->setCharColour(alien->m_X + i, alien->m_Y, ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black);
+			m_backBuffer->setChar(alien->getGridX() + i, alien->getGridY(), toBeDrawn [ i ] );
+			m_backBuffer->setCharColour ( alien->getGridX ( ) + i, alien->getGridY ( ), ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black );
 		}
 	}
 
@@ -89,8 +86,8 @@ void AliensGameSource::drawGameObjects( )
 
 		for (int i = 0; i < barrier->getWidth(); i++)
 		{
-			m_backBuffer->setChar(barrier->m_X + i, barrier->m_Y, toBeDrawn[i]);
-			m_backBuffer->setCharColour(barrier->m_X + i, barrier->m_Y, ScreenBuffer::Colour::Fore_Cyan, ScreenBuffer::Colour::Back_Yellow );
+			m_backBuffer->setChar(barrier->getGridX ( ) + i, barrier->getGridY ( ), toBeDrawn[i]);
+			m_backBuffer->setCharColour(barrier->getGridX ( ) + i, barrier->getGridY ( ), ScreenBuffer::Colour::Fore_Cyan, ScreenBuffer::Colour::Back_Yellow );
 		}
 	}
 
@@ -100,7 +97,7 @@ void AliensGameSource::drawGameObjects( )
 
 	for (int i = 0; i < m_player.getWidth(); i++)
 	{
-		m_backBuffer->setChar(m_player.m_X + i, m_player.m_Y, toBeDrawn[i]);
+		m_backBuffer->setChar(m_player.getGridX ( ) + i, m_player.getGridY ( ), toBeDrawn[i]);
 	}
 
 	// Draw ground
@@ -109,7 +106,7 @@ void AliensGameSource::drawGameObjects( )
 
 	for (int i = 0; i < m_ground.getWidth(); i++)
 	{
-		m_backBuffer->setChar(m_ground.m_X + i, m_ground.m_Y, toBeDrawn[i]);
+		m_backBuffer->setChar(m_ground.getGridX ( ) + i, m_ground.getGridY ( ), toBeDrawn[i]);
 	}
 
 }
