@@ -130,6 +130,7 @@
     <ClCompile Include="Alien.cpp" />
     <ClCompile Include="AliensGameSource.cpp" />
     <ClCompile Include="Barrier.cpp" />
+    <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSource.cpp" />
@@ -137,7 +138,7 @@
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameSelectionMenu.cpp" />
-    <ClCompile Include="Missiles.cpp" />
+    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="ParanoidGameSource.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -148,13 +149,14 @@
     <ClInclude Include="Alien.h" />
     <ClInclude Include="AliensGameSource.h" />
     <ClInclude Include="Barrier.h" />
+    <ClInclude Include="Bomb.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSource.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="GameSelectionMenu.h" />
-    <ClInclude Include="Missiles.h" />
+    <ClInclude Include="Laser.h" />
     <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="ParanoidGameSource.h" />
     <ClInclude Include="Player.h" />

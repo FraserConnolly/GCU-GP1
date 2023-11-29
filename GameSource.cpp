@@ -112,6 +112,6 @@ void GameSource::quit ( )
 }
 
 void GameSource::quitKeyPressed ( )
-	{
+{
 	quit ( );
 }

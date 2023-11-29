@@ -66,7 +66,7 @@
     <ClCompile Include="Ground.cpp">
       <Filter>Source Files\Space Invaders</Filter>
     </ClCompile>
-    <ClCompile Include="Missiles.cpp">
+    <ClCompile Include="Laser.cpp">
       <Filter>Source Files\Space Invaders</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -74,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="ParanoidGameSource.cpp">
       <Filter>Source Files\Paranoid</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Source Files\Space Invaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +116,7 @@
     <ClInclude Include="Ground.h">
       <Filter>Header Files\SpaceInvaders</Filter>
     </ClInclude>
-    <ClInclude Include="Missiles.h">
+    <ClInclude Include="Laser.h">
       <Filter>Header Files\SpaceInvaders</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="ParanoidGameSource.h">
       <Filter>Header Files\Paranoid</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Header Files\SpaceInvaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

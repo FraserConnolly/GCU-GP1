@@ -32,16 +32,28 @@ void AliensGameSource::initaliseGame ( )
 void AliensGameSource::updateGame()
 {
 	GameSource::updateGame ( );
-	playerMoveTimer += deltaTime;
-	if (playerMoveTimer > 0.5f)
+
+	m_player.tick ( this );
+
+	for ( Laser & laser : m_lasers )
 	{
-		playerMoveTimer = 0;
-		m_player.m_X++;
-		if (m_player.m_X >= 160)
-		{
-			m_player.m_X = 0;
-		}
+		laser.tick ( this );
 	}
+
+
+	setAlientPositions ( );
+	setBarrierPositions ( );
+
+	//playerMoveTimer += deltaTime;
+	//if (playerMoveTimer > 0.5f)
+	//{
+	//	playerMoveTimer = 0;
+	//	m_player.m_X++;
+	//	if (m_player.m_X >= 160)
+	//	{
+	//		m_player.m_X = 0;
+	//	}
+	//}
 }
 
 void AliensGameSource::drawGame ( )
@@ -91,6 +103,28 @@ void AliensGameSource::drawGameObjects( )
 		}
 	}
 
+	// Draw lasers
+	for ( int l = 0; l < MAX_LASER_COUNT; l++ )
+	{
+		Laser * laser = &this->m_lasers [ l ];
+
+		if ( !laser->getInFlight ( ) )
+		{
+			continue;
+		}
+
+		toBeDrawn = laser->draw ( );
+
+		for ( int i = 0; i < laser->getWidth ( ); i++ )
+		{
+			m_backBuffer->setChar ( laser->getGridX ( ) + i, laser->getGridY ( ), toBeDrawn [ i ] );
+			m_backBuffer->setCharColour ( laser->getGridX ( ) + i, laser->getGridY ( ), ScreenBuffer::Colour::Fore_Yellow, ScreenBuffer::Colour::Back_Black );
+		}
+	}
+
+	// Draw bombs - TO DO
+
+
 	// Draw player
 
 	toBeDrawn = m_player.draw();
@@ -110,6 +144,42 @@ void AliensGameSource::drawGameObjects( )
 	}
 
 }
+
+//void AliensGameSource::applyPlayerMovement ( )
+//{ 
+//	bool leftInputPressed = m_keyboardInput.isPressed ( VK_LEFT );
+//	bool rightInputPressed = m_keyboardInput.isPressed ( VK_RIGHT );
+//
+//
+//	if ( leftInputPressed && rightInputPressed )
+//	{
+//		return;
+//	}
+//
+//	const float speedMultiplyer = 100;
+//	float movement = 0;
+//
+//	if ( leftInputPressed )
+//	{
+//		movement = speedMultiplyer * deltaTime * -1;
+//	}
+//	else if ( rightInputPressed )
+//	{
+//		movement = speedMultiplyer * deltaTime * 1;
+//	}
+//
+//	m_player.translate ( movement, 0 );
+//
+//	// prevent the player going off the edge of the screen
+//	if ( m_player.getGridX ( ) >= getScreenWidth ( ) )
+//	{
+//		m_player.setGridX ( getScreenWidth ( ) - 1 );
+//	}
+//	else if ( m_player.getGridX( ) < 0 )
+//	{
+//		m_player.setGridX ( 0 );
+//	}
+//}
 
 void AliensGameSource::playMuisc ( )
 {
@@ -144,5 +214,18 @@ void AliensGameSource::setAlientPositions( )
 void AliensGameSource::setBarrierPositions ( )
 { 
 
+}
+
+Laser * AliensGameSource::getAvilableLaser ( ) const
+{
+	for ( const Laser & laser : m_lasers )
+	{
+		if ( ! laser.getInFlight ( ) )
+		{
+			return &laser;
+		}
+	}
+
+	return nullptr;
 }
 
