@@ -1,5 +1,7 @@
 #pragma once
-#include "AliensGameSource.h"
+
+// forward declaration 
+class AliensGameSource;
 
 class Player
 	: public GameObject

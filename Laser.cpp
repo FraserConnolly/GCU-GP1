@@ -1,3 +1,4 @@
+#include "GameSource.h"
 #include "Laser.h"
 
 void Laser::launch ( const COORD startGridPosition, const float speed )

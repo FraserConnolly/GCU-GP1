@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
+class GameSource;
+
 /// <summary>
 /// Bombs are dropped by the aliens (AI).
 /// </summary>

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "GameSource.h"
-
 /// <summary>
 /// This is the underlying class for all game objects that exist on the console grid.
 /// 

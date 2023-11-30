@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
+class GameSource;
+
 /// <summary>
 /// Lasers are fired by the player.
 /// </summary>

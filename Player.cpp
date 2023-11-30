@@ -1,3 +1,4 @@
+#include "AliensGameSource.h"
 #include "Player.h"
 
 void Player::tick ( AliensGameSource * game )
