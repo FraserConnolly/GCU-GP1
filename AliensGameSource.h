@@ -30,7 +30,8 @@ public:
 	void setAlientPositions ( );
 	void setBarrierPositions ( );
 
-	Laser * getAvilableLaser ( ) const;
+	Laser * const getAvilableLaser();
+	Bomb  * const getAvilableBomb ();
 
 protected:
 	void drawGameObjects ( );

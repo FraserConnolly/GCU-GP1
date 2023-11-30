@@ -68,7 +68,7 @@ void Player::processCombat ( AliensGameSource * game )
 
 		COORD startPosition;
 		startPosition.X = getGridX ( );
-		startPosition.Y = getGridY ( ) + 1;
+		startPosition.Y = getGridY ( ) - 1;
 
 		laser->launch ( startPosition, 200 );
 	}

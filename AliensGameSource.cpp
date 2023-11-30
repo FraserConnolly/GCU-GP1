@@ -40,20 +40,13 @@ void AliensGameSource::updateGame()
 		laser.tick ( this );
 	}
 
+	for (Bomb& bomb : m_bombs)
+	{
+		bomb.tick(this);
+	}
 
 	setAlientPositions ( );
 	setBarrierPositions ( );
-
-	//playerMoveTimer += deltaTime;
-	//if (playerMoveTimer > 0.5f)
-	//{
-	//	playerMoveTimer = 0;
-	//	m_player.m_X++;
-	//	if (m_player.m_X >= 160)
-	//	{
-	//		m_player.m_X = 0;
-	//	}
-	//}
 }
 
 void AliensGameSource::drawGame ( )
@@ -69,10 +62,9 @@ void AliensGameSource::drawGameObjects( )
 	const char* toBeDrawn = nullptr;
 
 	// Draw Aliens
-
 	for ( int a = 0; a < ALIENT_COUNT; a++ )
 	{
-		const Alien * alien = &this->m_aliens [ a ];
+		const Alien * alien = &m_aliens [ a ];
 		toBeDrawn = alien->draw();
 
 		for (int i = 0; i < alien->getWidth(); i++)
@@ -90,10 +82,9 @@ void AliensGameSource::drawGameObjects( )
 	}*/
 
 	// Draw barrier
-	
 	for ( int b = 0; b < BARRIER_COUNT; b++ )
 	{
-		Barrier * barrier = &this->m_barriers [ b ];
+		Barrier * barrier = &m_barriers [ b ];
 		toBeDrawn = barrier->draw();
 
 		for (int i = 0; i < barrier->getWidth(); i++)
@@ -106,7 +97,7 @@ void AliensGameSource::drawGameObjects( )
 	// Draw lasers
 	for ( int l = 0; l < MAX_LASER_COUNT; l++ )
 	{
-		Laser * laser = &this->m_lasers [ l ];
+		Laser * laser = &m_lasers [ l ];
 
 		if ( !laser->getInFlight ( ) )
 		{
@@ -122,11 +113,26 @@ void AliensGameSource::drawGameObjects( )
 		}
 	}
 
-	// Draw bombs - TO DO
+	// Draw bombs
+	for (int l = 0; l < MAX_LASER_COUNT; l++)
+	{
+		Bomb * bomb = &m_bombs[ l ];
 
+		if (!bomb->getInFlight( ))
+		{
+			continue;
+		}
+
+		toBeDrawn = bomb->draw( );
+
+		for (int i = 0; i < bomb->getWidth( ); i++)
+		{
+			m_backBuffer->setChar(bomb->getGridX() + i, bomb->getGridY(), toBeDrawn[i]);
+			m_backBuffer->setCharColour(bomb->getGridX() + i, bomb->getGridY(), ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black);
+		}
+	}
 
 	// Draw player
-
 	toBeDrawn = m_player.draw();
 
 	for (int i = 0; i < m_player.getWidth(); i++)
@@ -135,7 +141,6 @@ void AliensGameSource::drawGameObjects( )
 	}
 
 	// Draw ground
-
 	toBeDrawn = m_ground.draw();
 
 	for (int i = 0; i < m_ground.getWidth(); i++)
@@ -144,42 +149,6 @@ void AliensGameSource::drawGameObjects( )
 	}
 
 }
-
-//void AliensGameSource::applyPlayerMovement ( )
-//{ 
-//	bool leftInputPressed = m_keyboardInput.isPressed ( VK_LEFT );
-//	bool rightInputPressed = m_keyboardInput.isPressed ( VK_RIGHT );
-//
-//
-//	if ( leftInputPressed && rightInputPressed )
-//	{
-//		return;
-//	}
-//
-//	const float speedMultiplyer = 100;
-//	float movement = 0;
-//
-//	if ( leftInputPressed )
-//	{
-//		movement = speedMultiplyer * deltaTime * -1;
-//	}
-//	else if ( rightInputPressed )
-//	{
-//		movement = speedMultiplyer * deltaTime * 1;
-//	}
-//
-//	m_player.translate ( movement, 0 );
-//
-//	// prevent the player going off the edge of the screen
-//	if ( m_player.getGridX ( ) >= getScreenWidth ( ) )
-//	{
-//		m_player.setGridX ( getScreenWidth ( ) - 1 );
-//	}
-//	else if ( m_player.getGridX( ) < 0 )
-//	{
-//		m_player.setGridX ( 0 );
-//	}
-//}
 
 void AliensGameSource::playMuisc ( )
 {
@@ -216,13 +185,30 @@ void AliensGameSource::setBarrierPositions ( )
 
 }
 
-Laser * AliensGameSource::getAvilableLaser ( ) const
+Laser * const AliensGameSource::getAvilableLaser ( )
 {
-	for ( const Laser & laser : m_lasers )
+	for (int i = 0; i < MAX_LASER_COUNT; i++)
 	{
-		if ( ! laser.getInFlight ( ) )
+		Laser * const laser = &m_lasers[i];
+
+		if (!laser->getInFlight())
 		{
-			return &laser;
+			return laser;
+		}
+	}
+
+	return nullptr;
+}
+
+Bomb * const AliensGameSource::getAvilableBomb()
+{
+	for (int i = 0; i < MAX_LASER_COUNT; i++)
+	{
+		Bomb * const bomb = &m_bombs[ i ];
+
+		if ( ! bomb->getInFlight( ) )
+		{
+			return bomb;
 		}
 	}
 

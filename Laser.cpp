@@ -22,10 +22,10 @@ void Laser::tick ( GameSource * game )
 		return;
 	}
 
-	translate ( 0, m_speed * game->deltaTime * 1 );
+	translate ( 0, m_speed * game->deltaTime * -1 );
 
 	// check for out of bounds
-	if ( getGridY ( ) >= game->getScreenHeight ( ) )
+	if ( getGridY ( ) < 0 )
 	{
 		m_isInFlight = false;
 		

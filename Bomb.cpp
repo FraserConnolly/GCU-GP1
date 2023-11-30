@@ -1,3 +1,4 @@
+#include "AliensGameSource.h"
 #include "Bomb.h"
 
 void Bomb::launch ( const COORD startGridPosition, const float speed )
