@@ -23,10 +23,12 @@ void Player::processMovement ( AliensGameSource * game )
 	if ( leftInputPressed )
 	{
 		movement = speedMultiplyer * game->deltaTime * -1;
+		//translateByGridUnit ( -1, 0 );
 	}
 	else if ( rightInputPressed )
 	{
 		movement = speedMultiplyer * game->deltaTime * 1;
+		//translateByGridUnit ( 1, 0 );
 	}
 
 	translate ( movement, 0 );

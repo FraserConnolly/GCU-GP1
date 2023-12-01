@@ -28,6 +28,33 @@ public:
 		return ( x == getGridX ( ) && y == getGridY ( ) );
 	}
 
+	bool hasCollided ( const GameObject & coll )
+	{
+
+		if (         m_width == 0 ||      m_height == 0
+			 || coll.m_width == 0 || coll.m_height == 0 )
+		{
+			// either self or the other object has an area of 0 so there can be no collision.
+			return false;
+		}
+
+		// note that height and width must have -1 as anything with a dimension less than 1 will not occupy a grid space.
+
+		if ( m_gridX > coll.m_gridX + coll.m_width - 1 || coll.m_gridX > m_gridX + m_width - 1 )
+		{
+			// one rectangle is on left side of the other
+			return false;
+		}
+
+		if ( m_gridY + m_height - 1 > coll.m_gridY || coll.m_gridY + coll.m_height - 1 > m_gridY )
+		{
+			// one rectangle is above the other
+			return false;
+		}
+
+		return true;
+	}
+
 	const int getHeight ( ) const
 	{
 		return m_height;

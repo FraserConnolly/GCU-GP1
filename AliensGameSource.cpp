@@ -33,7 +33,12 @@ void AliensGameSource::updateGame()
 {
 	GameSource::updateGame ( );
 
+	// update game objects
+
 	m_player.tick ( this );
+
+	setAlienPositions ( );
+	setBarrierPositions ( );
 
 	for ( Laser & laser : m_lasers )
 	{
@@ -45,8 +50,104 @@ void AliensGameSource::updateGame()
 		bomb.tick(this);
 	}
 
-	setAlientPositions ( );
-	setBarrierPositions ( );
+	// check for collision 
+	for ( Laser & laser : m_lasers )
+	{
+		bool hasCollided = false;
+
+		if ( !laser.getActive( ) )
+		{
+			continue;
+		}
+
+		for ( Barrier & barrier : m_barriers )
+		{
+			if ( !barrier.getActive ( ) )
+			{
+				continue;
+			}
+
+			if ( laser.hasCollided ( barrier ) )
+			{
+				// collision
+				laser.setActive ( false );
+				barrier.setActive ( false );
+				break;
+			}
+		}
+
+		if ( !laser.getActive ( ) )
+		{
+			// There is no need to check for other collisions as the laser has been used.
+			continue;
+		}
+
+		for ( Alien & alien : m_aliens )
+		{
+			if ( !alien.getActive ( ) )
+			{
+				continue;
+			}
+
+			if ( laser.hasCollided ( alien ) )
+			{
+				// collision
+				laser.setActive ( false );
+				alien.setActive ( false );
+				break;
+			}
+
+		}
+	}
+
+	for ( Bomb & bomb : m_bombs )
+	{
+		for ( Barrier & barrier : m_barriers )
+		{
+			if ( !barrier.getActive ( ) )
+			{
+				continue;
+			}
+
+			if ( bomb.hasCollided ( barrier ) )
+			{
+				// collision
+				bomb.setActive ( false );
+				barrier.setActive ( false );
+				break;
+			}
+		}
+
+		if ( bomb.hasCollided ( m_player ) )
+		{
+			m_player.setActive ( false );
+		}
+	}
+
+	// check level over conditions
+
+	if ( ! m_player.getActive ( ) )
+	{
+		// level over - lose
+		GameSource::quit ( );
+	}
+
+	bool allAliensDead = true;
+
+	for ( Alien & alien : m_aliens )
+	{
+		if ( alien.getActive ( ) )
+		{
+			allAliensDead = false;
+			break;
+		}
+	}
+
+	if ( allAliensDead )
+	{
+		// level over - WIN
+		GameSource::quit ( );
+	}
 }
 
 void AliensGameSource::drawGame ( )
@@ -58,6 +159,12 @@ void AliensGameSource::drawGame ( )
 	for ( int a = 0; a < ALIENT_COUNT; a++ )
 	{
 		const Alien * alien = &m_aliens [ a ];
+
+		if ( !alien->getActive ( ) )
+		{
+			continue;
+		}
+
 		toBeDrawn = alien->draw ( );
 
 		for ( int i = 0; i < alien->getWidth ( ); i++ )
@@ -78,6 +185,12 @@ void AliensGameSource::drawGame ( )
 	for ( int b = 0; b < BARRIER_COUNT; b++ )
 	{
 		Barrier * barrier = &m_barriers [ b ];
+
+		if ( !barrier->getActive ( ) )
+		{
+			continue;
+		}
+
 		toBeDrawn = barrier->draw ( );
 
 		for ( int i = 0; i < barrier->getWidth ( ); i++ )
@@ -126,11 +239,16 @@ void AliensGameSource::drawGame ( )
 	}
 
 	// Draw player
-	toBeDrawn = m_player.draw ( );
-
-	for ( int i = 0; i < m_player.getWidth ( ); i++ )
+	if ( m_player.getActive ( ) )
 	{
-		m_backBuffer->setChar ( m_player.getGridX ( ) + i, m_player.getGridY ( ), toBeDrawn [ i ] );
+
+		toBeDrawn = m_player.draw ( );
+
+		for ( int i = 0; i < m_player.getWidth ( ); i++ )
+		{
+			m_backBuffer->setChar ( m_player.getGridX ( ) + i, m_player.getGridY ( ), toBeDrawn [ i ] );
+		}
+
 	}
 
 	// Draw ground
@@ -167,7 +285,7 @@ void AliensGameSource::playMuisc ( )
 	m_musicPlayer.Play ( Mary, 13 );
 }
 
-void AliensGameSource::setAlientPositions( )
+void AliensGameSource::setAlienPositions( )
 {
 
 }

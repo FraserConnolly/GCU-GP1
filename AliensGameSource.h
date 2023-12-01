@@ -36,7 +36,7 @@ protected:
 private:
 
 	/* Game specific member functions */
-	void setAlientPositions ( );
+	void setAlienPositions ( );
 	void setBarrierPositions ( );
 
 	/* Game specific member variables */
