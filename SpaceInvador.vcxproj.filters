@@ -78,6 +78,9 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>Source Files\Space Invaders</Filter>
     </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="Bomb.h">
       <Filter>Header Files\SpaceInvaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

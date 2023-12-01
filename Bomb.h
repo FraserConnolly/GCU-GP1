@@ -1,16 +1,14 @@
 #pragma once
-#include "GameObject.h"
-
-class GameSource;
+#include "Projectile.h"
 
 /// <summary>
 /// Bombs are dropped by the aliens (AI).
 /// </summary>
 class Bomb
-	: public GameObject
+	: public Projectile
 {
 public:
-	Bomb ( ) : GameObject ( 1, 1 ), symbol ( "@" )
+	Bomb ( ) : Projectile( 0, 1 ), symbol ( "!" )
 	{ }
 
 	// Inherited via GameObject
@@ -19,19 +17,8 @@ public:
 		return symbol;
 	}
 
-	void launch ( const COORD startGridPosition, const float speed );
-	void tick ( GameSource * game );
-
-	const bool getInFlight ( ) const
-	{
-		return m_isInFlight;
-	}
-
 
 private:
 	char symbol [ 2 ];
-
-	bool m_isInFlight = false;
-	float m_speed = 0;
 };
 
