@@ -1,16 +1,14 @@
 #pragma once
-#include "GameObject.h"
-
-class GameSource;
+#include "Projectile.h"
 
 /// <summary>
 /// Lasers are fired by the player.
 /// </summary>
 class Laser 
-	: public GameObject
+	: public Projectile
 {
 public : 
-	Laser ( ) : GameObject ( 1, 1 ), m_symbol ( "^" )
+	Laser ( ) : Projectile ( 0, -1 ), m_symbol ( "^" )
 	{ }
 
 	// Inherited via GameObject
@@ -19,19 +17,7 @@ public :
 		return m_symbol;
 	}
 
-	void launch ( const COORD startGridPosition, const float speed );
-	void tick ( GameSource * game );
-
-	const bool getInFlight ( ) const
-	{
-		return m_isInFlight;
-	}
-
 private:
 	char m_symbol [ 2 ];
-
-	float m_speed;
-	bool m_isInFlight = false;
-
 };
 
