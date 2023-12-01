@@ -18,6 +18,8 @@ void AliensGameSource::initaliseGame ( )
 
 	m_ground.setGridPosition ( 0, 40 );
 
+	m_scoreText.setGridPosition ( 5, 41 );
+
 	m_keyboardInput.registerOnKey ( VK_SPACE,
 									[ this ] ( WORD key, short status )
 									{
@@ -94,6 +96,7 @@ void AliensGameSource::updateGame()
 				// collision
 				laser.setActive ( false );
 				alien.setActive ( false );
+				m_score += 100;
 				break;
 			}
 
@@ -148,6 +151,7 @@ void AliensGameSource::updateGame()
 		// level over - WIN
 		GameSource::quit ( );
 	}
+
 }
 
 void AliensGameSource::drawGame ( )
@@ -257,6 +261,14 @@ void AliensGameSource::drawGame ( )
 	for ( int i = 0; i < m_ground.getWidth ( ); i++ )
 	{
 		m_backBuffer->setChar ( m_ground.getGridX ( ) + i, m_ground.getGridY ( ), toBeDrawn [ i ] );
+	}
+
+	// Draw UI
+	m_scoreText.updateText ( m_score );
+	toBeDrawn = m_scoreText.draw ( );
+	for ( int i = 0; i < m_scoreText.getWidth ( ); i++ )
+	{
+		m_backBuffer->setChar ( m_scoreText.getGridX ( ) + i, m_scoreText.getGridY ( ), toBeDrawn [ i ] );
 	}
 }
 

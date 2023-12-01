@@ -6,6 +6,7 @@
 #include "Laser.h"
 #include "Bomb.h"
 #include "Player.h"
+#include "UiText.h"
 
 #define ALIENT_COUNT 20
 #define BARRIER_COUNT 5
@@ -47,7 +48,9 @@ private:
 	Bomb m_bombs [ MAX_BOMB_COUNT ];
 	Ground m_ground;
 
-	float playerMoveTimer = 0;
+	UiText m_scoreText = UiText ( "Score: %i" , 100);
+
+	int m_score = 0;
 
 	void playMuisc ( );
 };
