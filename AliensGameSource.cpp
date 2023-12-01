@@ -52,24 +52,17 @@ void AliensGameSource::updateGame()
 void AliensGameSource::drawGame ( )
 {
 	// populate the back buffer
-	drawGameObjects( );
-	
-	GameSource::drawGame( );
-}
-
-void AliensGameSource::drawGameObjects( )
-{
-	const char* toBeDrawn = nullptr;
+	const char * toBeDrawn = nullptr;
 
 	// Draw Aliens
 	for ( int a = 0; a < ALIENT_COUNT; a++ )
 	{
 		const Alien * alien = &m_aliens [ a ];
-		toBeDrawn = alien->draw();
+		toBeDrawn = alien->draw ( );
 
-		for (int i = 0; i < alien->getWidth(); i++)
+		for ( int i = 0; i < alien->getWidth ( ); i++ )
 		{
-			m_backBuffer->setChar(alien->getGridX() + i, alien->getGridY(), toBeDrawn [ i ] );
+			m_backBuffer->setChar ( alien->getGridX ( ) + i, alien->getGridY ( ), toBeDrawn [ i ] );
 			m_backBuffer->setCharColour ( alien->getGridX ( ) + i, alien->getGridY ( ), ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black );
 		}
 	}
@@ -85,12 +78,12 @@ void AliensGameSource::drawGameObjects( )
 	for ( int b = 0; b < BARRIER_COUNT; b++ )
 	{
 		Barrier * barrier = &m_barriers [ b ];
-		toBeDrawn = barrier->draw();
+		toBeDrawn = barrier->draw ( );
 
-		for (int i = 0; i < barrier->getWidth(); i++)
+		for ( int i = 0; i < barrier->getWidth ( ); i++ )
 		{
-			m_backBuffer->setChar(barrier->getGridX ( ) + i, barrier->getGridY ( ), toBeDrawn[i]);
-			m_backBuffer->setCharColour(barrier->getGridX ( ) + i, barrier->getGridY ( ), ScreenBuffer::Colour::Fore_Cyan, ScreenBuffer::Colour::Back_Yellow );
+			m_backBuffer->setChar ( barrier->getGridX ( ) + i, barrier->getGridY ( ), toBeDrawn [ i ] );
+			m_backBuffer->setCharColour ( barrier->getGridX ( ) + i, barrier->getGridY ( ), ScreenBuffer::Colour::Fore_Cyan, ScreenBuffer::Colour::Back_Yellow );
 		}
 	}
 
@@ -114,40 +107,39 @@ void AliensGameSource::drawGameObjects( )
 	}
 
 	// Draw bombs
-	for (int l = 0; l < MAX_LASER_COUNT; l++)
+	for ( int l = 0; l < MAX_LASER_COUNT; l++ )
 	{
-		Bomb * bomb = &m_bombs[ l ];
+		Bomb * bomb = &m_bombs [ l ];
 
-		if (!bomb->getInFlight( ))
+		if ( !bomb->getInFlight ( ) )
 		{
 			continue;
 		}
 
-		toBeDrawn = bomb->draw( );
+		toBeDrawn = bomb->draw ( );
 
-		for (int i = 0; i < bomb->getWidth( ); i++)
+		for ( int i = 0; i < bomb->getWidth ( ); i++ )
 		{
-			m_backBuffer->setChar(bomb->getGridX() + i, bomb->getGridY(), toBeDrawn[i]);
-			m_backBuffer->setCharColour(bomb->getGridX() + i, bomb->getGridY(), ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black);
+			m_backBuffer->setChar ( bomb->getGridX ( ) + i, bomb->getGridY ( ), toBeDrawn [ i ] );
+			m_backBuffer->setCharColour ( bomb->getGridX ( ) + i, bomb->getGridY ( ), ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black );
 		}
 	}
 
 	// Draw player
-	toBeDrawn = m_player.draw();
+	toBeDrawn = m_player.draw ( );
 
-	for (int i = 0; i < m_player.getWidth(); i++)
+	for ( int i = 0; i < m_player.getWidth ( ); i++ )
 	{
-		m_backBuffer->setChar(m_player.getGridX ( ) + i, m_player.getGridY ( ), toBeDrawn[i]);
+		m_backBuffer->setChar ( m_player.getGridX ( ) + i, m_player.getGridY ( ), toBeDrawn [ i ] );
 	}
 
 	// Draw ground
-	toBeDrawn = m_ground.draw();
+	toBeDrawn = m_ground.draw ( );
 
-	for (int i = 0; i < m_ground.getWidth(); i++)
+	for ( int i = 0; i < m_ground.getWidth ( ); i++ )
 	{
-		m_backBuffer->setChar(m_ground.getGridX ( ) + i, m_ground.getGridY ( ), toBeDrawn[i]);
+		m_backBuffer->setChar ( m_ground.getGridX ( ) + i, m_ground.getGridY ( ), toBeDrawn [ i ] );
 	}
-
 }
 
 void AliensGameSource::playMuisc ( )

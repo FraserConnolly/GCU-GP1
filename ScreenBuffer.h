@@ -63,6 +63,7 @@ private:
 	HANDLE m_bufferHandle;
 	WORD m_defaultAttribute;
 	Window* m_window;
-	CHAR_INFO** m_buffer;
+	CHAR_INFO * m_buffer;
+	CHAR_INFO ** m_rowPtr;
 };
 

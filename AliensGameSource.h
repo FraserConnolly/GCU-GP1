@@ -24,21 +24,20 @@ public:
 	{ }
 
 	void initaliseGame ( ) override;
-	void updateGame( ) override;
-	void drawGame ( ) override;
-
-	void setAlientPositions ( );
-	void setBarrierPositions ( );
 
 	Laser * const getAvilableLaser();
 	Bomb  * const getAvilableBomb ();
 
 protected:
-	void drawGameObjects ( );
+
+	void updateGame ( ) override;
+	void drawGame ( ) override;
 
 private:
 
 	/* Game specific member functions */
+	void setAlientPositions ( );
+	void setBarrierPositions ( );
 
 	/* Game specific member variables */
 	Player m_player;

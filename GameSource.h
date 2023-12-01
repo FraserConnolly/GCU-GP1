@@ -31,17 +31,25 @@ public:
 	}
 
 	virtual void initaliseGame ( );
-	virtual void processInput ( );
-	virtual void updateGame ( );
-	virtual void drawGame ( );
 	void gameLoop ( );
 	void quit ( );
 
 	KeyboardInput m_keyboardInput;
 
+	/// <summary>
+	/// The length of time in seconds that the game has been running for.
+	/// </summary>
+	float gameTime = 0;
+
+	/// <summary>
+	/// The length of time in seconds that the previous frame took to be completed.
+	/// </summary>
+	float deltaTime = 0;
+
+	/// <summary>
+	/// The length of time in milliseconds that the previous frame took to be completed.
+	/// </summary>
 	float deltaTimeMs = 0;
-	float deltaTime   = 0;
-	float gameTime    = 0;
 
 	inline const int getScreenWidth ( ) const
 	{
@@ -54,6 +62,10 @@ public:
 	}
 
 protected:
+	
+	virtual void processInput ( );
+	virtual void updateGame ( );
+	virtual void drawGame ( ) = 0;
 
 	bool m_runLoop = false;
 	FrameTimer m_frameTimer;
@@ -66,10 +78,11 @@ protected:
 	ScreenBuffer* m_backBuffer = nullptr;
 
 private:
-
+	
+	void renderFrame ( );
 	void quitKeyPressed ( );
+	
 	ScreenBuffer* m_frontBuffer = nullptr;
 	Window m_stdWindow;
-
 };
 

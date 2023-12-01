@@ -41,7 +41,7 @@ void GameSource::updateGame ( )
 	m_musicPlayer.tick ( deltaTimeMs );
 }
 
-void GameSource::drawGame ( )
+void GameSource::renderFrame ( )
 {
 	// swap front and back buffer
 	auto buffer = m_frontBuffer;
@@ -99,6 +99,7 @@ void GameSource::gameLoop ( )
 		processInput ( );
 		updateGame ( );
 		drawGame ( );
+		renderFrame ( );
 		m_frameTimer.restart ( );
 		deltaTimeMs = m_frameTimer.elapsedMilliseconds ( );
 		deltaTime = m_frameTimer.elapsedSeconds ( );
