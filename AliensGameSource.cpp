@@ -92,7 +92,7 @@ void AliensGameSource::drawGame ( )
 	{
 		Laser * laser = &m_lasers [ l ];
 
-		if ( !laser->getInFlight ( ) )
+		if ( !laser->getActive ( ) )
 		{
 			continue;
 		}
@@ -111,7 +111,7 @@ void AliensGameSource::drawGame ( )
 	{
 		Bomb * bomb = &m_bombs [ l ];
 
-		if ( !bomb->getInFlight ( ) )
+		if ( !bomb->getActive ( ) )
 		{
 			continue;
 		}
@@ -183,7 +183,7 @@ Laser * const AliensGameSource::getAvilableLaser ( )
 	{
 		Laser * const laser = &m_lasers[i];
 
-		if (!laser->getInFlight())
+		if (!laser->getActive ())
 		{
 			return laser;
 		}
@@ -198,7 +198,7 @@ Bomb * const AliensGameSource::getAvilableBomb()
 	{
 		Bomb * const bomb = &m_bombs[ i ];
 
-		if ( ! bomb->getInFlight( ) )
+		if ( ! bomb->getActive ( ) )
 		{
 			return bomb;
 		}

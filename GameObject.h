@@ -16,7 +16,8 @@ public:
 
 	GameObject ( const int width, const int height )
 		: m_width ( width ), m_height ( height ),
-		m_X ( 0 ), m_Y ( 0 ), m_gridX( 0 ), m_gridY( 0 )
+		m_X ( 0 ), m_Y ( 0 ), m_gridX( 0 ), m_gridY( 0 ),
+		m_active( true )
 	{ }
 
 	// =0 marks this function as a pure virtual void (i.e. abstract)
@@ -99,10 +100,21 @@ public:
 		setY ( m_Y + ( y * CELL_HEIGHT ) );
 	}
 
+	void setActive ( bool active )
+	{
+		m_active = active;
+	}
+
+	const bool getActive ( ) const
+	{
+		return m_active;
+	}
+
 protected:
 
 	int m_height;
 	int m_width;
+	bool m_active;
 
 private:
 
