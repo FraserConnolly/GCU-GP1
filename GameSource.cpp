@@ -8,6 +8,7 @@
 //#define PrintDebugRulers
 
 #include "GameSource.h"
+#include "GameObject.h"
 
 void GameSource::initaliseGame ( )
 {
@@ -41,6 +42,17 @@ void GameSource::updateGame ( )
 	m_musicPlayer.tick ( deltaTimeMs );
 }
 
+/// <summary>
+/// Helper method that draws a GameObject to the back buffer.
+/// </summary>
+/// <param name="object">The object to draw.</param>
+void GameSource::drawGameObject ( const GameObject & object )
+{
+	m_backBuffer->applyRenderData ( object.getGridX ( ), object.getGridY ( ),
+									object.getWidth ( ), object.getHeight ( ),
+									object.draw ( ) );
+}
+
 void GameSource::renderFrame ( )
 {
 	// swap front and back buffer
@@ -58,14 +70,14 @@ void GameSource::renderFrame ( )
 		sprintf_s(buffer, "%02d", i);
 
 		m_backBuffer->setChar(0, i, buffer[0]);
-		m_backBuffer->setCharColour(0, i, ScreenBuffer::Colour::Fore_Black, ScreenBuffer::Colour::Back_White);
+		m_backBuffer->setCharColour(0, i, CellColour::Fore_Black, CellColour::Back_White);
 		m_backBuffer->setChar(1, i, buffer[1]);
 		m_backBuffer->setChar(2, i, buffer[2]);
 	}
 
 	for (int i = 0; i < 160; i++)
 	{
-		m_backBuffer->setCharColour(i, 0, ScreenBuffer::Colour::Fore_Black, ScreenBuffer::Colour::Back_White);
+		m_backBuffer->setCharColour(i, 0, CellColour::Fore_Black, CellColour::Back_White);
 
 		if (i % 10 != 0)
 		{

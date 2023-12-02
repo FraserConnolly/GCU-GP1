@@ -7,6 +7,8 @@
 #include <iostream>
 #include "GameObject.h"
 
+#define MAX_GROUND_SIZE 300
+
 class Ground
 	: public GameObject
 {
@@ -15,20 +17,26 @@ public:
 
 	Ground ( int width ) : GameObject ( width, 1 )
 	{
-		for ( int i = 0; i < sizeof ( ground ); i++ )
+		if ( width > MAX_GROUND_SIZE )
 		{
-			ground [ i ] = ( i <= width ? '_' : '\0' );
+			m_width = MAX_GROUND_SIZE;
+		}
+
+		for ( unsigned int i = 0; i < MAX_GROUND_SIZE; i++ )
+		{
+			m_symbol [ i ].Char = i < m_width ? '_' : '\0';
+			m_symbol [ i ].Attributes = i < m_width ? CellColour::Fore_White : 0 ;
 		}
 	}
 
 	// Inherited via GameObject
-	const char * draw ( ) const override
+	const pRenderCellData draw ( ) const override
 	{
-		return ground;
+		return m_active ? ( pRenderCellData ) m_symbol : nullptr;
 	};
 
 private:
 
-	char ground [ 600 ];
+	RenderCellData m_symbol [ MAX_GROUND_SIZE ];
 
 };

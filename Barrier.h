@@ -6,18 +6,22 @@ class Barrier
 {
 public:
 
-	Barrier ( ) : GameObject ( 5, 1 ), symbol ( "*****" )
+	Barrier ( ) : GameObject ( 5, 1 )
 	{
-
+		for ( size_t i = 0; i < m_width * m_height; i++ )
+		{
+			m_symbol [ i ].Char = '*';
+			m_symbol [ i ].Attributes = CellColour::Fore_Red;
+		}
 	}
 
 	// Inherited via GameObject
-	const char * draw ( ) const override
+	const pRenderCellData draw ( ) const override
 	{
-		return symbol;
+		return (pRenderCellData) m_symbol;
 	};
 
 private:
-	char symbol [ 6 ];
+	RenderCellData m_symbol [ 6 ];
 };
 

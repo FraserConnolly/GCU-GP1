@@ -14,6 +14,8 @@
 #include "MusicPlayer.h"
 #include "ScreenBuffer.h"
 
+class GameObject;
+
 class GameSource
 {
 public:
@@ -21,7 +23,7 @@ public:
 		: m_stdWindow(GetStdHandle(STD_OUTPUT_HANDLE))
 	{ };
 
-	~GameSource()
+	virtual ~GameSource()
 	{
 		delete m_backBuffer;
 		delete m_frontBuffer;
@@ -66,6 +68,30 @@ protected:
 	virtual void processInput ( );
 	virtual void updateGame ( );
 	virtual void drawGame ( ) = 0;
+
+
+	/// <summary>
+	/// Helper method that takes in the pointer to an array of GameObjects
+	/// and the number of objects in the array.
+	/// Each active object is then rendered to the back buffer.
+	/// </summary>
+	template< class GameObject >
+	void drawObjectsInArray ( GameObject * objects, size_t count )
+	{
+		for ( int i = 0; i < count; i++ )
+		{
+			GameObject & gObject = objects [ i ];
+
+			if ( !gObject.getActive ( ) )
+			{
+				continue;
+			}
+
+			drawGameObject ( gObject );
+		}
+	}
+
+	void drawGameObject ( const GameObject & object );
 
 	bool m_runLoop = false;
 	FrameTimer m_frameTimer;

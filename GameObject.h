@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Point.h"
+#include "RenderCellData.h"
+
 /// <summary>
 /// This is the underlying class for all game objects that exist on the console grid.
 /// 
@@ -14,39 +17,65 @@ public:
 	const int CELL_WIDTH  = 8;
 	const int CELL_HEIGHT = 16;
 
-	GameObject ( const int width, const int height )
+	GameObject ( const unsigned int width, const unsigned int height )
 		: m_width ( width ), m_height ( height ),
 		m_X ( 0 ), m_Y ( 0 ), m_gridX( 0 ), m_gridY( 0 ),
 		m_active( true )
 	{ }
 
-	// =0 marks this function as a pure virtual void (i.e. abstract)
-	virtual const char * draw ( ) const = 0;
+	
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns>
+	/// An array of CHAR_INFO which is of size m_width * m_height.
+	/// The array starts at the objects grid position then goes along the width.
+	/// Then each row starts again at the first X position.
+	/// Will return nullptr if nothing is to be drawn.
+	/// </returns>
+	virtual const pRenderCellData draw ( ) const = 0;
 
 	bool inPosition ( const int x, const int y ) const
 	{
 		return ( x == getGridX ( ) && y == getGridY ( ) );
 	}
 
-	bool hasCollided ( const GameObject & coll )
+	bool inPosition ( const Point position )
 	{
+		return inPosition ( position.X, position.Y );
+	}
 
-		if (         m_width == 0 ||      m_height == 0
-			 || coll.m_width == 0 || coll.m_height == 0 )
+	bool hasCollided ( const GameObject & coll ) const
+	{
+		// Concept comes from https://www.geeksforgeeks.org/find-two-rectangles-overlap/
+		// Note:
+		//	the area check has been changed to > rather than == because it is perfectly valid
+		//		in this game for an object to only consume one grid position 
+		//		in which case the l and r values would be equal.
+		//	the height check has been changed to < rather than > because the Y axis in
+		//		this game is inverted.
+
+		// represent the two objects as rectangles using the top left and bottom right corners
+		Point l1 ( m_gridX, m_gridY );
+		Point r1 ( m_gridX + ( int ) m_width - 1, m_gridY + ( int ) m_height - 1 );
+
+		Point l2 ( coll.m_gridX, coll.m_gridY );
+		Point r2 ( coll.m_gridX + ( int ) coll.m_width - 1, coll.m_gridY + ( int ) coll.m_height - 1 );
+
+		if ( l1.X > r1.X || l1.Y > r1.Y || l2.X > r2.X || l2.Y > r2.Y )
 		{
 			// either self or the other object has an area of 0 so there can be no collision.
 			return false;
 		}
 
 		// note that height and width must have -1 as anything with a dimension less than 1 will not occupy a grid space.
-
-		if ( m_gridX > coll.m_gridX + coll.m_width - 1 || coll.m_gridX > m_gridX + m_width - 1 )
+		if ( l1.X > r2.X || l2.X > r1.X )
 		{
 			// one rectangle is on left side of the other
 			return false;
 		}
 
-		if ( m_gridY + m_height - 1 > coll.m_gridY || coll.m_gridY + coll.m_height - 1 > m_gridY )
+		if ( r1.Y < l2.Y || r2.Y < l1.Y )
 		{
 			// one rectangle is above the other
 			return false;
@@ -55,12 +84,23 @@ public:
 		return true;
 	}
 
-	const int getHeight ( ) const
+	/// <summary>
+	/// This must be overridden by base classes that can be collided with.
+	/// </summary>
+	/// <param name="collision">The other object in the collision.</param>
+	/// <param name="collisionPoint">The grid point where the collision occurred.</param>
+	virtual void onCollision ( const GameObject & collision, const Point collisionPoint )
+	{
+	}
+
+#pragma region Position Get/Set
+
+	const unsigned int getHeight ( ) const
 	{
 		return m_height;
 	}
 	
-	const int getWidth ( ) const
+	const unsigned int getWidth ( ) const
 	{
 		return m_width;
 	}
@@ -85,47 +125,59 @@ public:
 		return m_gridY;
 	}
 
-	void setX ( float x )
+	const Point getGridPosition ( ) const
+	{
+		return Point ( m_gridX, m_gridY );
+	}
+
+	inline void setX ( const float x )
 	{
 		m_X = x;
 		m_gridX = int ( x / CELL_WIDTH );
 	}
 
-	void setGridX ( int x )
+	inline void setGridX ( const int x )
 	{
 		m_X = float ( x * CELL_WIDTH );
 		m_gridX = x;
 	}
 
-	void setY ( float y )
+	inline void setY ( const float y )
 	{
 		m_Y = y;
 		m_gridY = int ( y / CELL_HEIGHT );
 	}
 
-	inline void setGridY ( int y )
+	inline void setGridY ( const int y )
 	{
 		m_Y = float ( y * CELL_HEIGHT );
 		m_gridY = y;
 	}
 
-	inline void setGridPosition ( int x, int y )
+	inline void setGridPosition ( const int x, const int y )
 	{
 		setGridX ( x );
 		setGridY ( y );
 	}
 
-	void translate ( float x, float y )
+	inline void setGridPosition ( const Point position )
+	{
+		setGridPosition ( position.X, position.Y );
+	}
+
+	inline void translate ( const float x, const float y )
 	{
 		setX ( m_X + x );
 		setY ( m_Y + y );
 	}
 
-	void translateByGridUnit ( int x, int y )
+	inline void translateByGridUnit ( const int x, const int y )
 	{
 		setX ( m_X + ( x * CELL_WIDTH ) );
 		setY ( m_Y + ( y * CELL_HEIGHT ) );
 	}
+
+#pragma endregion
 
 	void setActive ( bool active )
 	{
@@ -139,8 +191,8 @@ public:
 
 protected:
 
-	int m_height;
-	int m_width;
+	unsigned int m_height;
+	unsigned int m_width;
 	bool m_active;
 
 private:

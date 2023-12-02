@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include <windows.h>
 
 class GameSource;
 
@@ -18,8 +17,13 @@ public:
         m_active = false;
     }
 
-    virtual void launch ( const COORD startGridPosition, const float speed );
+    virtual void launch ( const Point startGridPosition, const float speed );
     virtual void tick ( GameSource * game );
+    virtual void onCollision ( const GameObject & collision, const Point collisionPoint ) override
+    {
+        GameObject::onCollision ( collision, collisionPoint );
+    }
+    
 
 protected:
 

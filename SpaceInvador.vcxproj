@@ -152,6 +152,7 @@
     <ClInclude Include="AliensGameSource.h" />
     <ClInclude Include="Barrier.h" />
     <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSource.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="ParanoidGameSource.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RenderCellData.h" />
     <ClInclude Include="ScreenBuffer.h" />
     <ClInclude Include="UiText.h" />
     <ClInclude Include="Window.h" />

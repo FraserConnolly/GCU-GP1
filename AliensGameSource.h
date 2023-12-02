@@ -21,7 +21,12 @@ class AliensGameSource :
 {
 public:
 
-	AliensGameSource ( ) : m_ground ( 160 )
+	AliensGameSource ( ) : 
+		m_ground ( 160 ),
+		m_scoreText ( "Score: %i", 100 )
+	{ }
+
+	~AliensGameSource ( ) override
 	{ }
 
 	void initaliseGame ( ) override;
@@ -48,7 +53,7 @@ private:
 	Bomb m_bombs [ MAX_BOMB_COUNT ];
 	Ground m_ground;
 
-	UiText m_scoreText = UiText ( "Score: %i" , 100);
+	UiText m_scoreText;
 
 	int m_score = 0;
 

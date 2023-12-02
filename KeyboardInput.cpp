@@ -16,8 +16,6 @@ KeyboardInput::KeyboardInput ( HANDLE bufferHandle ) : m_bufferHandle ( bufferHa
 
 KeyboardInput::~KeyboardInput ( )
 {
-    m_keyRegistrations.clear ( );
-
     if (m_ready)
     {
         // reset console mode
@@ -28,6 +26,8 @@ KeyboardInput::~KeyboardInput ( )
     {
         delete key.second;
     }
+
+    m_keyRegistrations.clear ( );
 }
 
 void KeyboardInput::tick ( const float deltaTime )

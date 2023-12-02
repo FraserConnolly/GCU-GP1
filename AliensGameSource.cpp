@@ -1,5 +1,7 @@
 #include "AliensGameSource.h"
 
+#define AlienHitScore 100
+
 void AliensGameSource::initaliseGame ( )
 {
 	GameSource::initaliseGame ( );
@@ -93,10 +95,12 @@ void AliensGameSource::updateGame()
 
 			if ( laser.hasCollided ( alien ) )
 			{
+				
 				// collision
-				laser.setActive ( false );
-				alien.setActive ( false );
-				m_score += 100;
+				laser.onCollision ( alien, laser.getGridPosition ( ) );
+				alien.onCollision ( laser, laser.getGridPosition ( ) );
+				
+				m_score += AlienHitScore;
 				break;
 			}
 
@@ -105,6 +109,11 @@ void AliensGameSource::updateGame()
 
 	for ( Bomb & bomb : m_bombs )
 	{
+		if ( !bomb.getActive ( ) )
+		{
+			continue;
+		}
+
 		for ( Barrier & barrier : m_barriers )
 		{
 			if ( !barrier.getActive ( ) )
@@ -115,8 +124,8 @@ void AliensGameSource::updateGame()
 			if ( bomb.hasCollided ( barrier ) )
 			{
 				// collision
-				bomb.setActive ( false );
-				barrier.setActive ( false );
+				bomb.onCollision ( barrier, bomb.getGridPosition ( ) );
+				barrier.onCollision ( bomb, bomb.getGridPosition ( ) );
 				break;
 			}
 		}
@@ -157,119 +166,39 @@ void AliensGameSource::updateGame()
 void AliensGameSource::drawGame ( )
 {
 	// populate the back buffer
-	const char * toBeDrawn = nullptr;
+	pRenderCellData toBeDrawn = nullptr;
 
 	// Draw Aliens
-	for ( int a = 0; a < ALIENT_COUNT; a++ )
-	{
-		const Alien * alien = &m_aliens [ a ];
-
-		if ( !alien->getActive ( ) )
-		{
-			continue;
-		}
-
-		toBeDrawn = alien->draw ( );
-
-		for ( int i = 0; i < alien->getWidth ( ); i++ )
-		{
-			m_backBuffer->setChar ( alien->getGridX ( ) + i, alien->getGridY ( ), toBeDrawn [ i ] );
-			m_backBuffer->setCharColour ( alien->getGridX ( ) + i, alien->getGridY ( ), ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black );
-		}
-	}
-
-	// alternative method to iterate through an array
-	// remove before submission.
-	/*for (const Alien& alien : m_aliens)
-	{
-
-	}*/
+	GameSource::drawObjectsInArray ( m_aliens, ALIENT_COUNT );
 
 	// Draw barrier
-	for ( int b = 0; b < BARRIER_COUNT; b++ )
-	{
-		Barrier * barrier = &m_barriers [ b ];
-
-		if ( !barrier->getActive ( ) )
-		{
-			continue;
-		}
-
-		toBeDrawn = barrier->draw ( );
-
-		for ( int i = 0; i < barrier->getWidth ( ); i++ )
-		{
-			m_backBuffer->setChar ( barrier->getGridX ( ) + i, barrier->getGridY ( ), toBeDrawn [ i ] );
-			m_backBuffer->setCharColour ( barrier->getGridX ( ) + i, barrier->getGridY ( ), ScreenBuffer::Colour::Fore_Cyan, ScreenBuffer::Colour::Back_Yellow );
-		}
-	}
+	GameSource::drawObjectsInArray ( m_barriers, BARRIER_COUNT );
 
 	// Draw lasers
-	for ( int l = 0; l < MAX_LASER_COUNT; l++ )
-	{
-		Laser * laser = &m_lasers [ l ];
-
-		if ( !laser->getActive ( ) )
-		{
-			continue;
-		}
-
-		toBeDrawn = laser->draw ( );
-
-		for ( int i = 0; i < laser->getWidth ( ); i++ )
-		{
-			m_backBuffer->setChar ( laser->getGridX ( ) + i, laser->getGridY ( ), toBeDrawn [ i ] );
-			m_backBuffer->setCharColour ( laser->getGridX ( ) + i, laser->getGridY ( ), ScreenBuffer::Colour::Fore_Yellow, ScreenBuffer::Colour::Back_Black );
-		}
-	}
+	GameSource::drawObjectsInArray ( m_lasers, MAX_LASER_COUNT );
 
 	// Draw bombs
-	for ( int l = 0; l < MAX_LASER_COUNT; l++ )
-	{
-		Bomb * bomb = &m_bombs [ l ];
-
-		if ( !bomb->getActive ( ) )
-		{
-			continue;
-		}
-
-		toBeDrawn = bomb->draw ( );
-
-		for ( int i = 0; i < bomb->getWidth ( ); i++ )
-		{
-			m_backBuffer->setChar ( bomb->getGridX ( ) + i, bomb->getGridY ( ), toBeDrawn [ i ] );
-			m_backBuffer->setCharColour ( bomb->getGridX ( ) + i, bomb->getGridY ( ), ScreenBuffer::Colour::Fore_Red, ScreenBuffer::Colour::Back_Black );
-		}
-	}
+	GameSource::drawObjectsInArray ( m_bombs, MAX_BOMB_COUNT );
 
 	// Draw player
 	if ( m_player.getActive ( ) )
 	{
-
-		toBeDrawn = m_player.draw ( );
-
-		for ( int i = 0; i < m_player.getWidth ( ); i++ )
-		{
-			m_backBuffer->setChar ( m_player.getGridX ( ) + i, m_player.getGridY ( ), toBeDrawn [ i ] );
-		}
-
+		drawGameObject ( m_player );
 	}
 
 	// Draw ground
-	toBeDrawn = m_ground.draw ( );
-
-	for ( int i = 0; i < m_ground.getWidth ( ); i++ )
+	if ( m_ground.getActive ( ) )
 	{
-		m_backBuffer->setChar ( m_ground.getGridX ( ) + i, m_ground.getGridY ( ), toBeDrawn [ i ] );
+		drawGameObject ( m_ground );
 	}
 
 	// Draw UI
 	m_scoreText.updateText ( m_score );
-	toBeDrawn = m_scoreText.draw ( );
-	for ( int i = 0; i < m_scoreText.getWidth ( ); i++ )
+	if ( m_scoreText.getActive ( ) )
 	{
-		m_backBuffer->setChar ( m_scoreText.getGridX ( ) + i, m_scoreText.getGridY ( ), toBeDrawn [ i ] );
+		drawGameObject ( m_scoreText );
 	}
+
 }
 
 void AliensGameSource::playMuisc ( )

@@ -1,6 +1,6 @@
 #include "ScreenBuffer.h"
 
-#define DEFAULT_ATTRIBUTE Colour::Fore_White | Colour::Back_Black
+#define DEFAULT_ATTRIBUTE CellColour::Fore_White | CellColour::Back_Black
 
 #pragma region Constructors, destructors, and operators
 
@@ -94,6 +94,7 @@ ScreenBuffer::~ScreenBuffer ( )
 {
 	delete [ ] m_buffer;
 	delete [ ] m_rowPtr;
+	delete m_window;
 }
 
 // Copy operator 
@@ -107,6 +108,7 @@ ScreenBuffer & ScreenBuffer::operator=( const ScreenBuffer & other ) // Copy Ass
 	// Deallocate existing memory
 	delete [ ] m_buffer;
 	delete [ ] m_rowPtr;
+	delete m_window;
 
 	// Allocate memory for new data
 	m_row = other.m_row;
@@ -142,6 +144,7 @@ ScreenBuffer & ScreenBuffer::operator=( ScreenBuffer && other ) noexcept
 	// Deallocate existing memory
 	delete [ ] m_buffer;
 	delete [ ] m_rowPtr;
+	delete m_window;
 
 	// Copy data from source object.
 	m_row = other.m_row;
@@ -183,22 +186,45 @@ void ScreenBuffer::setChar ( const int x, const int y, char c )
 
 #pragma region Colours
 
-void ScreenBuffer::setCharColour ( const int x, const int y, Colour foreground, Colour background )
+void ScreenBuffer::setCharColour ( const int x, const int y, const CellColour cellColour )
 {
 	m_rowPtr [ y ][ x ].Attributes &= ~0x0077;
-	m_rowPtr [ y ][ x ].Attributes |= ( foreground | background );
+	m_rowPtr [ y ][ x ].Attributes |= ( cellColour );
 }
 
-void ScreenBuffer::setBackgroundColour ( Colour background )
+void ScreenBuffer::setCharColour ( const int x, const int y, const CellColour foreground, const CellColour background )
+{
+	setCharColour ( x, y, ( CellColour ) ( foreground | background ) );
+}
+
+void ScreenBuffer::setBackgroundColour ( CellColour background )
 {
 	m_defaultAttribute &= ~Back_White;
 	m_defaultAttribute |= background;
 }
 
-void ScreenBuffer::setForegroundColour ( Colour foreground )
+void ScreenBuffer::setForegroundColour ( CellColour foreground )
 {
 	m_defaultAttribute &= ~Fore_White;
 	m_defaultAttribute |= foreground;
+}
+
+void ScreenBuffer::applyRenderData ( const int x, const int y, const unsigned int width, const unsigned int height, const pRenderCellData data )
+{ 
+	if ( data == nullptr )
+	{
+		return;
+	}
+
+	int dataIndex = 0;
+	for ( size_t h = 0; h < height ; h++ )
+	{
+		for ( size_t w = 0; w < width ; w++ )
+		{
+			m_rowPtr [ y + h ][ x + w ].Char.AsciiChar = data [ dataIndex    ].Char;
+			m_rowPtr [ y + h ][ x + w ].Attributes     = data [ dataIndex ++ ].Attributes;
+		}
+	}
 }
 
 #pragma endregion

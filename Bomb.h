@@ -8,17 +8,24 @@ class Bomb
 	: public Projectile
 {
 public:
-	Bomb ( ) : Projectile( 0, 1 ), symbol ( "!" )
-	{ }
-
-	// Inherited via GameObject
-	const char * draw ( ) const override
-	{
-		return symbol;
+	Bomb ( ) : Projectile( 0, 1 )
+	{ 
+		m_symbol [ 0 ].Char = '!';
+		m_symbol [ 0 ].Attributes = CellColour::Fore_Red | CellColour::Back_Black;
 	}
 
+	// Inherited via GameObject
+	const pRenderCellData draw ( ) const override
+	{
+		return m_active ? ( pRenderCellData ) m_symbol : nullptr;
+	}
+
+	void onCollision ( const GameObject & collision, const Point collisionPoint ) override
+	{
+		setActive ( false );
+	}
 
 private:
-	char symbol [ 2 ];
+	RenderCellData m_symbol [ 1 ];
 };
 

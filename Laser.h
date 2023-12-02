@@ -8,16 +8,24 @@ class Laser
 	: public Projectile
 {
 public : 
-	Laser ( ) : Projectile ( 0, -1 ), m_symbol ( "^" )
-	{ }
+	Laser ( ) : Projectile ( 0, -1 )
+	{
+		m_symbol [ 0 ].Char = '^';
+		m_symbol [ 0 ].Attributes = CellColour::Fore_Yellow | CellColour::Back_Black;
+	}
 
 	// Inherited via GameObject
-	const char * draw ( ) const override
+	const pRenderCellData draw ( ) const override
 	{
-		return m_symbol;
+		return ( pRenderCellData ) m_symbol;
+	}
+
+	void onCollision ( const GameObject & collision, const Point collisionPoint ) override
+	{
+		setActive ( false );
 	}
 
 private:
-	char m_symbol [ 2 ];
+	RenderCellData m_symbol [ 1 ];
 };
 

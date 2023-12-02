@@ -1,7 +1,7 @@
 #include "Projectile.h"
 #include "GameSource.h"
 
-void Projectile::launch ( const COORD startGridPosition, const float speed )
+void Projectile::launch ( const Point startGridPosition, const float speed )
 {
 	if ( m_active )
 	{
