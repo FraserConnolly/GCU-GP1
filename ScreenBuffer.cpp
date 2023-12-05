@@ -221,8 +221,8 @@ void ScreenBuffer::applyRenderData ( const int x, const int y, const unsigned in
 	{
 		for ( size_t w = 0; w < width ; w++ )
 		{
-			m_rowPtr [ y + h ][ x + w ].Char.AsciiChar = data [ dataIndex    ].Char;
-			m_rowPtr [ y + h ][ x + w ].Attributes     = data [ dataIndex ++ ].Attributes;
+			m_rowPtr [ y + h ][ x + w ].Char.UnicodeChar = data [ dataIndex    ].UnicodeChar;
+			m_rowPtr [ y + h ][ x + w ].Attributes       = data [ dataIndex ++ ].Attributes;
 		}
 	}
 }

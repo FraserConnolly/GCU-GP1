@@ -10,7 +10,7 @@ class Laser
 public : 
 	Laser ( ) : Projectile ( 0, -1 )
 	{
-		m_symbol [ 0 ].Char = '^';
+		m_symbol [ 0 ].AsciiChar = '^';
 		m_symbol [ 0 ].Attributes = CellColour::Fore_Yellow | CellColour::Back_Black;
 	}
 

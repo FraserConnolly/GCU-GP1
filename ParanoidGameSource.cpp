@@ -14,6 +14,10 @@ void ParanoidGameSource::drawGame()
 	GameSource::quit ( );
 }
 
+void ParanoidGameSource::initaliseLevel( )
+{
+}
+
 void ParanoidGameSource::playMuisc( )
 {
 }

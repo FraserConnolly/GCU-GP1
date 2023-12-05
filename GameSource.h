@@ -65,6 +65,7 @@ public:
 
 protected:
 	
+	virtual void initaliseLevel() = 0;
 	virtual void processInput ( );
 	virtual void updateGame ( );
 	virtual void drawGame ( ) = 0;

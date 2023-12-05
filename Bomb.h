@@ -10,7 +10,7 @@ class Bomb
 public:
 	Bomb ( ) : Projectile( 0, 1 )
 	{ 
-		m_symbol [ 0 ].Char = '!';
+		m_symbol [ 0 ].AsciiChar = '!';
 		m_symbol [ 0 ].Attributes = CellColour::Fore_Red | CellColour::Back_Black;
 	}
 

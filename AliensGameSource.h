@@ -8,7 +8,7 @@
 #include "Player.h"
 #include "UiText.h"
 
-#define ALIENT_COUNT 20
+#define ALIENT_COUNT ALIEN_ROW_COUNT * ALIEN_COL_COUNT
 #define BARRIER_COUNT 5
 #define MAX_LASER_COUNT 3
 #define MAX_BOMB_COUNT 5
@@ -23,7 +23,8 @@ public:
 
 	AliensGameSource ( ) : 
 		m_ground ( 160 ),
-		m_scoreText ( "Score: %i", 100 )
+		m_scoreText ( "Score: %i", 100 ),
+		m_previousMovement( MovementDirection::DOWN )
 	{ }
 
 	~AliensGameSource ( ) override
@@ -35,14 +36,23 @@ public:
 	Bomb  * const getAvilableBomb ();
 
 protected:
-
+	
+	void initaliseLevel( ) override;
 	void updateGame ( ) override;
 	void drawGame ( ) override;
 
 private:
 
+	enum MovementDirection
+	{
+		DOWN,
+		LEFT,
+		RIGHT
+	}m_previousMovement;
+
 	/* Game specific member functions */
 	void setAlienPositions ( );
+	void updateEdgeAlienPointers( );
 	void setBarrierPositions ( );
 
 	/* Game specific member variables */
@@ -56,6 +66,9 @@ private:
 	UiText m_scoreText;
 
 	int m_score = 0;
+	int m_level = 0;
+	float m_lastAlienMoveTime = 0;
+	float m_alienMoveTimeout = 0;
 
 	void playMuisc ( );
 };

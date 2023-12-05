@@ -24,8 +24,8 @@ public:
 
 		for ( unsigned int i = 0; i < MAX_GROUND_SIZE; i++ )
 		{
-			m_symbol [ i ].Char = i < m_width ? '_' : '\0';
-			m_symbol [ i ].Attributes = i < m_width ? CellColour::Fore_White : 0 ;
+			m_symbol [ i ].UnicodeChar = i < m_width ? 0x2500 : 0x0000;
+			m_symbol [ i ].Attributes  = i < m_width ? CellColour::Fore_White : 0 ;
 		}
 	}
 

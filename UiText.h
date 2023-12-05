@@ -15,7 +15,7 @@ public:
 		m_symbol = new RenderCellData [ maxLength ];
 		for ( unsigned int i = 0; i < maxLength; i++ )
 		{
-			m_symbol [ i ].Char = ' ';
+			m_symbol [ i ].AsciiChar = ' ';
 			m_symbol [ i ].Attributes = CellColour::Fore_White ;
 		}
 
@@ -47,7 +47,7 @@ public:
 
 		for ( size_t i = 0; i < m_width; i++ )
 		{
-			m_symbol [ i ].Char = m_string [ i ];
+			m_symbol [ i ].AsciiChar = m_string [ i ];
 		}
 	}
 

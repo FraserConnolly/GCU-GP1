@@ -27,24 +27,40 @@ enum CellColour : short
 typedef struct _renderCellData
 {
 	_renderCellData ( ) :
-		Char ( ' ' ),
+		UnicodeChar( ' ' ),
 		Attributes ( CellColour::Fore_White | CellColour::Back_Black )
 	{
 	}
 
 	_renderCellData ( char symbol ) :
-		Char ( symbol ),
+		AsciiChar( symbol ),
 		Attributes ( CellColour::Fore_White | CellColour::Back_Black )
 	{
 	}
 
+	_renderCellData(char16_t symbol) :
+		UnicodeChar(symbol),
+		Attributes(CellColour::Fore_White | CellColour::Back_Black)
+	{
+	}
+
 	_renderCellData ( char symbol, CellColour colour ) :
-		Char ( symbol ),
+		AsciiChar( symbol ),
 		Attributes ( colour )
 	{
 	}
 
-	char  Char;
+	_renderCellData(char16_t symbol, CellColour colour) :
+		UnicodeChar(symbol),
+		Attributes(colour)
+	{
+	}
+
+	union {
+		char16_t UnicodeChar;
+		char   AsciiChar;
+	};
+
 	short Attributes;
 
 } RenderCellData, *pRenderCellData;
