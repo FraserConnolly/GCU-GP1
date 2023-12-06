@@ -5,7 +5,7 @@
 * 2023-10-12 Separated out implementation from header files.
 */
 
-//#define PrintDebugRulers
+#define PrintDebugRulers
 
 #include "GameSource.h"
 #include "GameObject.h"

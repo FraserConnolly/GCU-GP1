@@ -129,7 +129,9 @@
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
     <ClCompile Include="AliensGameSource.cpp" />
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Barrier.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -140,8 +142,10 @@
     <ClCompile Include="GameSelectionMenu.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
+    <ClCompile Include="Paddle.cpp" />
     <ClCompile Include="ParanoidGameSource.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ScreenBuffer.cpp" />
     <ClCompile Include="UiText.cpp" />
@@ -150,8 +154,11 @@
   <ItemGroup>
     <ClInclude Include="Alien.h" />
     <ClInclude Include="AliensGameSource.h" />
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Barrier.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Paddle.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GameObject.h" />
@@ -163,6 +170,7 @@
     <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="ParanoidGameSource.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RenderCellData.h" />
     <ClInclude Include="ScreenBuffer.h" />

@@ -24,13 +24,23 @@ public:
         GameObject::onCollision ( collision, collisionPoint );
     }
     
+    void setDirection(const float xDirection, const float yDirection)
+    {
+        m_xDirection = xDirection;
+        m_yDirection = yDirection;
+    }
+
+    void setSpeed(const float speed)
+    {
+        m_speed = speed;
+    }
 
 protected:
 
     virtual bool outOfBoundsCheck ( const int width, const int height );
 
     float m_speed = 0;
-    int m_xDirection = 0;
-    int m_yDirection = 0;
+    float m_xDirection = 0;
+    float m_yDirection = 0;
 
 };
