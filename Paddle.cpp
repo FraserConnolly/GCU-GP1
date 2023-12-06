@@ -1,6 +1,5 @@
-#include "Paddle.h"
 #include "ParanoidGameSource.h"
-
+#include "Paddle.h"
 
 void Paddle::tick(ParanoidGameSource* game)
 {

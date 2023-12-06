@@ -84,17 +84,17 @@
     <ClCompile Include="UiText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Source Files\Paranoid</Filter>
+    </ClCompile>
     <ClCompile Include="Block.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Paranoid</Filter>
     </ClCompile>
     <ClCompile Include="Paddle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ball.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Paranoid</Filter>
     </ClCompile>
     <ClCompile Include="PowerUp.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Paranoid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

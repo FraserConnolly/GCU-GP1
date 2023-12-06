@@ -10,8 +10,8 @@ public:
 
     Projectile ( int xDirection, int yDirection )
         : GameObject ( 1, 1 ),
-        m_xDirection ( xDirection ),
-        m_yDirection ( yDirection ),
+        m_xDirection ( (float) xDirection ),
+        m_yDirection ( (float) yDirection ),
         m_speed ( 0 )
     {
         m_active = false;

@@ -3,6 +3,7 @@
 #include "Ground.h"
 #include "Block.h"
 #include "Paddle.h"
+#include <cmath>
 
 void Ball::onCollision(const GameObject& collision, const Point collisionPoint)
 {
@@ -56,16 +57,23 @@ void Ball::tick(GameSource* game)
 
 	translate(m_speed * game->deltaTime * m_xDirection, m_speed * game->deltaTime * m_yDirection);
 
+	Point screenSize(
+		game->getScreenWidth()-1,
+		game->getScreenHeight()-1
+	);
+
 	if (getGridY() < 0)
 	{
 		// hit the top of the screen
+		setGridY(0);
 		applyChangeOfDirection(Point(getGridX(), 0));
 		return;
 	}
 
-	if (getGridY() >= game->getScreenHeight())
+	if (getGridY() > screenSize.Y)
 	{
 		// shouldn't happen as the ground should have been collided with first.
+		setGridY(screenSize.Y);
 		setActive(false);
 		return;
 	}
@@ -73,14 +81,16 @@ void Ball::tick(GameSource* game)
 	if (getGridX() < 0)
 	{
 		// hit the left edge of the screen
+		setGridX(0);
 		applyChangeOfDirection(Point(0, getGridY()));
 		return;
 	}
 
-	if (getGridX() >= game->getScreenWidth())
+	if (getGridX() > screenSize.X)
 	{
 		// hit the right edge of the screen
-		applyChangeOfDirection(Point(game->getScreenWidth() - 1, getGridY()));
+		setGridX(screenSize.X);
+		applyChangeOfDirection(Point(screenSize.X, getGridY()));
 		return;
 	}
 }
@@ -92,9 +102,17 @@ void Ball::applyChangeOfDirection(const Point collissionPoint)
 	float yDirection = m_yDirection;
 
 	// to do calculate normal based on the side of the block that was hit
+	 
+	// Calculate the angle of incidence
+	float angleOfIncidence = std::atan2(yDirection, xDirection);
+
+	// Calculate the angle of reflection
+	float angleOfReflection = -angleOfIncidence;
+
+	// Convert the angle back to a vector
+	xDirection = std::cos(angleOfReflection);
+	yDirection = std::sin(angleOfReflection);
 
 	// apply new direction
 	setDirection(xDirection, yDirection);
-
 }
-

@@ -56,7 +56,7 @@ private:
 	UiText m_scoreText;
 
 	int m_score = 0;
-	int m_level = 0;
+	int m_level = 1;
 	float m_levelStartTime = 0;
 
 	void playMuisc( );

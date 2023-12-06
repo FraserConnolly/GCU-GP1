@@ -1,21 +1,21 @@
 #pragma once
 #include "Projectile.h"
 
+enum class POWER_UP_TYPE
+{
+	UNSET,
+	SPEED_INCREASE,
+	SPEED_DECREASE,
+	PADDLE_INCREASE,
+	PADDLE_DECREASE,
+	BALL_MULTIPLY,
+	BALL_PENETRATE,
+};
+
 class PowerUp :
     public Projectile
 {
 public:
-
-	enum POWER_UP_TYPE
-	{
-		UNSET,
-		SPEED_INCREASE,
-		SPEED_DECREASE,
-		PADDLE_INCREASE,
-		PADDLE_DECREASE,
-		BALL_MULTIPLY,
-		BALL_PENETRATE,
-	};
 
 	PowerUp() : Projectile(0, 1)
 	{
@@ -38,7 +38,7 @@ public:
 	/// Must be called before launch.
 	/// </summary>
 	/// <param name="type">The type of power up this projectile should be.</param>
-	void setPowerUp( const PowerUp::POWER_UP_TYPE type )
+	void setPowerUp( const POWER_UP_TYPE type )
 	{
 		if (m_active)
 		{
@@ -47,6 +47,11 @@ public:
 		}
 
 		m_powerUpType = type;
+	}
+
+	const POWER_UP_TYPE getPowerUp() const
+	{
+		return m_powerUpType;
 	}
 
 private:

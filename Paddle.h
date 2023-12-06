@@ -1,10 +1,9 @@
 #pragma once
 #include "GameObject.h"
 
-enum POWER_UP_TYPE;
-
 // forward declaration 
 class ParanoidGameSource;
+enum class POWER_UP_TYPE;
 
 class Paddle : 
 	public GameObject
@@ -12,8 +11,11 @@ class Paddle :
 public:
 	Paddle() : GameObject(10, 1)
 	{
-		m_symbol[0].UnicodeChar = 0x0305; // 0x033F - double line 
-		m_symbol[0].Attributes = CellColour::Fore_White;
+		for (size_t i = 0; i < 10; i++)
+		{
+			m_symbol[i].UnicodeChar = '_'; // = 0x0305; // 0x033F - double line 
+			m_symbol[i].Attributes = CellColour::Fore_White;
+		}
 	}
 
 	// Inherited via GameObject
@@ -41,7 +43,5 @@ private:
 
 	void processMovement(ParanoidGameSource* game);
 	void processInput(ParanoidGameSource* game);
-
-
 };
 
