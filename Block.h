@@ -12,7 +12,7 @@ public:
 		for (size_t i = 0; i < m_width * m_height; i++)
 		{
 			m_symbol[i].UnicodeChar = 0x2588;
-			m_symbol[i].Attributes = CellColour::Fore_Red;
+			m_symbol[i].Attributes = CellColour::Fore_White;
 		}
 	}
 
@@ -31,6 +31,14 @@ public:
 	};
 
 	void onCollision(const GameObject& collision, const Point collisionPoint);
+
+	void setColour(CellColour colour)
+	{
+		for (size_t i = 0; i < m_width * m_height; i++)
+		{
+			m_symbol[i].Attributes = colour;
+		}
+	}
 
 private:
 	RenderCellData m_symbol[8];

@@ -27,7 +27,7 @@ void Paddle::processMovement(ParanoidGameSource* game)
 		return;
 	}
 
-	const float speedMultiplyer = 100;
+	const float speedMultiplyer = 300;
 	float movement = 0;
 
 	if (leftInputPressed)
@@ -46,7 +46,7 @@ void Paddle::processMovement(ParanoidGameSource* game)
 	// prevent the player going off the edge of the screen
 	if (getGridX() + getWidth() >= game->getScreenWidth())
 	{
-		setGridX(game->getScreenWidth() - 1);
+		setGridX(game->getScreenWidth() - 1 - m_width);
 	}
 	else if (getGridX() < 0)
 	{

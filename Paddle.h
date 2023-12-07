@@ -13,7 +13,7 @@ public:
 	{
 		for (size_t i = 0; i < 10; i++)
 		{
-			m_symbol[i].UnicodeChar = '_'; // = 0x0305; // 0x033F - double line 
+			m_symbol[i].UnicodeChar = 0x203E;
 			m_symbol[i].Attributes = CellColour::Fore_White;
 		}
 	}

@@ -92,6 +92,13 @@ void ParanoidGameSource::updateGame ( )
 				// collision
 				ball .onCollision(block, ball.getGridPosition());
 				block.onCollision(ball,  ball.getGridPosition());
+				m_score += 10;
+
+				if (!block.getActive())
+				{
+					// add an additional 20 points for destroying a block
+					m_score += 20;
+				}
 				break;
 			}
 		}
@@ -104,6 +111,11 @@ void ParanoidGameSource::updateGame ( )
 		if (ball.hasCollided(m_paddle))
 		{
 			ball.onCollision(m_paddle, ball.getGridPosition());
+		}
+
+		if (ball.hasCollided(m_ground))
+		{
+			ball.onCollision(m_ground, ball.getGridPosition());
 		}
 	}
 
@@ -158,7 +170,6 @@ void ParanoidGameSource::drawGame()
 
 }
 
-
 void ParanoidGameSource::startLevel()
 {
 	if (getHasStarted())
@@ -176,8 +187,9 @@ void ParanoidGameSource::startLevel()
 		throw;
 	}
 
+	// set the direction to at a 45 degree angle from the paddle.
+	firstBall->setDirection(1, -1);
 
-	firstBall->setDirection(0, -1);
 	// launch the ball from above the center of the paddle
 	firstBall->launch(
 		Point(m_paddle.getGridX() + (m_paddle.getWidth() / 2),
@@ -220,6 +232,7 @@ void ParanoidGameSource::initaliseLevel( )
 {
 	// set the position of each block depending on which level is loading.
 	int levelIndex = m_level % 3; // 3 == number of levels
+	CellColour colour;
 
 	switch (levelIndex)
 	{
@@ -232,6 +245,34 @@ void ParanoidGameSource::initaliseLevel( )
 			{
 				m_blocks[i].setActive(true);
 				m_blocks[i].setGridPosition(5 + (c * m_blocks[i].getWidth()), 5 + (r* m_blocks[i].getHeight()));
+
+				switch (i % 7)
+				{
+				default:
+					colour = CellColour::Fore_Red;
+					break;
+				case 1:
+					colour = CellColour::Fore_Green;
+					break;
+				case 2:
+					colour = CellColour::Fore_Blue;
+					break;
+				case 3:
+					colour = CellColour::Fore_Magenta;
+					break;
+				case 4:
+					colour = CellColour::Fore_Cyan;
+					break;
+				case 5:
+					colour = CellColour::Fore_Yellow;
+					break;
+				case 6:
+					colour = CellColour::Fore_White;
+					break;
+				}
+
+
+				m_blocks[i].setColour(colour);
 			}
 		}
 

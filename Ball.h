@@ -1,5 +1,15 @@
 #pragma once
 #include "Projectile.h"
+
+enum Edge
+{
+	TOP,
+	BOTTOM,
+	LEFT,
+	RIGHT
+};
+
+
 class Ball :
     public Projectile
 {
@@ -31,6 +41,6 @@ private:
 	Point m_previousGridPosition;
 	bool m_penetrate = false;
 
-	void applyChangeOfDirection(const Point collissionPoint);
+	void applyChangeOfDirection(const Edge edge);
 };
 

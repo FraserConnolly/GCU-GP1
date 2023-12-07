@@ -69,15 +69,21 @@ void GameSource::renderFrame ( )
 
 		sprintf_s(buffer, "%02d", i);
 
-		m_backBuffer->setChar(0, i, buffer[0]);
 		m_backBuffer->setCharColour(0, i, CellColour::Fore_Black, CellColour::Back_White);
+		m_backBuffer->setChar(0, i, buffer[0]);
 		m_backBuffer->setChar(1, i, buffer[1]);
 		m_backBuffer->setChar(2, i, buffer[2]);
+
+		m_backBuffer->setCharColour(getScreenWidth() - 1, i, CellColour::Fore_Black, CellColour::Back_White);
+		m_backBuffer->setChar(getScreenWidth() - 3, i, buffer[0]);
+		m_backBuffer->setChar(getScreenWidth() - 2, i, buffer[1]);
+		m_backBuffer->setChar(getScreenWidth() - 1, i, buffer[2]);
 	}
 
 	for (int i = 0; i < 160; i++)
 	{
 		m_backBuffer->setCharColour(i, 0, CellColour::Fore_Black, CellColour::Back_White);
+		m_backBuffer->setCharColour(i, getScreenHeight()-1, CellColour::Fore_Black, CellColour::Back_White);
 
 		if (i % 10 != 0)
 		{
@@ -91,6 +97,10 @@ void GameSource::renderFrame ( )
 		m_backBuffer->setChar(i, 0, buffer[0]);
 		m_backBuffer->setChar(i + 1, 0, buffer[1]);
 		m_backBuffer->setChar(i + 2, 0, buffer[2]);
+
+		m_backBuffer->setChar(i,     getScreenHeight() - 1, buffer[0]);
+		m_backBuffer->setChar(i + 1, getScreenHeight() - 1, buffer[1]);
+		m_backBuffer->setChar(i + 2, getScreenHeight() - 1, buffer[2]);
 	}
 
 #endif

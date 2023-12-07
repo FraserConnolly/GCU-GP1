@@ -10,7 +10,7 @@
 #define BLOCK_MAX_COUNT 100
 #define BALL_MAX_COUNT 10
 #define POWER_UP_MAX_COUNT 10
-#define BALL_STARTING_SPEED 200
+#define BALL_STARTING_SPEED 150
 
 
 class ParanoidGameSource :
@@ -51,12 +51,12 @@ private:
 	Block   m_blocks   [ BLOCK_MAX_COUNT    ];
 	Ball    m_balls    [ BALL_MAX_COUNT     ];
 	PowerUp m_powerUps [ POWER_UP_MAX_COUNT ];
-	Ground m_ground;
+	Ground  m_ground;
 
 	UiText m_scoreText;
 
 	int m_score = 0;
-	int m_level = 1;
+	int m_level = 0;
 	float m_levelStartTime = 0;
 
 	void playMuisc( );

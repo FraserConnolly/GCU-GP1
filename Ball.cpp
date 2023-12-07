@@ -3,7 +3,6 @@
 #include "Ground.h"
 #include "Block.h"
 #include "Paddle.h"
-#include <cmath>
 
 void Ball::onCollision(const GameObject& collision, const Point collisionPoint)
 {
@@ -29,8 +28,18 @@ void Ball::onCollision(const GameObject& collision, const Point collisionPoint)
 		}
 		else
 		{
-			// change direction
-			applyChangeOfDirection(collisionPoint);
+			// if the point of collision is the left or right most cell of the block
+			// then consider this a side hit
+
+			if (collisionPoint.X == block->getGridX() || collisionPoint.X == block->getGridX() + block->getWidth())
+			{
+				applyChangeOfDirection(Edge::RIGHT);
+			}
+			else
+			{
+				applyChangeOfDirection(Edge::TOP);
+			}
+
 		}
 		return;
 	}
@@ -39,7 +48,7 @@ void Ball::onCollision(const GameObject& collision, const Point collisionPoint)
 
 	if (paddle != nullptr)
 	{
-		applyChangeOfDirection(collisionPoint);
+		applyChangeOfDirection(Edge::BOTTOM);
 	}
 }
 
@@ -52,7 +61,7 @@ void Ball::tick(GameSource* game)
 		return;
 	}
 
-	m_previousGridPosition.X = getGridX();
+	 m_previousGridPosition.X = getGridX();
 	m_previousGridPosition.Y = getGridY();
 
 	translate(m_speed * game->deltaTime * m_xDirection, m_speed * game->deltaTime * m_yDirection);
@@ -66,7 +75,7 @@ void Ball::tick(GameSource* game)
 	{
 		// hit the top of the screen
 		setGridY(0);
-		applyChangeOfDirection(Point(getGridX(), 0));
+		applyChangeOfDirection(Edge::TOP);
 		return;
 	}
 
@@ -82,7 +91,7 @@ void Ball::tick(GameSource* game)
 	{
 		// hit the left edge of the screen
 		setGridX(0);
-		applyChangeOfDirection(Point(0, getGridY()));
+		applyChangeOfDirection(Edge::LEFT);
 		return;
 	}
 
@@ -90,29 +99,53 @@ void Ball::tick(GameSource* game)
 	{
 		// hit the right edge of the screen
 		setGridX(screenSize.X);
-		applyChangeOfDirection(Point(screenSize.X, getGridY()));
+		applyChangeOfDirection(Edge::RIGHT);
 		return;
 	}
 }
 
-void Ball::applyChangeOfDirection(const Point collissionPoint)
+void Ball::applyChangeOfDirection(const Edge edge)
 {
 	// get current direction
-	float xDirection = m_xDirection;
-	float yDirection = m_yDirection;
+	Point direction(m_xDirection, m_yDirection);
 
-	// to do calculate normal based on the side of the block that was hit
-	 
-	// Calculate the angle of incidence
-	float angleOfIncidence = std::atan2(yDirection, xDirection);
-
-	// Calculate the angle of reflection
-	float angleOfReflection = -angleOfIncidence;
-
-	// Convert the angle back to a vector
-	xDirection = std::cos(angleOfReflection);
-	yDirection = std::sin(angleOfReflection);
+	switch (edge)
+	{
+	case Edge::BOTTOM:
+	case Edge::TOP:
+		direction.Y *= -1;
+		break;
+	case Edge::LEFT:
+	case Edge::RIGHT:
+		direction.X *= -1;
+		break;
+	}
 
 	// apply new direction
-	setDirection(xDirection, yDirection);
+	setDirection(direction.X, direction.Y);
+
+	// To prevent multiple collisions without ball appearing to move
+	// force the ball to move by one grid unit.
+	// to do, this requires more testing.
+
+	Point movement(0, 0);
+	if (direction.X > 0)
+	{
+		movement.X = 1;
+	}
+	else if (direction.X < 0)
+	{
+		movement.X = -1;
+	}
+
+	if (direction.Y > 0)
+	{
+		movement.Y = 1;
+	}
+	else if (direction.Y < 0)
+	{
+		movement.Y = -1;
+	}
+
+	translateByGridUnit(movement.X, movement.Y);
 }

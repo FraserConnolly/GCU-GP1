@@ -168,7 +168,7 @@
       <Filter>Header Files\Paranoid</Filter>
     </ClInclude>
     <ClInclude Include="PowerUp.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Paranoid</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
