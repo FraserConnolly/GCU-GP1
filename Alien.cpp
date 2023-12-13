@@ -44,7 +44,7 @@ void Alien::getEdgeAlienColumns(int& leftColumn, int& rightColumn)
 	}
 
 	leftColumn = s_leftMostAlien->getGridX();
-	rightColumn = s_rightMostAlien->getGridX();
+	rightColumn = s_rightMostAlien->getGridX()+s_rightMostAlien->getWidth();
 }
 
 float Alien::getMovementTimeout()

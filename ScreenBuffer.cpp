@@ -171,9 +171,8 @@ ScreenBuffer & ScreenBuffer::operator=( ScreenBuffer && other ) noexcept
 
 #pragma region Getters / Setters
 
-char ScreenBuffer::getChar ( const int x, const int y ) const
+WCHAR ScreenBuffer::getChar ( const int x, const int y ) const
 {
-	// is this doing a copy?
 	return m_rowPtr [ y ][ x ].Char.UnicodeChar;
 }
 

@@ -23,9 +23,9 @@ class Alien
 #define ALIEN_COL_COUNT 10
 
 // Timeouts are floats in seconds.
-#define ALIEN_MOVEMENT_TIMEOUT_MAX 3.0f
-#define ALIEN_MOVEMENT_TIMEOUT_MIN 1.5f
-#define ALIEN_MOVEMENT_TIMEOUT_DECREMENT 0.7f
+#define ALIEN_MOVEMENT_TIMEOUT_MAX 1.4f
+#define ALIEN_MOVEMENT_TIMEOUT_MIN 0.4f
+#define ALIEN_MOVEMENT_TIMEOUT_DECREMENT 0.2f
 #define ALIEN_HIT_SCORE 100
 
 public:
@@ -55,7 +55,7 @@ public:
 		m_symbol [ 13 ].AsciiChar = ' ';
 		m_symbol [ 14 ].AsciiChar = ' ';
 
-		for ( size_t i = 0; i < size_t( m_width * m_height ); i++ )
+		for ( size_t i = 0; i < (size_t) ( m_width * m_height ); i++ )
 		{
 			m_symbol [ i ].Attributes = CellColour::Fore_Red;
 		}

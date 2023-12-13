@@ -13,7 +13,7 @@ void AliensGameSource::initaliseGame ( )
 
 	initaliseLevel();
 
-	m_player.setGridPosition ( getScreenWidth( ) / 2, 40);
+	m_player.setGridPosition ( getScreenWidth( ) / 2, 39);
 
 	m_ground.setGridPosition ( 0, 42 );
 
@@ -37,12 +37,12 @@ void AliensGameSource::initaliseLevel()
 	Alien::resetGame( );
 	
 	m_nextAlienMoveTime = getGameTime();
-	m_alienMoveTimeout = Alien::getMovementTimeout();
+	m_alienMoveTimeout = ALIEN_MOVEMENT_TIMEOUT_MAX;
 
 	// reset alien positions
-	for (size_t index = 0, row = 0; row < ALIEN_ROW_COUNT; row++)
+	for (int index = 0, row = 0; row < ALIEN_ROW_COUNT; row++)
 	{
-		for (size_t col = 0; col < ALIEN_COL_COUNT; col++, index++)
+		for (int col = 0; col < ALIEN_COL_COUNT; col++, index++)
 		{
 			m_aliens[index].setGridPosition( 45 + ALIEN_EDGE_PADDING + (col * 10), Alien::getStartRow() + ( row * ALIEN_ROW_HEIGHT ) );
 			m_aliens[index].setActive(true);
@@ -280,20 +280,16 @@ void AliensGameSource::setAlienPositions()
 
 	m_nextAlienMoveTime = getGameTime() + m_alienMoveTimeout;
 
-	// update movement direction
-	switch (m_previousMovement)
+	if (m_previousMovement == AliensGameSource::DOWN)
 	{
-	default:
-	case AliensGameSource::DOWN:
-
 		m_alienMoveTimeout = Alien::getMovementTimeout();
 		// check which edge has been reached, and set the direction to be the opposite.
 		m_previousMovement = (leftX <= leftEdge) ? AliensGameSource::RIGHT : AliensGameSource::LEFT;
-		
+	}
 
-		// stop us from going down repeatedly.
-		leftX = getScreenWidth() / 2;
-		rightX = leftX;
+	// update movement direction
+	switch (m_previousMovement)
+	{
 	case AliensGameSource::LEFT:
 		if (leftX <= leftEdge)
 		{

@@ -6,13 +6,11 @@
 
 // set this to skip the menu and play a specific game.
 //#define TestGame SPACE_INVADERS
-#define TestGame PARANOID
+//#define TestGame PARANOID
 
 #include "GameSelectionMenu.h"
 #include "AliensGameSource.h"
 #include "ParanoidGameSource.h"
-
-void fontTest ( );
 
 int main ( )
 {
@@ -54,15 +52,4 @@ int main ( )
 #endif // !TestGame
 	
 	return 0;
-}
-
-void fontTest ( )
-{
-	CONSOLE_FONT_INFO lpConsoleCurrentFont;
-	auto result = GetCurrentConsoleFont ( GetStdHandle ( STD_OUTPUT_HANDLE ), false, &lpConsoleCurrentFont );
-
-	if ( result )
-	{
-		cout << "Font: " << lpConsoleCurrentFont.dwFontSize.X << ", " << lpConsoleCurrentFont.dwFontSize.Y << endl;
-	}
 }

@@ -17,7 +17,7 @@ public:
 
 	~ScreenBuffer();
 
-	char getChar(const int x, const int y) const;
+	WCHAR getChar(const int x, const int y) const;
 	void setChar(const int x, const int y, char c);
 	void setCharColour(const int x, const int y, CellColour cellColour);
 	void setCharColour(const int x, const int y, CellColour foreground, CellColour background);

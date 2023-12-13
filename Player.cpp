@@ -1,6 +1,9 @@
 #include "AliensGameSource.h"
 #include "Player.h"
 
+#define PLAYER_SPEED 25
+#define LASER_SPEED 40
+
 void Player::tick ( AliensGameSource * game )
 {
 	processMovement ( game );
@@ -17,17 +20,16 @@ void Player::processMovement ( AliensGameSource * game )
 		return;
 	}
 
-	const float speedMultiplyer = 100;
 	float movement = 0;
 
 	if ( leftInputPressed )
 	{
-		movement = speedMultiplyer * game->getDeltaTime() * -1;
+		movement = PLAYER_SPEED * game->getDeltaTime() * -1;
 		//translateByGridUnit ( -1, 0 );
 	}
 	else if ( rightInputPressed )
 	{
-		movement = speedMultiplyer * game->getDeltaTime() * 1;
+		movement = PLAYER_SPEED * game->getDeltaTime() * 1;
 		//translateByGridUnit ( 1, 0 );
 	}
 
@@ -69,10 +71,10 @@ void Player::processCombat ( AliensGameSource * game )
 		m_lastFireTime = game->getGameTime();
 
 		Point startPosition;
-		startPosition.X = getGridX ( );
+		startPosition.X = getGridX ( ) + 2;
 		startPosition.Y = getGridY ( ) - 1;
 
-		laser->launch ( startPosition, 200 );
+		laser->launch ( startPosition, LASER_SPEED );
 	}
 	
 }
