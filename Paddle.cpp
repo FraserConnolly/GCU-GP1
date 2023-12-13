@@ -44,7 +44,7 @@ void Paddle::processMovement(ParanoidGameSource* game)
 	translate(horivontalMovement, 0);
 
 	// prevent the player going off the edge of the screen
-	if (getGridX() + getWidth() >= game->getScreenWidth())
+	if (getGridX() + getWidth() >= (unsigned int) game->getScreenWidth())
 	{
 		setGridX(game->getScreenWidth() - m_width);
 	}
