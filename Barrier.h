@@ -1,18 +1,23 @@
 #pragma once
 #include "GameObject.h"
 
+#define BARRIER_CELL_WIDTH 2
+#define BARRIER_CELL_HEIGHT 1
+
 class Barrier
 	: public GameObject
 {
 public:
 
-	Barrier ( ) : GameObject ( 5, 1 )
+	Barrier ( ) : GameObject ( BARRIER_CELL_WIDTH, BARRIER_CELL_HEIGHT )
 	{
 		for ( size_t i = 0; i < (size_t) ( m_width * m_height ); i++ )
 		{
-			m_symbol [ i ].UnicodeChar = '*';
+			m_symbol [ i ].UnicodeChar = 0x2588;
 			m_symbol [ i ].Attributes = CellColour::Fore_Red;
 		}
+
+		setActive ( false );
 	}
 
 	// Inherited via GameObject
@@ -22,6 +27,6 @@ public:
 	};
 
 private:
-	RenderCellData m_symbol [ 6 ];
+	RenderCellData m_symbol [ BARRIER_CELL_WIDTH * BARRIER_CELL_HEIGHT ];
 };
 

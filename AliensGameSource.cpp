@@ -1,23 +1,17 @@
 #include "AliensGameSource.h"
 
-
-
 void AliensGameSource::initaliseGame ( )
 {
 	GameSource::initaliseGame ( );
-
-	for (int b = 0; b < BARRIER_COUNT; b++)
-	{
-		m_barriers[b].setGridPosition(b * 10, 35);
-	}
+	setBarrierPositions ( );
 
 	initaliseLevel();
 
-	m_player.setGridPosition ( getScreenWidth( ) / 2, 39);
+	m_player.setGridPosition ( getScreenWidth( ) / 2, PLAYER_ROW );
 
-	m_ground.setGridPosition ( 0, 42 );
+	m_ground.setGridPosition ( 0, GROUND_ROW );
 
-	m_scoreText.setGridPosition ( 5, 43 );
+	m_scoreText.setGridPosition ( 5, SCORE_ROW );
 
 	m_keyboardInput.registerOnKey ( VK_SPACE,
 									[ this ] ( WORD key, short status )
@@ -99,7 +93,6 @@ void AliensGameSource::updateGame()
 	m_player.tick ( this );
 
 	setAlienPositions ( );
-	setBarrierPositions ( );
 
 	for ( Laser & laser : m_lasers )
 	{
@@ -208,13 +201,13 @@ void AliensGameSource::drawGame ( )
 	GameSource::drawObjectsInArray ( m_aliens, ALIENT_COUNT );
 
 	// Draw barrier
-	GameSource::drawObjectsInArray ( m_barriers, BARRIER_COUNT );
+	GameSource::drawObjectsInArray ( m_barriers, BARRIER_COUNT_MAX );
 
 	// Draw lasers
-	GameSource::drawObjectsInArray ( m_lasers, MAX_LASER_COUNT );
+	GameSource::drawObjectsInArray ( m_lasers, LASER_COUNT_MAX );
 
 	// Draw bombs
-	GameSource::drawObjectsInArray ( m_bombs, MAX_BOMB_COUNT );
+	GameSource::drawObjectsInArray ( m_bombs, BOMB_COUNT_MAX );
 
 	// Draw player
 	if ( m_player.getActive ( ) )
@@ -371,12 +364,62 @@ void AliensGameSource::updateEdgeAlienPointers()
 
 void AliensGameSource::setBarrierPositions ( )
 { 
+	int xOffset = 10;
+	for ( int b = 0; b < BARRIER_BLOCK_COUNT; b++ )
+	{
 
+		int row = 0;
+		int rowSize = 1;
+
+		for ( int i = 0; i < BARRIER_COUNT_PER_BLOCK; )
+		{
+
+			for ( int rb = 0; rb < rowSize; rb++, i++ )
+			{
+				Barrier & barrier = m_barriers [ ( b * BARRIER_COUNT_PER_BLOCK ) + i ];
+				barrier.setGridPosition ( xOffset + ( ( rb - ( rowSize / 2 ) ) * BARRIER_CELL_WIDTH ), BARRIER_ROW + ( row * barrier.getHeight ( ) ) );
+				barrier.setActive ( true );
+			}
+
+			row++;
+			rowSize = ( ( row + 1 ) * 2 ) - 1;
+
+			if ( BARRIER_COUNT_PER_BLOCK - i < rowSize )
+			{
+				// there aren't enough remaining blocks to make another row
+
+				int largestRow = ( ( row ) * 2 ) - 1;
+
+				// check to see if there enough blocks to add one to each existing row
+
+				if ( BARRIER_COUNT_PER_BLOCK - i > row - 1 )
+				{
+					// return row size to its previous value (i.e. the largest row made)
+					int rowsToExtend = row;
+
+					for ( int re = 0; re < rowsToExtend ; re++, i++ )
+					{
+						rowSize = ( ( re + 1 ) * 2 ) - 1;
+
+						Barrier & barrier = m_barriers [ ( b * BARRIER_COUNT_PER_BLOCK ) + i ];
+						barrier.setGridPosition ( xOffset + ( ( rowSize - re ) * BARRIER_CELL_WIDTH ), BARRIER_ROW + ( re * BARRIER_CELL_HEIGHT ) );
+						barrier.setActive ( true );
+					}
+
+					// allow for the extra block.
+					largestRow++;
+				}
+
+				xOffset += ( largestRow * BARRIER_CELL_WIDTH ) + BARRIER_BLOCK_GAP;
+				break;
+			}
+		}
+	}
 }
 
 Laser * const AliensGameSource::getAvilableLaser ( )
 {
-	for (int i = 0; i < MAX_LASER_COUNT; i++)
+	for (int i = 0; i < LASER_COUNT_MAX; i++)
 	{
 		Laser * const laser = &m_lasers[i];
 
@@ -391,7 +434,7 @@ Laser * const AliensGameSource::getAvilableLaser ( )
 
 Bomb * const AliensGameSource::getAvilableBomb()
 {
-	for (int i = 0; i < MAX_LASER_COUNT; i++)
+	for (int i = 0; i < LASER_COUNT_MAX; i++)
 	{
 		Bomb * const bomb = &m_bombs[ i ];
 
