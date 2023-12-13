@@ -211,6 +211,11 @@ void ScreenBuffer::setForegroundColour ( CellColour foreground )
 
 void ScreenBuffer::applyRenderData ( const int x, const int y, const unsigned int width, const unsigned int height, const pRenderCellData data )
 { 
+	if (x < 0 || y < 0 || x >= m_window->getWidth() || y >= m_window->getHeight())
+	{
+		return;
+	}
+
 	if ( data == nullptr )
 	{
 		return;
