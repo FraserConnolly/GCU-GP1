@@ -3,10 +3,10 @@
 
 enum Edge
 {
-	TOP,
-	BOTTOM,
-	LEFT,
-	RIGHT
+	RETURN,				// used to send the ball back in the direction it came.
+	CORNER,				// used when the ball hits the corner of something.
+	HORIZONTAL_EDGE,
+	VERTICAL_EDGE		
 };
 
 
@@ -30,7 +30,7 @@ public:
 		return (pRenderCellData)m_symbol;
 	}
 
-	void onCollision(const GameObject& collision, const Point collisionPoint) override;
+	void onCollision(const GameObject& collision, const Point& collisionPoint) override;
 	void tick(GameSource* game) override;
 
 private:

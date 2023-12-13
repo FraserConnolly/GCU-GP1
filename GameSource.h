@@ -41,17 +41,26 @@ public:
 	/// <summary>
 	/// The length of time in seconds that the game has been running for.
 	/// </summary>
-	float gameTime = 0;
+	inline const float getGameTime() const
+	{
+		return m_gameTime;
+	}
 
 	/// <summary>
 	/// The length of time in seconds that the previous frame took to be completed.
 	/// </summary>
-	float deltaTime = 0;
+	inline const float getDeltaTime() const
+	{
+		return m_deltaTime;
+	}
 
 	/// <summary>
 	/// The length of time in milliseconds that the previous frame took to be completed.
 	/// </summary>
-	float deltaTimeMs = 0;
+	inline const float getDeltaTimeMs() const
+	{
+		return m_deltaTimeMs;
+	}
 
 	inline const int getScreenWidth ( ) const
 	{
@@ -61,6 +70,11 @@ public:
 	inline const int getScreenHeight ( ) const
 	{
 		return m_stdWindow.getHeight ( );
+	}
+
+	inline const int getFrameCount() const
+	{
+		return m_frameCount;
 	}
 
 protected:
@@ -109,6 +123,22 @@ private:
 	void renderFrame ( );
 	void quitKeyPressed ( );
 	
+	/// <summary>
+	/// The length of time in seconds that the game has been running for.
+	/// </summary>
+	float m_gameTime = 0;
+
+	/// <summary>
+	/// The length of time in seconds that the previous frame took to be completed.
+	/// </summary>
+	float m_deltaTime = 0;
+
+	/// <summary>
+	/// The length of time in milliseconds that the previous frame took to be completed.
+	/// </summary>
+	float m_deltaTimeMs = 0;
+	int m_frameCount = 0;
+
 	ScreenBuffer* m_frontBuffer = nullptr;
 	Window m_stdWindow;
 };

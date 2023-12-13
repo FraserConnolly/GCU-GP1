@@ -29,7 +29,7 @@ public:
 		return (pRenderCellData)m_symbol;
 	}
 
-	void onCollision(const GameObject& collision, const Point collisionPoint) override
+	void onCollision(const GameObject& collision, const Point & collisionPoint) override
 	{
 		setActive(false);
 	}

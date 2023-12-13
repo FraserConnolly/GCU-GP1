@@ -36,7 +36,7 @@ void AliensGameSource::initaliseLevel()
 
 	Alien::resetGame( );
 	
-	m_lastAlienMoveTime = gameTime;
+	m_nextAlienMoveTime = getGameTime();
 	m_alienMoveTimeout = Alien::getMovementTimeout();
 
 	// reset alien positions
@@ -264,7 +264,7 @@ void AliensGameSource::playMuisc ( )
 
 void AliensGameSource::setAlienPositions()
 {
-	if (m_lastAlienMoveTime > gameTime)
+	if (m_nextAlienMoveTime > getGameTime())
 	{
 		return;
 	}
@@ -278,7 +278,7 @@ void AliensGameSource::setAlienPositions()
 
 	Alien::getEdgeAlienColumns(leftX, rightX);
 
-	m_lastAlienMoveTime = gameTime + m_alienMoveTimeout;
+	m_nextAlienMoveTime = getGameTime() + m_alienMoveTimeout;
 
 	// update movement direction
 	switch (m_previousMovement)

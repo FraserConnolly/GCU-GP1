@@ -1,20 +1,16 @@
 #pragma once
 #include "GameObject.h"
 
+#define BLOCK_MAX_CELL_COUNT 50
+
 class Block : 
 	public GameObject
 {
 public:
 
-	Block() : GameObject(8, 1)
-	{
-		setActive(false);
-		for (size_t i = 0; i < m_width * m_height; i++)
-		{
-			m_symbol[i].UnicodeChar = 0x2588;
-			m_symbol[i].Attributes = CellColour::Fore_White;
-		}
-	}
+	Block();
+	
+	Block(const int width, const int height);
 
 	// Inherited via GameObject
 	const pRenderCellData draw() const override
@@ -22,26 +18,13 @@ public:
 		return (pRenderCellData)m_symbol;
 	};
 
-	enum BlockChar : char16_t
-	{
-		FULL      = 0x2588,
-		DAMAGED_1 = 0x2592,
-		DAMAGED_2 = 0x2591,
-		DESTROYED = 0x0000
-	};
-
-	void onCollision(const GameObject& collision, const Point collisionPoint);
-
-	void setColour(CellColour colour)
-	{
-		for (size_t i = 0; i < m_width * m_height; i++)
-		{
-			m_symbol[i].Attributes = colour;
-		}
-	}
+	void onCollision( const GameObject& collision, const Point & collisionPoint );
+	void setColour( const CellColour colour );
+	void setDamage( const int damage );
+	const bool isCorner( const Point& point ) const;
 
 private:
-	RenderCellData m_symbol[8];
+	RenderCellData m_symbol[BLOCK_MAX_CELL_COUNT];
 
 	int m_damage = 0;
 };

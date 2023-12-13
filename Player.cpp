@@ -22,12 +22,12 @@ void Player::processMovement ( AliensGameSource * game )
 
 	if ( leftInputPressed )
 	{
-		movement = speedMultiplyer * game->deltaTime * -1;
+		movement = speedMultiplyer * game->getDeltaTime() * -1;
 		//translateByGridUnit ( -1, 0 );
 	}
 	else if ( rightInputPressed )
 	{
-		movement = speedMultiplyer * game->deltaTime * 1;
+		movement = speedMultiplyer * game->getDeltaTime() * 1;
 		//translateByGridUnit ( 1, 0 );
 	}
 
@@ -55,7 +55,7 @@ void Player::processCombat ( AliensGameSource * game )
 
 	// player trying to fire weapon.
 
-	if ( game->gameTime > m_lastFireTime + fireTimeout )
+	if ( game->getGameTime() > m_lastFireTime + fireTimeout )
 	{
 		auto laser = game->getAvilableLaser ( );
 
@@ -66,7 +66,7 @@ void Player::processCombat ( AliensGameSource * game )
 		}
 
 		// can fire
-		m_lastFireTime = game->gameTime;
+		m_lastFireTime = game->getGameTime();
 
 		Point startPosition;
 		startPosition.X = getGridX ( );

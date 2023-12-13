@@ -27,26 +27,26 @@ void Paddle::processMovement(ParanoidGameSource* game)
 		return;
 	}
 
-	const float speedMultiplyer = 300;
-	float movement = 0;
+	const float speedMultiplyer = 40;
+	float horivontalMovement = 0;
 
 	if (leftInputPressed)
 	{
-		movement = speedMultiplyer * game->deltaTime * -1;
+		horivontalMovement = speedMultiplyer * game->getDeltaTime() * -1;
 		//translateByGridUnit ( -1, 0 );
 	}
 	else if (rightInputPressed)
 	{
-		movement = speedMultiplyer * game->deltaTime * 1;
+		horivontalMovement = speedMultiplyer * game->getDeltaTime() * 1;
 		//translateByGridUnit ( 1, 0 );
 	}
 
-	translate(movement, 0);
+	translate(horivontalMovement, 0);
 
 	// prevent the player going off the edge of the screen
 	if (getGridX() + getWidth() >= game->getScreenWidth())
 	{
-		setGridX(game->getScreenWidth() - 1 - m_width);
+		setGridX(game->getScreenWidth() - m_width);
 	}
 	else if (getGridX() < 0)
 	{

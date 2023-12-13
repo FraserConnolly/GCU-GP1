@@ -4,8 +4,12 @@
 #include "Block.h"
 #include "Paddle.h"
 
-void Ball::onCollision(const GameObject& collision, const Point collisionPoint)
+//#define USE_BALL_DEBUG_VISUAL
+
+void Ball::onCollision(const GameObject& collision, const Point & collisionPoint)
 {
+	Point translation;
+
 	// check if the ball collided with a block or with the ground.
 
 	const Ground * ground = dynamic_cast<const Ground*>(&collision);
@@ -28,17 +32,48 @@ void Ball::onCollision(const GameObject& collision, const Point collisionPoint)
 		}
 		else
 		{
-			// if the point of collision is the left or right most cell of the block
-			// then consider this a side hit
 
-			if (collisionPoint.X == block->getGridX() || collisionPoint.X == block->getGridX() + block->getWidth())
+			if (block->isCorner(collisionPoint))
 			{
-				applyChangeOfDirection(Edge::RIGHT);
+				applyChangeOfDirection(Edge::CORNER);
+			}
+			else if ( block->getGridX() == collisionPoint.X || block->getGridX() + block->getWidth()-1 == collisionPoint.X)
+			{
+				applyChangeOfDirection(Edge::VERTICAL_EDGE);
+			}
+			else if (block->getGridY() == collisionPoint.Y || block->getGridY() + block->getHeight() - 1 == collisionPoint.Y)
+			{
+				applyChangeOfDirection(Edge::HORIZONTAL_EDGE);
 			}
 			else
 			{
-				applyChangeOfDirection(Edge::TOP);
+				// This must be a center piece of the block.
+				// This should never happen, but in this event we will send the ball back in the
+				// direction that it came.
+				applyChangeOfDirection(Edge::RETURN);
 			}
+
+
+			// force the ball to move by a grid unit to prevent duplicate collisions.
+			if (m_xDirection > 0)
+			{
+				translation.X = 1;
+			}
+			else if (m_xDirection < 0)
+			{
+				translation.X = -1;
+			}
+
+			if (m_yDirection > 0)
+			{
+				translation.Y = 1;
+			}
+			else if (m_yDirection < 0)
+			{
+				translation.Y = -1;
+			}
+
+			translateByGridUnit(translation);
 
 		}
 		return;
@@ -48,7 +83,10 @@ void Ball::onCollision(const GameObject& collision, const Point collisionPoint)
 
 	if (paddle != nullptr)
 	{
-		applyChangeOfDirection(Edge::BOTTOM);
+		applyChangeOfDirection(Edge::HORIZONTAL_EDGE);
+		// force the ball to move up by one.
+		translation.Y = - 1;
+		translateByGridUnit(translation);
 	}
 }
 
@@ -61,91 +99,104 @@ void Ball::tick(GameSource* game)
 		return;
 	}
 
-	 m_previousGridPosition.X = getGridX();
+	auto gridPosition = getGridPosition();
+
+	m_previousGridPosition.X = getGridX();
 	m_previousGridPosition.Y = getGridY();
 
-	translate(m_speed * game->deltaTime * m_xDirection, m_speed * game->deltaTime * m_yDirection);
+	translate(m_speed * game->getDeltaTime() * m_xDirection, m_speed * game->getDeltaTime() * m_yDirection);
+
+	// check if the ball has gone out of bounds
 
 	Point screenSize(
-		game->getScreenWidth()-1,
-		game->getScreenHeight()-1
+		game->getScreenWidth() - 1,
+		game->getScreenHeight() - 1
 	);
 
-	if (getGridY() < 0)
+	if (getY() < 0)
 	{
 		// hit the top of the screen
-		setGridY(0);
-		applyChangeOfDirection(Edge::TOP);
-		return;
+		setGridY(1);
+		applyChangeOfDirection(Edge::HORIZONTAL_EDGE);
 	}
-
-	if (getGridY() > screenSize.Y)
+	else if (getGridY() > screenSize.Y)
 	{
 		// shouldn't happen as the ground should have been collided with first.
-		setGridY(screenSize.Y);
 		setActive(false);
-		return;
 	}
-
-	if (getGridX() < 0)
+	else if (getGridX() < 0)
 	{
 		// hit the left edge of the screen
-		setGridX(0);
-		applyChangeOfDirection(Edge::LEFT);
+		setGridX(1);
+		applyChangeOfDirection(Edge::VERTICAL_EDGE);
+	}
+	else if (getGridX() > screenSize.X)
+	{
+		// hit the right edge of the screen
+		setGridX(screenSize.X - 1);
+		applyChangeOfDirection(Edge::VERTICAL_EDGE);
 		return;
 	}
 
-	if (getGridX() > screenSize.X)
+	if (gridPosition != getGridPosition())
 	{
-		// hit the right edge of the screen
-		setGridX(screenSize.X);
-		applyChangeOfDirection(Edge::RIGHT);
-		return;
+		// only update the previous grid position if our grid position has changed this frame.
+		m_previousGridPosition = gridPosition;
 	}
+
+#ifdef USE_BALL_DEBUG_VISUAL
+	if (m_xDirection > 0 && m_yDirection > 0)
+	{
+		// bottom right
+		m_symbol[0].UnicodeChar = 0x251B;
+	}
+	else if (m_xDirection < 0 && m_yDirection < 0)
+	{
+		// top left
+		m_symbol[0].UnicodeChar = 0x250F;
+	}
+	if (m_xDirection > 0 && m_yDirection < 0)
+	{
+		// top right
+		m_symbol[0].UnicodeChar = 0x2513;
+	}
+	else if (m_xDirection < 0 && m_yDirection > 0)
+	{
+		// bottom left
+		m_symbol[0].UnicodeChar = 0x2517;
+	}
+#endif
 }
+
 
 void Ball::applyChangeOfDirection(const Edge edge)
 {
 	// get current direction
-	Point direction(m_xDirection, m_yDirection);
+	FPoint direction(m_xDirection, m_yDirection);
+	auto gridPosition = getGridPosition();
 
 	switch (edge)
 	{
-	case Edge::BOTTOM:
-	case Edge::TOP:
+	case Edge::CORNER:
+		if (m_previousGridPosition.X != gridPosition.X)
+		{
+			direction.X *= -1;
+		}
+
+		if (m_previousGridPosition.Y != gridPosition.Y)
+		{
+			direction.Y *= -1;
+		}
+		break;
+	case Edge::HORIZONTAL_EDGE:
 		direction.Y *= -1;
 		break;
-	case Edge::LEFT:
-	case Edge::RIGHT:
+	case Edge::VERTICAL_EDGE:
 		direction.X *= -1;
 		break;
 	}
 
 	// apply new direction
-	setDirection(direction.X, direction.Y);
-
-	// To prevent multiple collisions without ball appearing to move
-	// force the ball to move by one grid unit.
-	// to do, this requires more testing.
-
-	Point movement(0, 0);
-	if (direction.X > 0)
-	{
-		movement.X = 1;
-	}
-	else if (direction.X < 0)
-	{
-		movement.X = -1;
-	}
-
-	if (direction.Y > 0)
-	{
-		movement.Y = 1;
-	}
-	else if (direction.Y < 0)
-	{
-		movement.Y = -1;
-	}
-
-	translateByGridUnit(movement.X, movement.Y);
+	setDirection(direction);
 }
+

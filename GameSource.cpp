@@ -12,7 +12,7 @@
 
 void GameSource::initaliseGame ( )
 {
-	deltaTimeMs = 0;
+	m_deltaTimeMs = 0;
 	m_frameTimer.start ( );
 	
 	m_stdWindow.setWindow(160, 50);
@@ -34,12 +34,12 @@ void GameSource::initaliseGame ( )
 
 void GameSource::processInput ( )
 {
-	m_keyboardInput.tick ( deltaTime );
+	m_keyboardInput.tick ( m_deltaTime );
 }
 
 void GameSource::updateGame ( )
 {
-	m_musicPlayer.tick ( deltaTimeMs );
+	m_musicPlayer.tick ( m_deltaTimeMs );
 }
 
 /// <summary>
@@ -48,6 +48,12 @@ void GameSource::updateGame ( )
 /// <param name="object">The object to draw.</param>
 void GameSource::drawGameObject ( const GameObject & object )
 {
+	if (!object.getActive())
+	{
+		// don't draw non-active objects.
+		return;
+	}
+
 	m_backBuffer->applyRenderData ( object.getGridX ( ), object.getGridY ( ),
 									object.getWidth ( ), object.getHeight ( ),
 									object.draw ( ) );
@@ -67,7 +73,7 @@ void GameSource::renderFrame ( )
 	{
 		char buffer[4];
 
-		sprintf_s(buffer, "%02d", i);
+		sprintf_s(buffer, "%03d", i);
 
 		m_backBuffer->setCharColour(0, i, CellColour::Fore_Black, CellColour::Back_White);
 		m_backBuffer->setChar(0, i, buffer[0]);
@@ -123,15 +129,16 @@ void GameSource::gameLoop ( )
 		drawGame ( );
 		renderFrame ( );
 		m_frameTimer.restart ( );
-		deltaTimeMs = m_frameTimer.elapsedMilliseconds ( );
-		deltaTime = m_frameTimer.elapsedSeconds ( );
-		gameTime += deltaTime;
+		m_deltaTimeMs = m_frameTimer.elapsedMilliseconds ( );
+		m_deltaTime = m_frameTimer.elapsedSeconds ( );
+		m_gameTime += m_deltaTime;
+		m_frameCount++;
 	}
 }
 
 void GameSource::quit ( )
 {
-	this->m_runLoop = false;
+	m_runLoop = false;
 }
 
 void GameSource::quitKeyPressed ( )

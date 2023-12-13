@@ -19,11 +19,16 @@ public:
 
     virtual void launch ( const Point startGridPosition, const float speed );
     virtual void tick ( GameSource * game );
-    virtual void onCollision ( const GameObject & collision, const Point collisionPoint ) override
+    virtual void onCollision ( const GameObject & collision, const Point & collisionPoint ) override
     {
         GameObject::onCollision ( collision, collisionPoint );
     }
-    
+
+    inline void setDirection(const FPoint & direction)
+    {
+        setDirection(direction.X, direction.Y);
+    }
+
     void setDirection(const float xDirection, const float yDirection)
     {
         m_xDirection = xDirection;

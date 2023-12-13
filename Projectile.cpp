@@ -22,7 +22,7 @@ void Projectile::tick ( GameSource * game )
 		return;
 	}
 
-	translate ( m_speed * game->deltaTime * m_xDirection, m_speed * game->deltaTime * m_yDirection );
+	translate ( m_speed * game->getDeltaTime() * m_xDirection, m_speed * game->getDeltaTime() * m_yDirection );
 
 	if ( outOfBoundsCheck ( game->getScreenWidth ( ), game->getScreenHeight ( ) ) )
 	{

@@ -14,8 +14,8 @@ class GameObject
 {
 public:
 
-	const int CELL_WIDTH  = 8;
-	const int CELL_HEIGHT = 16;
+	const int CELL_WIDTH  = 1;
+	const int CELL_HEIGHT = 2;
 
 	GameObject ( const unsigned int width, const unsigned int height )
 		: m_width ( width ), m_height ( height ),
@@ -56,11 +56,12 @@ public:
 		//		this game is inverted.
 
 		// represent the two objects as rectangles using the top left and bottom right corners
+		// note that height and width must have -1 as anything with a dimension less than 1 will not occupy a grid space.
 		Point l1 ( m_gridX, m_gridY );
-		Point r1 ( m_gridX + ( int ) m_width - 1, m_gridY + ( int ) m_height - 1 );
+		Point r1 ( m_gridX + ( int ) ( m_width - 1 ), m_gridY + ( int ) ( m_height - 1 ) );
 
 		Point l2 ( coll.m_gridX, coll.m_gridY );
-		Point r2 ( coll.m_gridX + ( int ) coll.m_width - 1, coll.m_gridY + ( int ) coll.m_height - 1 );
+		Point r2 ( coll.m_gridX + ( int ) ( coll.m_width - 1 ), coll.m_gridY + ( int ) ( coll.m_height - 1 ) );
 
 		if ( l1.X > r1.X || l1.Y > r1.Y || l2.X > r2.X || l2.Y > r2.Y )
 		{
@@ -68,7 +69,6 @@ public:
 			return false;
 		}
 
-		// note that height and width must have -1 as anything with a dimension less than 1 will not occupy a grid space.
 		if ( l1.X > r2.X || l2.X > r1.X )
 		{
 			// one rectangle is on left side of the other
@@ -89,7 +89,7 @@ public:
 	/// </summary>
 	/// <param name="collision">The other object in the collision.</param>
 	/// <param name="collisionPoint">The grid point where the collision occurred.</param>
-	virtual void onCollision ( const GameObject & collision, const Point collisionPoint )
+	virtual void onCollision ( const GameObject & collision, const Point & collisionPoint )
 	{
 	}
 
@@ -105,27 +105,27 @@ public:
 		return m_width;
 	}
 
-	const float getX ( ) const
+	inline const float getX ( ) const
 	{
 		return m_X;
 	}
 
-	const int getGridX ( ) const
+	inline const int getGridX ( ) const
 	{
 		return m_gridX;
 	}
 
-	const float getY ( ) const
+	inline const float getY ( ) const
 	{
 		return m_Y;
 	}
 
-	const int getGridY ( ) const
+	inline const int getGridY ( ) const
 	{
 		return m_gridY;
 	}
 
-	const Point getGridPosition ( ) const
+	inline const Point getGridPosition ( ) const
 	{
 		return Point ( m_gridX, m_gridY );
 	}
@@ -160,15 +160,25 @@ public:
 		setGridY ( y );
 	}
 
-	inline void setGridPosition ( const Point position )
+	inline void setGridPosition ( const Point & position )
 	{
 		setGridPosition ( position.X, position.Y );
 	}
 
+	inline void translateByGridUnit(const FPoint & translation)
+	{
+		translate(translation.X, translation.Y);
+	}
+	
 	inline void translate ( const float x, const float y )
 	{
 		setX ( m_X + x );
 		setY ( m_Y + y );
+	}
+
+	inline void translateByGridUnit(const Point & translation)
+	{
+		translateByGridUnit(translation.X, translation.Y);
 	}
 
 	inline void translateByGridUnit ( const int x, const int y )

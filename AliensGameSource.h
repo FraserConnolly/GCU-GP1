@@ -67,7 +67,7 @@ private:
 
 	int m_score = 0;
 	int m_level = 0;
-	float m_lastAlienMoveTime = 0;
+	float m_nextAlienMoveTime = 0;
 	float m_alienMoveTimeout = 0;
 
 	void playMuisc ( );

@@ -11,6 +11,9 @@ void ParanoidGameSource::initaliseGame()
 	m_ground.setGridPosition(0, 42);
 
 	m_scoreText.setGridPosition(5, 43);
+	m_ballPositionText.setGridPosition(5, 44);
+	m_ballGridPositionText.setGridPosition(5, 45);
+	m_frameCountText.setGridPosition(5, 46);
 
 	m_keyboardInput.registerKey(VK_SPACE);
 	m_keyboardInput.registerKey(VK_LEFT);
@@ -73,9 +76,7 @@ void ParanoidGameSource::updateGame ( )
 
 	for (Ball& ball : m_balls)
 	{
-		bool hasCollided = false;
-
-		if (!ball.getActive())
+		if ( !ball.getActive( ) )
 		{
 			continue;
 		}
@@ -103,7 +104,9 @@ void ParanoidGameSource::updateGame ( )
 			}
 		}
 
-		if (!ball.getActive())
+		// re-check if the ball is active as it may have been deactivated by a collision with a block.
+
+		if ( !ball.getActive( ) )
 		{
 			continue;
 		}
@@ -133,12 +136,23 @@ void ParanoidGameSource::updateGame ( )
 		}
 	}
 
+	m_scoreText.updateText(m_score);
+	m_ballPositionText.updateText(m_balls[0].getX(), m_balls[0].getY());
+	m_ballGridPositionText.updateText(m_balls[0].getGridX(), m_balls[0].getGridY());
+	m_frameCountText.updateText(getFrameCount());
+
 }
 
 void ParanoidGameSource::drawGame()
 {
 	// populate the back buffer
 	pRenderCellData toBeDrawn = nullptr;
+
+	// Draw player
+	drawGameObject(m_paddle);
+
+	// Draw ground
+	drawGameObject(m_ground);
 
 	// Draw blocks
 	GameSource::drawObjectsInArray(m_blocks, BLOCK_MAX_COUNT);
@@ -149,25 +163,11 @@ void ParanoidGameSource::drawGame()
 	// Draw power ups
 	GameSource::drawObjectsInArray(m_powerUps, POWER_UP_MAX_COUNT);
 
-	// Draw player
-	if (m_paddle.getActive())
-	{
-		drawGameObject(m_paddle);
-	}
-
-	// Draw ground
-	if (m_ground.getActive())
-	{
-		drawGameObject(m_ground);
-	}
-
 	// Draw UI
-	m_scoreText.updateText(m_score);
-	if (m_scoreText.getActive())
-	{
-		drawGameObject(m_scoreText);
-	}
-
+	drawGameObject(m_scoreText);
+	drawGameObject(m_frameCountText);
+	drawGameObject(m_ballGridPositionText);
+	drawGameObject(m_ballPositionText);
 }
 
 void ParanoidGameSource::startLevel()
@@ -178,7 +178,7 @@ void ParanoidGameSource::startLevel()
 		return;
 	}
 
-	m_levelStartTime = gameTime;
+	m_levelStartTime = getGameTime();
 
 	Ball* firstBall = getAvilableBall();
 
@@ -241,12 +241,118 @@ void ParanoidGameSource::initaliseLevel( )
 
 		for (int i = 0, c = 0; c < 15; c++)
 		{
+			for (int r = 0; r < 5; r++, i++)
+			{
+				if (c < 8)
+				{
+					m_blocks[i].setGridPosition(10 + (c * m_blocks[i].getWidth()), 5 + (r * m_blocks[i].getHeight()));
+				}
+				else
+				{
+					m_blocks[i].setGridPosition(30 + (c * m_blocks[i].getWidth()), 5 + (r * m_blocks[i].getHeight()));
+				}
+
+				switch (i % 6)
+				{
+				default:
+					colour = CellColour::Fore_Red;
+					break;
+				case 1:
+					colour = CellColour::Fore_Green;
+					break;
+				case 2:
+					colour = CellColour::Fore_Blue;
+					break;
+				case 3:
+					colour = CellColour::Fore_Magenta;
+					break;
+				case 4:
+					colour = CellColour::Fore_Cyan;
+					break;
+				case 5:
+					colour = CellColour::Fore_Yellow;
+					break;
+				case 6:
+					colour = CellColour::Fore_White;
+					break;
+				}
+
+				m_blocks[i].setColour(colour);
+				m_blocks[i].setActive(true);
+			}
+		}
+
+		break;
+	case 1:
+		for (int i = 0, c = 0; c < 15; c++)
+		{
+			for (int r = 0; r < 5; r++, i++)
+			{
+				m_blocks[i].setGridPosition(20 + (c * m_blocks[i].getWidth()+1), 4 + (r * (m_blocks[i].getHeight()+3)));
+
+				switch (r % 5)
+				{
+				default:
+					colour = CellColour::Fore_Red;
+					break;
+				case 1:
+					colour = CellColour::Fore_Green;
+					break;
+				case 2:
+					colour = CellColour::Fore_Blue;
+					break;
+				case 3:
+					colour = CellColour::Fore_Magenta;
+					break;
+				case 4:
+					colour = CellColour::Fore_Cyan;
+					break;
+				case 5:
+					colour = CellColour::Fore_Yellow;
+					break;
+				case 6:
+					colour = CellColour::Fore_White;
+					break;
+				}
+
+				m_blocks[i].setColour(colour);
+				m_blocks[i].setDamage(0);
+				m_blocks[i].setActive(true);
+			}
+		}
+		
+		break;
+	case 2:
+
+		int x, y, sectionIndex;
+		sectionIndex = 0;
+		x = 0;
+		
+		for (int i = 0, c = 0; c < 12; c++)
+		{
+			if (c % 3 == 0)
+			{
+				x += 10;
+			}
+
+			y = 0;
+
 			for (int r = 0; r < 6; r++, i++)
 			{
-				m_blocks[i].setActive(true);
-				m_blocks[i].setGridPosition(5 + (c * m_blocks[i].getWidth()), 5 + (r* m_blocks[i].getHeight()));
 
-				switch (i % 7)
+				if ( ! ( r % 2 ) )
+				{
+					y += 3;
+				}
+
+				if (i % 6 == 0 )
+				{
+					sectionIndex++;
+				}
+
+				m_blocks[i].setGridPosition(5 + (c * m_blocks[i].getWidth() + 2) + x, 2 + (r * (m_blocks[i].getHeight())) + y);
+
+				switch (sectionIndex % 7)
 				{
 				default:
 					colour = CellColour::Fore_Red;
@@ -272,30 +378,13 @@ void ParanoidGameSource::initaliseLevel( )
 				}
 
 
-				m_blocks[i].setColour(colour);
-			}
-		}
 
-		break;
-	case 1:
-		for (int i = 0, c = 0; c < 15; c++)
-		{
-			for (int r = 0; r < 6; r++, i++)
-			{
+				m_blocks[i].setColour(colour);
+				m_blocks[i].setDamage(0);
 				m_blocks[i].setActive(true);
-				m_blocks[i].setGridPosition(5 + (c * m_blocks[i].getWidth()+1), 5 + (r * (m_blocks[i].getHeight()+1)));
 			}
-		}
-		
-		break;
-	case 2:
-		for (int i = 0, c = 0; c < 15; c++)
-		{
-			for (int r = 0; r < 6; r++, i++)
-			{
-				m_blocks[i].setActive(true);
-				m_blocks[i].setGridPosition(5 + (c * m_blocks[i].getWidth()+2), 5 + ( r * 3 ));
-			}
+
+
 		}
 		
 		break;
