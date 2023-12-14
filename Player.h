@@ -20,7 +20,7 @@ public:
 		// first row
 		m_symbol[0].AsciiChar = ' ';
 		m_symbol[1].AsciiChar = ' ';
-		m_symbol[2].AsciiChar = 'A';
+		m_symbol[2].UnicodeChar = 0x25B2;
 		m_symbol[3].AsciiChar = ' ';
 		m_symbol[4].AsciiChar = ' ';
 		// second row

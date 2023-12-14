@@ -51,13 +51,13 @@ public:
 		// third row
 		m_symbol [ 10 ].AsciiChar = ' ';
 		m_symbol [ 11 ].AsciiChar = ' ';
-		m_symbol [ 12 ].AsciiChar = 'V';
+		m_symbol [ 12 ].UnicodeChar = 0x25BC;
 		m_symbol [ 13 ].AsciiChar = ' ';
 		m_symbol [ 14 ].AsciiChar = ' ';
 
 		for ( size_t i = 0; i < (size_t) ( m_width * m_height ); i++ )
 		{
-			m_symbol [ i ].Attributes = CellColour::Fore_Red;
+			m_symbol [ i ].Attributes = CellColour::Fore_White;
 		}
 	}
 

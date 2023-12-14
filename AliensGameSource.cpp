@@ -89,6 +89,22 @@ void AliensGameSource::updateGame()
 		return;
 	}
 
+	for ( Alien & alien : m_aliens )
+	{
+		if ( !alien.getActive ( ) )
+		{
+			continue;
+		}
+
+		if ( alien.getGridY ( ) + alien.getHeight( ) -1  >= ALIEN_GOAL_ROW )
+		{
+			// level over - lose
+			// one of the aliens reached their goal line.
+			GameSource::quit ( );
+			return;
+		}
+	}
+
 	// update game objects
 
 	m_player.tick ( this );
@@ -188,39 +204,43 @@ void AliensGameSource::updateGame()
 
 		if ( bomb.hasCollided ( m_player ) )
 		{
-			m_player.setActive ( false );
+			bomb.onCollision ( m_player, bomb.getGridPosition ( ) );
+			m_player.onCollision ( bomb, bomb.getGridPosition( ) );
+		}
+
+		if ( bomb.hasCollided ( m_ground ) )
+		{
+			bomb.onCollision ( m_ground, bomb.getGridPosition( ) );
 		}
 	}
+	
+	// Update UI
+	m_scoreText.updateText ( m_score );
 
 }
 
 void AliensGameSource::drawGame ( )
 {
-	// populate the back buffer
-	pRenderCellData toBeDrawn = nullptr;
+	// Draw barrier
+	GameSource::drawObjectsInArray ( m_barriers, BARRIER_COUNT_MAX );
 
 	// Draw Aliens
 	GameSource::drawObjectsInArray ( m_aliens, ALIEN_COUNT );
 
-	// Draw barrier
-	GameSource::drawObjectsInArray ( m_barriers, BARRIER_COUNT_MAX );
+	// Draw bombs
+	GameSource::drawObjectsInArray ( m_bombs, BOMB_COUNT_MAX );
 
 	// Draw lasers
 	GameSource::drawObjectsInArray ( m_lasers, LASER_COUNT_MAX );
 
-	// Draw bombs
-	GameSource::drawObjectsInArray ( m_bombs, BOMB_COUNT_MAX );
-
-	// Draw player
-	drawGameObject ( m_player );
-	
 	// Draw ground
 	drawGameObject ( m_ground );
 
-	// Draw UI
-	m_scoreText.updateText ( m_score );
-	drawGameObject ( m_scoreText );
+	// Draw player
+	drawGameObject ( m_player );
 
+	// Draw UI
+	drawGameObject ( m_scoreText );
 }
 
 void AliensGameSource::playMuisc ( )
@@ -357,7 +377,7 @@ void AliensGameSource::updateEdgeAlienPointers()
 
 void AliensGameSource::setBarrierPositions ( )
 { 
-	int xOffset = 10;
+	int xOffset = BARRIER_BLOCK_EDGE_PADDING;
 	for ( int b = 0; b < BARRIER_BLOCK_COUNT; b++ )
 	{
 
@@ -427,7 +447,7 @@ void AliensGameSource::tryDropBomb()
 		int randomIndex = ((double)rand() / RAND_MAX) * (ALIEN_COUNT - 0);
 
 		// note that the alien at this index in the array may not be 
-		// active so incrmement the random index until an alive alien is found.
+		// active so increment the random index until an alive alien is found.
 
 		Alien* alien = nullptr;
 
@@ -453,14 +473,17 @@ void AliensGameSource::tryDropBomb()
 			return;
 		}
 
+		// spawn point for the bomb.
 		Point startPosition = alien->getGridPosition();
 		startPosition.X += 2;
-		startPosition.Y += +1;
+		startPosition.Y += 2;
 
 		bomb->launch(startPosition, BOMB_SPEED);
 
-		float bombTimeout = BOMB_DROP_TIMEOUT_MAX;
-		// to do get a value between a random range.
+		// get a random delay between the minimum and maximum delay range.
+		float bombTimeout =
+			( ( double ) rand ( ) / RAND_MAX ) * 
+			( BOMB_DROP_TIMEOUT_MAX - BOMB_DROP_TIMEOUT_MIN ) + BOMB_DROP_TIMEOUT_MIN;
 
 		m_nextAlienBomb = getGameTime() + bombTimeout;
 	}

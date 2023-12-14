@@ -10,8 +10,8 @@ class Laser
 public : 
 	Laser ( ) : Projectile ( 0, -1 )
 	{
-		m_symbol [ 0 ].AsciiChar = '^';
-		m_symbol [ 0 ].Attributes = CellColour::Fore_Yellow | CellColour::Back_Black;
+		m_symbol [ 0 ].UnicodeChar = 0x25CF;
+		m_symbol [ 0 ].Attributes = CellColour::Fore_Green;
 	}
 
 	// Inherited via GameObject
