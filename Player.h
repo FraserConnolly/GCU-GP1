@@ -13,10 +13,6 @@ public:
 	Player ( ) : GameObject ( 5, 3 )
 	{ 
 
-		//    A
-		//  |/|\|
-		//  / | \
-
 		// first row
 		m_symbol[0].AsciiChar = ' ';
 		m_symbol[1].AsciiChar = ' ';

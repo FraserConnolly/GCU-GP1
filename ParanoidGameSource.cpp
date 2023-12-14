@@ -71,6 +71,11 @@ void ParanoidGameSource::updateGame ( )
 	{
 		ball.tick(this);
 	}
+	
+	for ( PowerUp & powerUp : m_powerUps )
+	{
+		powerUp.tick ( this );
+	}
 
 	// check for collisions
 
@@ -93,6 +98,7 @@ void ParanoidGameSource::updateGame ( )
 				// collision
 				ball .onCollision(block, ball.getGridPosition());
 				block.onCollision(ball,  ball.getGridPosition());
+				tryLaunchPowerUp ( ball.getGridPosition ( ) );
 				m_score += 10;
 
 				if (!block.getActive())
@@ -129,10 +135,39 @@ void ParanoidGameSource::updateGame ( )
 			continue;
 		}
 
-		if (powerUp.hasCollided(m_paddle))
+		if ( powerUp.hasCollided ( m_paddle ) )
 		{
-			powerUp.setActive(false);
-			m_paddle.applyPowerUp(powerUp.getPowerUp());
+			powerUp.onCollision ( m_paddle, powerUp.getGridPosition ( ) );
+			
+			if ( powerUp.getPowerUp ( ) == POWER_UP_TYPE::BALL_MULTIPLY )
+			{
+				for ( Ball & ball : m_balls )
+				{
+					if ( !ball.getActive ( ) )
+					{
+						continue;
+					}
+
+					Ball * newBall = getAvilableBall ( );
+
+					if ( newBall != nullptr )
+					{
+						FPoint direction = ball.getDirection ( );
+						direction *= -1;
+						newBall->setDirection ( direction );
+						newBall->launch ( ball.getGridPosition ( ), BALL_STARTING_SPEED );
+					}
+				}
+			}
+			else
+			{
+				m_paddle.applyPowerUp ( powerUp.getPowerUp ( ), this );
+
+				for ( Ball & ball : m_balls )
+				{
+					ball.applyPowerUp ( powerUp.getPowerUp ( ), this );
+				}
+			}
 		}
 	}
 
@@ -377,14 +412,10 @@ void ParanoidGameSource::initaliseLevel( )
 					break;
 				}
 
-
-
 				m_blocks[i].setColour(colour);
 				m_blocks[i].setDamage(0);
 				m_blocks[i].setActive(true);
 			}
-
-
 		}
 		
 		break;
@@ -403,6 +434,22 @@ void ParanoidGameSource::initaliseLevel( )
 
 	// to do disable any power ups
 	m_paddle.resetPowerUps();
+}
+
+void ParanoidGameSource::tryLaunchPowerUp ( const Point & launchPoint )
+{ 
+	PowerUp * powerUp = getAvilablePowerUp ( );
+
+	if ( powerUp == nullptr )
+	{
+		// no available power ups.
+		return;
+	}
+
+	int randomPowerUp = ( ( ( double ) rand ( ) / RAND_MAX ) * ( (int) POWER_UP_TYPE::POWER_UP_COUNT - 0 ) );
+
+	powerUp->setPowerUp ( ( POWER_UP_TYPE ) randomPowerUp );
+	powerUp->launch ( launchPoint, POWER_UP_SPEED );
 }
 
 void ParanoidGameSource::playMuisc( )

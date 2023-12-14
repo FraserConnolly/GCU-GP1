@@ -35,6 +35,11 @@ public:
         m_yDirection = yDirection;
     }
 
+    FPoint getDirection ( ) const
+    {
+        return FPoint ( m_xDirection, m_yDirection );
+    }
+
     void setSpeed(const float speed)
     {
         m_speed = speed;

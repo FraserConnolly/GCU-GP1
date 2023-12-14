@@ -9,6 +9,10 @@ enum Edge
 	VERTICAL_EDGE		
 };
 
+#define POWER_UP_DURATION 5.0
+
+class ParanoidGameSource;
+enum class POWER_UP_TYPE;
 
 class Ball :
     public Projectile
@@ -32,6 +36,9 @@ public:
 
 	void onCollision(const GameObject& collision, const Point& collisionPoint) override;
 	void tick(GameSource* game) override;
+	
+	void applyPowerUp ( const POWER_UP_TYPE type, ParanoidGameSource * const game );
+	void resetPowerUps ( );
 
 private:
 	RenderCellData m_symbol[1];
@@ -40,6 +47,8 @@ private:
 	// above, below, left or right of the ball.
 	Point m_previousGridPosition;
 	bool m_penetrate = false;
+	bool m_powerUpApplied = false;
+	float m_powerUpResetTime = 0;
 
 	void applyChangeOfDirection(const Edge edge);
 };

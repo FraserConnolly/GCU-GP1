@@ -4,12 +4,21 @@
 enum class POWER_UP_TYPE
 {
 	UNSET,
+	
 	SPEED_INCREASE,
 	SPEED_DECREASE,
 	PADDLE_INCREASE,
 	PADDLE_DECREASE,
 	BALL_MULTIPLY,
 	BALL_PENETRATE,
+
+	NO_POWER_UP,
+	NO_POWER_UP_02,
+	NO_POWER_UP_03,
+	NO_POWER_UP_04,
+	NO_POWER_UP_05,
+
+	POWER_UP_COUNT
 };
 
 class PowerUp :
@@ -38,16 +47,9 @@ public:
 	/// Must be called before launch.
 	/// </summary>
 	/// <param name="type">The type of power up this projectile should be.</param>
-	void setPowerUp( const POWER_UP_TYPE type )
-	{
-		if (m_active)
-		{
-			// can not change power up type on an active power up.
-			return;
-		}
+	void setPowerUp( const POWER_UP_TYPE type );
 
-		m_powerUpType = type;
-	}
+	virtual void launch ( const Point startGridPosition, const float speed ) override;
 
 	const POWER_UP_TYPE getPowerUp() const
 	{

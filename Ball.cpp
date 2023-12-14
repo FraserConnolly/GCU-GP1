@@ -3,6 +3,7 @@
 #include "Ground.h"
 #include "Block.h"
 #include "Paddle.h"
+#include "ParanoidGameSource.h"
 
 //#define USE_BALL_DEBUG_VISUAL
 
@@ -33,24 +34,24 @@ void Ball::onCollision(const GameObject& collision, const Point & collisionPoint
 		else
 		{
 
-			if (block->isCorner(collisionPoint))
+			if ( block->isCorner ( collisionPoint ) )
 			{
-				applyChangeOfDirection(Edge::CORNER);
+				applyChangeOfDirection ( Edge::CORNER );
 			}
-			else if ( block->getGridX() == collisionPoint.X || block->getGridX() + block->getWidth()-1 == collisionPoint.X)
+			else if ( block->getGridX ( ) == collisionPoint.X || block->getGridX ( ) + block->getWidth ( ) - 1 == collisionPoint.X )
 			{
-				applyChangeOfDirection(Edge::VERTICAL_EDGE);
+				applyChangeOfDirection ( Edge::VERTICAL_EDGE );
 			}
-			else if (block->getGridY() == collisionPoint.Y || block->getGridY() + block->getHeight() - 1 == collisionPoint.Y)
+			else if ( block->getGridY ( ) == collisionPoint.Y || block->getGridY ( ) + block->getHeight ( ) - 1 == collisionPoint.Y )
 			{
-				applyChangeOfDirection(Edge::HORIZONTAL_EDGE);
+				applyChangeOfDirection ( Edge::HORIZONTAL_EDGE );
 			}
 			else
 			{
-				// This must be a center piece of the block.
+				// collisionPoint must be a center piece of the block.
 				// This should never happen, but in this event we will send the ball back in the
 				// direction that it came.
-				applyChangeOfDirection(Edge::RETURN);
+				applyChangeOfDirection ( Edge::RETURN );
 			}
 
 
@@ -97,6 +98,11 @@ void Ball::tick(GameSource* game)
 	if (!m_active)
 	{
 		return;
+	}
+
+	if ( m_powerUpApplied && game->getGameTime ( ) > m_powerUpResetTime )
+	{
+		resetPowerUps ( );
 	}
 
 	auto gridPosition = getGridPosition();
@@ -167,6 +173,28 @@ void Ball::tick(GameSource* game)
 	}
 #endif
 }
+
+void Ball::applyPowerUp ( const POWER_UP_TYPE type, ParanoidGameSource * const game )
+{
+	switch ( type )
+	{
+		case POWER_UP_TYPE::BALL_PENETRATE:
+			m_penetrate = true;
+			break;
+		default:
+			return;
+	}
+
+	m_powerUpApplied = true;
+	m_powerUpResetTime = game->getGameTime ( ) + POWER_UP_DURATION;
+}
+
+void Ball::resetPowerUps ( )
+{ 
+	m_penetrate = false;
+	m_powerUpApplied = false;
+}
+
 
 
 void Ball::applyChangeOfDirection(const Edge edge)

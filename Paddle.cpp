@@ -1,23 +1,53 @@
 #include "ParanoidGameSource.h"
 #include "Paddle.h"
 
-void Paddle::tick(ParanoidGameSource* game)
+void Paddle::tick(ParanoidGameSource * const game)
 {
+	if ( m_powerUpApplied && game->getGameTime ( ) > m_powerUpResetTime )
+	{
+		resetPowerUps ( );
+	}
+
 	processMovement(game);
 	processInput(game);
 }
 
-void Paddle::applyPowerUp(const POWER_UP_TYPE type)
+void Paddle::applyPowerUp(const POWER_UP_TYPE type, ParanoidGameSource * const game )
 {
-	// to do
+	switch ( type )
+	{
+		case POWER_UP_TYPE::PADDLE_DECREASE:
+			m_width = PADDLE_WIDTH_SMALL;
+			break;
+
+		case POWER_UP_TYPE::PADDLE_INCREASE:
+			m_width = PADDLE_WIDTH_LARGE;
+			break;
+
+		case POWER_UP_TYPE::SPEED_DECREASE:
+			m_speed = PADDLE_SPEED - ( PADDLE_SPEED * PADDLE_SPEED_POWER_UP_MULTIPLYER );
+			break;
+		
+		case POWER_UP_TYPE::SPEED_INCREASE:
+			m_speed = PADDLE_SPEED + ( PADDLE_SPEED * PADDLE_SPEED_POWER_UP_MULTIPLYER );
+			break;
+
+		default:
+			return;
+	}
+
+	m_powerUpApplied = true;
+	m_powerUpResetTime = game->getGameTime ( ) + POWER_UP_DURATION;
 }
 
 void Paddle::resetPowerUps()
 {
-	// to do
+	m_powerUpApplied = false;
+	m_width = PADDLE_WIDTH_NORMAL;
+	m_speed = PADDLE_SPEED;
 }
 
-void Paddle::processMovement(ParanoidGameSource* game)
+void Paddle::processMovement(ParanoidGameSource * const game)
 {
 	bool leftInputPressed = game->m_keyboardInput.isPressed(VK_LEFT);
 	bool rightInputPressed = game->m_keyboardInput.isPressed(VK_RIGHT);
@@ -55,7 +85,7 @@ void Paddle::processMovement(ParanoidGameSource* game)
 
 }
 
-void Paddle::processInput(ParanoidGameSource* game)
+void Paddle::processInput(ParanoidGameSource * const game)
 {
 	if (game->getHasStarted())
 	{

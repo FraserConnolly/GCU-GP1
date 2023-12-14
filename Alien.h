@@ -32,10 +32,6 @@ public:
 
 	Alien ( ) : GameObject ( 5, 3 )
 	{
-		//  \ | /
-		//  |\|/|
-		//    V
-
 		// first row
 		m_symbol [ 0 ].AsciiChar = '\\';
 		m_symbol [ 1 ].AsciiChar = ' ';

@@ -8,10 +8,12 @@
 #include "UiText.h"
 
 #define BLOCK_MAX_COUNT 100
+
 #define BALL_MAX_COUNT 10
-#define POWER_UP_MAX_COUNT 10
 #define BALL_STARTING_SPEED 20
 
+#define POWER_UP_MAX_COUNT 10
+#define POWER_UP_SPEED 18
 
 class ParanoidGameSource :
 	public GameSource
@@ -49,6 +51,9 @@ protected:
 
 private:
 
+	/* Game specific member functions */
+	void tryLaunchPowerUp ( const Point & launchPoint );
+
 	/* Game specific member variables */
 	Paddle  m_paddle;
 	Block   m_blocks   [ BLOCK_MAX_COUNT    ];
@@ -65,7 +70,7 @@ private:
 
 
 	int m_score = 0;
-	int m_level = 0;
+	int m_level = 1;
 	float m_levelStartTime = 0;
 
 	void playMuisc( );
