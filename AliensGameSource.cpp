@@ -210,23 +210,14 @@ void AliensGameSource::drawGame ( )
 	GameSource::drawObjectsInArray ( m_bombs, BOMB_COUNT_MAX );
 
 	// Draw player
-	if ( m_player.getActive ( ) )
-	{
-		drawGameObject ( m_player );
-	}
-
+	drawGameObject ( m_player );
+	
 	// Draw ground
-	if ( m_ground.getActive ( ) )
-	{
-		drawGameObject ( m_ground );
-	}
+	drawGameObject ( m_ground );
 
 	// Draw UI
 	m_scoreText.updateText ( m_score );
-	if ( m_scoreText.getActive ( ) )
-	{
-		drawGameObject ( m_scoreText );
-	}
+	drawGameObject ( m_scoreText );
 
 }
 
