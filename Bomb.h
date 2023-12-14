@@ -8,10 +8,11 @@ class Bomb
 	: public Projectile
 {
 public:
+
 	Bomb ( ) : Projectile( 0, 1 )
 	{ 
 		m_symbol [ 0 ].AsciiChar = '!';
-		m_symbol [ 0 ].Attributes = CellColour::Fore_Red | CellColour::Back_Black;
+		m_symbol [ 0 ].Attributes = CellColour::Fore_Red;
 	}
 
 	// Inherited via GameObject

@@ -26,6 +26,11 @@ public:
 		return (pRenderCellData) m_symbol;
 	};
 
+	void onCollision(const GameObject& collision, const Point& collisionPoint) override
+	{
+		setActive(false);
+	}
+
 private:
 	RenderCellData m_symbol [ BARRIER_CELL_WIDTH * BARRIER_CELL_HEIGHT ];
 };

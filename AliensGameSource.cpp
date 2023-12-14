@@ -1,4 +1,5 @@
 #include "AliensGameSource.h"
+#include <random>
 
 void AliensGameSource::initaliseGame ( )
 {
@@ -93,6 +94,7 @@ void AliensGameSource::updateGame()
 	m_player.tick ( this );
 
 	setAlienPositions ( );
+	tryDropBomb( );
 
 	for ( Laser & laser : m_lasers )
 	{
@@ -198,7 +200,7 @@ void AliensGameSource::drawGame ( )
 	pRenderCellData toBeDrawn = nullptr;
 
 	// Draw Aliens
-	GameSource::drawObjectsInArray ( m_aliens, ALIENT_COUNT );
+	GameSource::drawObjectsInArray ( m_aliens, ALIEN_COUNT );
 
 	// Draw barrier
 	GameSource::drawObjectsInArray ( m_barriers, BARRIER_COUNT_MAX );
@@ -406,6 +408,63 @@ void AliensGameSource::setBarrierPositions ( )
 			}
 		}
 	}
+}
+
+void AliensGameSource::tryDropBomb()
+{
+
+	if (getGameTime() > m_nextAlienBomb)
+	{
+		auto bomb = getAvilableBomb();
+
+		if (bomb == nullptr)
+		{
+			// no available bombs
+			return;
+		}
+
+		// get a random alien to drop the bomb
+		int randomIndex = ((double)rand() / RAND_MAX) * (ALIEN_COUNT - 0);
+
+		// note that the alien at this index in the array may not be 
+		// active so incrmement the random index until an alive alien is found.
+
+		Alien* alien = nullptr;
+
+		for ( int i = 0 ; i < ALIEN_COUNT ; i++ )
+		{
+			Alien & a = m_aliens[ randomIndex ];
+			
+			if ( a.getActive( ) )
+			{
+				alien = &a;
+				break;
+			}
+
+			randomIndex++;
+			randomIndex %= ALIEN_COUNT;
+		}
+
+		if (alien == nullptr)
+		{
+			// Failed to find an active alien. 
+			// This shouldn't happen as the game should have finished before 
+			// calling this method.
+			return;
+		}
+
+		Point startPosition = alien->getGridPosition();
+		startPosition.X += 2;
+		startPosition.Y += +1;
+
+		bomb->launch(startPosition, BOMB_SPEED);
+
+		float bombTimeout = BOMB_DROP_TIMEOUT_MAX;
+		// to do get a value between a random range.
+
+		m_nextAlienBomb = getGameTime() + bombTimeout;
+	}
+
 }
 
 Laser * const AliensGameSource::getAvilableLaser ( )
