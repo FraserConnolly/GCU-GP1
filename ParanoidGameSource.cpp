@@ -280,60 +280,14 @@ PowerUp* const ParanoidGameSource::getAvilablePowerUp()
 void ParanoidGameSource::initaliseLevel ( )
 {
 	// set the position of each block depending on which level is loading.
-	int levelIndex = m_level % 3; // 3 == number of levels
+	int levelIndex = m_level % 3; // 3 == number of playable levels
 	CellColour colour;
 
 	switch ( levelIndex )
 	{
 		default:
 		case 0:
-
-			for ( int i = 0, c = 0; c < 15; c++ )
-			{
-				for ( int r = 0; r < 5; r++, i++ )
-				{
-					if ( c < 8 )
-					{
-						m_blocks [ i ].setGridPosition ( 10 + ( c * m_blocks [ i ].getWidth ( ) ), 5 + ( r * m_blocks [ i ].getHeight ( ) ) );
-					}
-					else
-					{
-						m_blocks [ i ].setGridPosition ( 30 + ( c * m_blocks [ i ].getWidth ( ) ), 5 + ( r * m_blocks [ i ].getHeight ( ) ) );
-					}
-
-					switch ( i % 6 )
-					{
-						default:
-							colour = CellColour::Fore_Red;
-							break;
-						case 1:
-							colour = CellColour::Fore_Green;
-							break;
-						case 2:
-							colour = CellColour::Fore_Blue;
-							break;
-						case 3:
-							colour = CellColour::Fore_Magenta;
-							break;
-						case 4:
-							colour = CellColour::Fore_Cyan;
-							break;
-						case 5:
-							colour = CellColour::Fore_Yellow;
-							break;
-						case 6:
-							colour = CellColour::Fore_White;
-							break;
-					}
-
-					m_blocks [ i ].setDamage ( 0 );
-					m_blocks [ i ].setColour ( colour );
-					m_blocks [ i ].setActive ( true );
-				}
-			}
-
-			break;
-		case 1:
+		{
 			for ( int i = 0, c = 0; c < 15; c++ )
 			{
 				for ( int r = 0; r < 5; r++, i++ )
@@ -372,8 +326,9 @@ void ParanoidGameSource::initaliseLevel ( )
 			}
 
 			break;
-		case 2:
-
+		}
+		case 1:
+		{
 			int x, y, sectionIndex;
 			sectionIndex = 0;
 			x = 0;
@@ -434,8 +389,57 @@ void ParanoidGameSource::initaliseLevel ( )
 			}
 
 			break;
-		case 3: // test level - not in release game
+		}
+		case 2:
+		{
+			for ( int i = 0, c = 0; c < 15; c++ )
+			{
+				for ( int r = 0; r < 5; r++, i++ )
+				{
+					if ( c < 8 )
+					{
+						m_blocks [ i ].setGridPosition ( 10 + ( c * m_blocks [ i ].getWidth ( ) ), 5 + ( r * m_blocks [ i ].getHeight ( ) ) );
+					}
+					else
+					{
+						m_blocks [ i ].setGridPosition ( 30 + ( c * m_blocks [ i ].getWidth ( ) ), 5 + ( r * m_blocks [ i ].getHeight ( ) ) );
+					}
 
+					switch ( i % 6 )
+					{
+						default:
+							colour = CellColour::Fore_Red;
+							break;
+						case 1:
+							colour = CellColour::Fore_Green;
+							break;
+						case 2:
+							colour = CellColour::Fore_Blue;
+							break;
+						case 3:
+							colour = CellColour::Fore_Magenta;
+							break;
+						case 4:
+							colour = CellColour::Fore_Cyan;
+							break;
+						case 5:
+							colour = CellColour::Fore_Yellow;
+							break;
+						case 6:
+							colour = CellColour::Fore_White;
+							break;
+					}
+
+					m_blocks [ i ].setDamage ( 0 );
+					m_blocks [ i ].setColour ( colour );
+					m_blocks [ i ].setActive ( true );
+				}
+			}
+
+			break;
+		}
+		case 3: // test level - not in release game
+		{
 			for ( int i = 0, c = 0; c < 1; c++ )
 			{
 				m_blocks [ i ].setGridPosition ( 50 + ( c * m_blocks [ i ].getWidth ( ) + 2 ), 30 + ( ( m_blocks [ i ].getHeight ( ) ) ) );
@@ -445,6 +449,7 @@ void ParanoidGameSource::initaliseLevel ( )
 			}
 
 			break;
+		}
 	}
 
 	// disable all balls and power ups
@@ -459,7 +464,6 @@ void ParanoidGameSource::initaliseLevel ( )
 		powerUps.setActive ( false );
 	}
 
-	// to do disable any power ups
 	m_paddle.resetPowerUps ( );
 	m_levelStartTime = 0;
 }
