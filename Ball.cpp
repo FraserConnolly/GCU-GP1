@@ -186,11 +186,13 @@ void Ball::applyPowerUp ( const POWER_UP_TYPE type, ParanoidGameSource * const g
 	}
 
 	m_powerUpApplied = true;
-	m_powerUpResetTime = game->getGameTime ( ) + POWER_UP_DURATION;
+	m_symbol [ 0 ].UnicodeChar = BALL_SYMBOL_PENETRATE;
+	m_powerUpResetTime = game->getGameTime ( ) + POWER_UP_PENETRATION_DURATION;
 }
 
 void Ball::resetPowerUps ( )
 { 
+	m_symbol [ 0 ].UnicodeChar = BALL_SYMBOL_NORMAL;
 	m_penetrate = false;
 	m_powerUpApplied = false;
 }

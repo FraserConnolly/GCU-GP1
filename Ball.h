@@ -9,7 +9,10 @@ enum Edge
 	VERTICAL_EDGE		
 };
 
-#define POWER_UP_DURATION 5.0
+#define POWER_UP_PENETRATION_DURATION 10.0
+
+#define BALL_SYMBOL_NORMAL    0x25CF // Bullet 
+#define BALL_SYMBOL_PENETRATE 0x25CC // hollow circle
 
 class ParanoidGameSource;
 enum class POWER_UP_TYPE;
@@ -21,10 +24,7 @@ public:
 	Ball( ) : Projectile(0, 0)
 	{
 
-		m_symbol[0].UnicodeChar = 0x25CF; // Bullet 
-		// 0x2022 small bullet 
-		// 0x25CC hollow circle 
-		// 0x20DD circle
+		m_symbol[0].UnicodeChar = BALL_SYMBOL_NORMAL; 
 		m_symbol[0].Attributes = CellColour::Fore_White;
 	}
 

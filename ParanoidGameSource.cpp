@@ -11,14 +11,11 @@ void ParanoidGameSource::initaliseGame()
 	m_ground.setGridPosition(0, 42);
 
 	m_scoreText.setGridPosition(5, 43);
-	m_ballPositionText.setGridPosition(5, 44);
-	m_ballGridPositionText.setGridPosition(5, 45);
 	m_frameCountText.setGridPosition(5, 46);
 
 	m_keyboardInput.registerKey(VK_SPACE);
 	m_keyboardInput.registerKey(VK_LEFT);
 	m_keyboardInput.registerKey(VK_RIGHT);
-
 }
 
 void ParanoidGameSource::updateGame ( )
@@ -60,6 +57,8 @@ void ParanoidGameSource::updateGame ( )
 		if (allBlocksDestroyed)
 		{
 			// level over - win
+			m_level++;
+			m_score += 1'000;
 			initaliseLevel();
 			return;
 		}
@@ -138,9 +137,20 @@ void ParanoidGameSource::updateGame ( )
 		if ( powerUp.hasCollided ( m_paddle ) )
 		{
 			powerUp.onCollision ( m_paddle, powerUp.getGridPosition ( ) );
-			
+			m_score += 15;
+
 			if ( powerUp.getPowerUp ( ) == POWER_UP_TYPE::BALL_MULTIPLY )
 			{
+				Ball * activeBalls [ BALL_COUNT_MAX ] ;
+
+				for ( size_t i = 0; i < BALL_COUNT_MAX; i++ )
+				{
+					activeBalls [ i ] = nullptr;
+				}
+
+				int activeBallIndex = 0;
+
+				// fill the active balls array with pointers to active balls.
 				for ( Ball & ball : m_balls )
 				{
 					if ( !ball.getActive ( ) )
@@ -148,15 +158,24 @@ void ParanoidGameSource::updateGame ( )
 						continue;
 					}
 
+					activeBalls [ activeBallIndex++ ] = &ball;
+				}
+
+				// iterate over the active balls array to create new balls at their position.
+				for ( size_t i = 0; i < activeBallIndex; i++ )
+				{
 					Ball * newBall = getAvilableBall ( );
 
-					if ( newBall != nullptr )
+					if ( newBall == nullptr )
 					{
-						FPoint direction = ball.getDirection ( );
-						direction *= -1;
-						newBall->setDirection ( direction );
-						newBall->launch ( ball.getGridPosition ( ), BALL_STARTING_SPEED );
+						break;
 					}
+
+					Ball * ball = activeBalls [ i ];
+					FPoint direction = ball->getDirection ( );
+					direction *= -1;
+					newBall->setDirection ( direction );
+					newBall->launch ( ball->getGridPosition ( ), BALL_STARTING_SPEED );
 				}
 			}
 			else
@@ -172,10 +191,7 @@ void ParanoidGameSource::updateGame ( )
 	}
 
 	m_scoreText.updateText(m_score);
-	m_ballPositionText.updateText(m_balls[0].getX(), m_balls[0].getY());
-	m_ballGridPositionText.updateText(m_balls[0].getGridX(), m_balls[0].getGridY());
-	m_frameCountText.updateText(getFrameCount());
-
+	m_frameCountText.updateText(1/getDeltaTime());
 }
 
 void ParanoidGameSource::drawGame()
@@ -193,7 +209,7 @@ void ParanoidGameSource::drawGame()
 	GameSource::drawObjectsInArray(m_blocks, BLOCK_MAX_COUNT);
 
 	// Draw balls
-	GameSource::drawObjectsInArray(m_balls, BALL_MAX_COUNT);
+	GameSource::drawObjectsInArray(m_balls, BALL_COUNT_MAX);
 
 	// Draw power ups
 	GameSource::drawObjectsInArray(m_powerUps, POWER_UP_MAX_COUNT);
@@ -201,8 +217,6 @@ void ParanoidGameSource::drawGame()
 	// Draw UI
 	drawGameObject(m_scoreText);
 	drawGameObject(m_frameCountText);
-	drawGameObject(m_ballGridPositionText);
-	drawGameObject(m_ballPositionText);
 }
 
 void ParanoidGameSource::startLevel()
@@ -235,7 +249,7 @@ void ParanoidGameSource::startLevel()
 
 Ball* const ParanoidGameSource::getAvilableBall()
 {
-	for (int i = 0; i < BALL_MAX_COUNT; i++)
+	for (int i = 0; i < BALL_COUNT_MAX; i++)
 	{
 		Ball* const ball = &m_balls[i];
 
@@ -263,177 +277,191 @@ PowerUp* const ParanoidGameSource::getAvilablePowerUp()
 	return nullptr;
 }
 
-void ParanoidGameSource::initaliseLevel( )
+void ParanoidGameSource::initaliseLevel ( )
 {
 	// set the position of each block depending on which level is loading.
 	int levelIndex = m_level % 3; // 3 == number of levels
 	CellColour colour;
 
-	switch (levelIndex)
+	switch ( levelIndex )
 	{
-	default:
-	case 0:
+		default:
+		case 0:
 
-		for (int i = 0, c = 0; c < 15; c++)
-		{
-			for (int r = 0; r < 5; r++, i++)
+			for ( int i = 0, c = 0; c < 15; c++ )
 			{
-				if (c < 8)
+				for ( int r = 0; r < 5; r++, i++ )
 				{
-					m_blocks[i].setGridPosition(10 + (c * m_blocks[i].getWidth()), 5 + (r * m_blocks[i].getHeight()));
+					if ( c < 8 )
+					{
+						m_blocks [ i ].setGridPosition ( 10 + ( c * m_blocks [ i ].getWidth ( ) ), 5 + ( r * m_blocks [ i ].getHeight ( ) ) );
+					}
+					else
+					{
+						m_blocks [ i ].setGridPosition ( 30 + ( c * m_blocks [ i ].getWidth ( ) ), 5 + ( r * m_blocks [ i ].getHeight ( ) ) );
+					}
+
+					switch ( i % 6 )
+					{
+						default:
+							colour = CellColour::Fore_Red;
+							break;
+						case 1:
+							colour = CellColour::Fore_Green;
+							break;
+						case 2:
+							colour = CellColour::Fore_Blue;
+							break;
+						case 3:
+							colour = CellColour::Fore_Magenta;
+							break;
+						case 4:
+							colour = CellColour::Fore_Cyan;
+							break;
+						case 5:
+							colour = CellColour::Fore_Yellow;
+							break;
+						case 6:
+							colour = CellColour::Fore_White;
+							break;
+					}
+
+					m_blocks [ i ].setDamage ( 0 );
+					m_blocks [ i ].setColour ( colour );
+					m_blocks [ i ].setActive ( true );
 				}
-				else
-				{
-					m_blocks[i].setGridPosition(30 + (c * m_blocks[i].getWidth()), 5 + (r * m_blocks[i].getHeight()));
-				}
-
-				switch (i % 6)
-				{
-				default:
-					colour = CellColour::Fore_Red;
-					break;
-				case 1:
-					colour = CellColour::Fore_Green;
-					break;
-				case 2:
-					colour = CellColour::Fore_Blue;
-					break;
-				case 3:
-					colour = CellColour::Fore_Magenta;
-					break;
-				case 4:
-					colour = CellColour::Fore_Cyan;
-					break;
-				case 5:
-					colour = CellColour::Fore_Yellow;
-					break;
-				case 6:
-					colour = CellColour::Fore_White;
-					break;
-				}
-
-				m_blocks[i].setColour(colour);
-				m_blocks[i].setActive(true);
-			}
-		}
-
-		break;
-	case 1:
-		for (int i = 0, c = 0; c < 15; c++)
-		{
-			for (int r = 0; r < 5; r++, i++)
-			{
-				m_blocks[i].setGridPosition(20 + (c * m_blocks[i].getWidth()+1), 4 + (r * (m_blocks[i].getHeight()+3)));
-
-				switch (r % 5)
-				{
-				default:
-					colour = CellColour::Fore_Red;
-					break;
-				case 1:
-					colour = CellColour::Fore_Green;
-					break;
-				case 2:
-					colour = CellColour::Fore_Blue;
-					break;
-				case 3:
-					colour = CellColour::Fore_Magenta;
-					break;
-				case 4:
-					colour = CellColour::Fore_Cyan;
-					break;
-				case 5:
-					colour = CellColour::Fore_Yellow;
-					break;
-				case 6:
-					colour = CellColour::Fore_White;
-					break;
-				}
-
-				m_blocks[i].setColour(colour);
-				m_blocks[i].setDamage(0);
-				m_blocks[i].setActive(true);
-			}
-		}
-		
-		break;
-	case 2:
-
-		int x, y, sectionIndex;
-		sectionIndex = 0;
-		x = 0;
-		
-		for (int i = 0, c = 0; c < 12; c++)
-		{
-			if (c % 3 == 0)
-			{
-				x += 10;
 			}
 
-			y = 0;
-
-			for (int r = 0; r < 6; r++, i++)
+			break;
+		case 1:
+			for ( int i = 0, c = 0; c < 15; c++ )
 			{
-
-				if ( ! ( r % 2 ) )
+				for ( int r = 0; r < 5; r++, i++ )
 				{
-					y += 3;
+					m_blocks [ i ].setGridPosition ( 20 + ( c * m_blocks [ i ].getWidth ( ) + 1 ), 4 + ( r * ( m_blocks [ i ].getHeight ( ) + 3 ) ) );
+
+					switch ( r % 5 )
+					{
+						default:
+							colour = CellColour::Fore_Red;
+							break;
+						case 1:
+							colour = CellColour::Fore_Green;
+							break;
+						case 2:
+							colour = CellColour::Fore_Blue;
+							break;
+						case 3:
+							colour = CellColour::Fore_Magenta;
+							break;
+						case 4:
+							colour = CellColour::Fore_Cyan;
+							break;
+						case 5:
+							colour = CellColour::Fore_Yellow;
+							break;
+						case 6:
+							colour = CellColour::Fore_White;
+							break;
+					}
+
+					m_blocks [ i ].setColour ( colour );
+					m_blocks [ i ].setDamage ( 0 );
+					m_blocks [ i ].setActive ( true );
 				}
-
-				if (i % 6 == 0 )
-				{
-					sectionIndex++;
-				}
-
-				m_blocks[i].setGridPosition(5 + (c * m_blocks[i].getWidth() + 2) + x, 2 + (r * (m_blocks[i].getHeight())) + y);
-
-				switch (sectionIndex % 7)
-				{
-				default:
-					colour = CellColour::Fore_Red;
-					break;
-				case 1:
-					colour = CellColour::Fore_Green;
-					break;
-				case 2:
-					colour = CellColour::Fore_Blue;
-					break;
-				case 3:
-					colour = CellColour::Fore_Magenta;
-					break;
-				case 4:
-					colour = CellColour::Fore_Cyan;
-					break;
-				case 5:
-					colour = CellColour::Fore_Yellow;
-					break;
-				case 6:
-					colour = CellColour::Fore_White;
-					break;
-				}
-
-				m_blocks[i].setColour(colour);
-				m_blocks[i].setDamage(0);
-				m_blocks[i].setActive(true);
 			}
-		}
-		
-		break;
+
+			break;
+		case 2:
+
+			int x, y, sectionIndex;
+			sectionIndex = 0;
+			x = 0;
+
+			for ( int i = 0, c = 0; c < 12; c++ )
+			{
+				if ( c % 3 == 0 )
+				{
+					x += 10;
+				}
+
+				y = 0;
+
+				for ( int r = 0; r < 6; r++, i++ )
+				{
+
+					if ( !( r % 2 ) )
+					{
+						y += 3;
+					}
+
+					if ( i % 6 == 0 )
+					{
+						sectionIndex++;
+					}
+
+					m_blocks [ i ].setGridPosition ( 5 + ( c * m_blocks [ i ].getWidth ( ) + 2 ) + x, 2 + ( r * ( m_blocks [ i ].getHeight ( ) ) ) + y );
+
+					switch ( sectionIndex % 7 )
+					{
+						default:
+							colour = CellColour::Fore_Red;
+							break;
+						case 1:
+							colour = CellColour::Fore_Green;
+							break;
+						case 2:
+							colour = CellColour::Fore_Blue;
+							break;
+						case 3:
+							colour = CellColour::Fore_Magenta;
+							break;
+						case 4:
+							colour = CellColour::Fore_Cyan;
+							break;
+						case 5:
+							colour = CellColour::Fore_Yellow;
+							break;
+						case 6:
+							colour = CellColour::Fore_White;
+							break;
+					}
+
+					m_blocks [ i ].setColour ( colour );
+					m_blocks [ i ].setDamage ( 0 );
+					m_blocks [ i ].setActive ( true );
+				}
+			}
+
+			break;
+		case 3: // test level - not in release game
+
+			for ( int i = 0, c = 0; c < 1; c++ )
+			{
+				m_blocks [ i ].setGridPosition ( 50 + ( c * m_blocks [ i ].getWidth ( ) + 2 ), 30 + ( ( m_blocks [ i ].getHeight ( ) ) ) );
+				m_blocks [ i ].setColour ( Fore_Yellow );
+				m_blocks [ i ].setDamage ( 2 );
+				m_blocks [ i ].setActive ( true );
+			}
+
+			break;
 	}
 
 	// disable all balls and power ups
-	for (Ball& ball : m_balls)
+	for ( Ball & ball : m_balls )
 	{
-		ball.setActive(false);
+		ball.resetPowerUps ( );
+		ball.setActive ( false );
 	}
 
-	for (PowerUp& powerUps : m_powerUps)
+	for ( PowerUp & powerUps : m_powerUps )
 	{
-		powerUps.setActive(false);
+		powerUps.setActive ( false );
 	}
 
 	// to do disable any power ups
-	m_paddle.resetPowerUps();
+	m_paddle.resetPowerUps ( );
+	m_levelStartTime = 0;
 }
 
 void ParanoidGameSource::tryLaunchPowerUp ( const Point & launchPoint )

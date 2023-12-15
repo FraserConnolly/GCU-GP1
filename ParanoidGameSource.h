@@ -9,7 +9,7 @@
 
 #define BLOCK_MAX_COUNT 100
 
-#define BALL_MAX_COUNT 10
+#define BALL_COUNT_MAX 20
 #define BALL_STARTING_SPEED 20
 
 #define POWER_UP_MAX_COUNT 10
@@ -23,9 +23,7 @@ public:
 	ParanoidGameSource() :
 		m_ground(160),
 		m_scoreText("Score: %i", 100),
-		m_ballGridPositionText("Ball (%i, %i)", 50),
-		m_ballPositionText("Ball (%f, %f)", 50),
-		m_frameCountText("Frame: %08i", 25)
+		m_frameCountText("FPS: %f", 25)
 	{ }
 
 	~ParanoidGameSource() override
@@ -57,15 +55,13 @@ private:
 	/* Game specific member variables */
 	Paddle  m_paddle;
 	Block   m_blocks   [ BLOCK_MAX_COUNT    ];
-	Ball    m_balls    [ BALL_MAX_COUNT     ];
+	Ball    m_balls    [ BALL_COUNT_MAX     ];
 	PowerUp m_powerUps [ POWER_UP_MAX_COUNT ];
 	Ground  m_ground;
 
 	UiText m_scoreText;
 
 	/* For debugging */
-	UiText m_ballPositionText;
-	UiText m_ballGridPositionText;
 	UiText m_frameCountText;
 
 

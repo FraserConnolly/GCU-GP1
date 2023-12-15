@@ -24,11 +24,11 @@ void Paddle::applyPowerUp(const POWER_UP_TYPE type, ParanoidGameSource * const g
 			m_width = PADDLE_WIDTH_LARGE;
 			break;
 
-		case POWER_UP_TYPE::SPEED_DECREASE:
+		case POWER_UP_TYPE::PADDLE_SPEED_DECREASE:
 			m_speed = PADDLE_SPEED - ( PADDLE_SPEED * PADDLE_SPEED_POWER_UP_MULTIPLYER );
 			break;
 		
-		case POWER_UP_TYPE::SPEED_INCREASE:
+		case POWER_UP_TYPE::PADDLE_SPEED_INCREASE:
 			m_speed = PADDLE_SPEED + ( PADDLE_SPEED * PADDLE_SPEED_POWER_UP_MULTIPLYER );
 			break;
 
