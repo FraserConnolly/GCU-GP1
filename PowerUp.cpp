@@ -23,7 +23,7 @@ void PowerUp::setPowerUp ( const POWER_UP_TYPE type )
 	m_powerUpType = type;
 }
 
-void PowerUp::launch ( const Point startGridPosition, const float speed )
+void PowerUp::launch ( const Vector2Int startGridPosition, const float speed )
 {
 	// Only launch if the power up has been set.
 	if ( m_powerUpType > POWER_UP_TYPE::UNSET && m_powerUpType < POWER_UP_TYPE::NO_POWER_UP )

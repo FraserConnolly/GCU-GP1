@@ -70,7 +70,7 @@ void Player::processCombat ( AliensGameSource * game )
 		// can fire
 		m_lastFireTime = game->getGameTime();
 
-		Point startPosition;
+		Vector2Int startPosition;
 		startPosition.X = getGridX ( ) + 2;
 		startPosition.Y = getGridY ( ) - 1;
 

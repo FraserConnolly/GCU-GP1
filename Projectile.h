@@ -8,36 +8,40 @@ class Projectile :
 {
 public:
 
-    Projectile ( int xDirection, int yDirection )
+    Projectile ( float xDirection, float yDirection )
         : GameObject ( 1, 1 ),
-        m_xDirection ( (float) xDirection ),
-        m_yDirection ( (float) yDirection ),
+        m_direction ( xDirection, yDirection ),
         m_speed ( 0 )
     {
         m_active = false;
     }
 
-    virtual void launch ( const Point startGridPosition, const float speed );
+    virtual void launch ( const Vector2Int startGridPosition, const float speed );
     virtual void tick ( GameSource * game );
-    virtual void onCollision ( const GameObject & collision, const Point & collisionPoint ) override
+    virtual void onCollision ( const GameObject & collision, const Vector2Int & collisionPoint ) override
     {
         GameObject::onCollision ( collision, collisionPoint );
     }
 
-    inline void setDirection(const FPoint & direction)
+    inline void setDirection(const Vector2 & direction)
     {
-        setDirection(direction.X, direction.Y);
+        m_direction = direction;
     }
 
     void setDirection(const float xDirection, const float yDirection)
     {
-        m_xDirection = xDirection;
-        m_yDirection = yDirection;
+        m_direction.X = xDirection;
+        m_direction.Y = yDirection;
     }
 
-    FPoint getDirection ( ) const
+    Vector2 getDirection ( ) const
     {
-        return FPoint ( m_xDirection, m_yDirection );
+        return m_direction;
+    }
+
+    void rotate ( const float angleInDegres )
+    {
+        m_direction.rotateVector ( angleInDegres );
     }
 
     void setSpeed(const float speed)
@@ -50,7 +54,6 @@ protected:
     virtual bool outOfBoundsCheck ( const int width, const int height );
 
     float m_speed = 0;
-    float m_xDirection = 0;
-    float m_yDirection = 0;
+    Vector2 m_direction;
 
 };

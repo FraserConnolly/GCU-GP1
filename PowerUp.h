@@ -26,9 +26,6 @@ enum class POWER_UP_TYPE
 	NO_POWER_UP_12,
 	NO_POWER_UP_13,
 	NO_POWER_UP_14,
-	NO_POWER_UP_15,
-	NO_POWER_UP_16,
-	NO_POWER_UP_17,
 
 	POWER_UP_COUNT
 };
@@ -50,7 +47,7 @@ public:
 		return (pRenderCellData)m_symbol;
 	}
 
-	void onCollision(const GameObject& collision, const Point & collisionPoint) override
+	void onCollision(const GameObject& collision, const Vector2Int & collisionPoint) override
 	{
 		setActive(false);
 	}
@@ -61,7 +58,7 @@ public:
 	/// <param name="type">The type of power up this projectile should be.</param>
 	void setPowerUp( const POWER_UP_TYPE type );
 
-	virtual void launch ( const Point startGridPosition, const float speed ) override;
+	virtual void launch ( const Vector2Int startGridPosition, const float speed ) override;
 
 	const POWER_UP_TYPE getPowerUp() const
 	{

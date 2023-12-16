@@ -15,6 +15,7 @@ enum Edge
 #define BALL_SYMBOL_PENETRATE 0x25CC // hollow circle
 
 class ParanoidGameSource;
+class Paddle;
 enum class POWER_UP_TYPE;
 
 class Ball :
@@ -34,7 +35,7 @@ public:
 		return (pRenderCellData)m_symbol;
 	}
 
-	void onCollision(const GameObject& collision, const Point& collisionPoint) override;
+	void onCollision(const GameObject& collision, const Vector2Int& collisionPoint) override;
 	void tick(GameSource* game) override;
 	
 	void applyPowerUp ( const POWER_UP_TYPE type, ParanoidGameSource * const game );
@@ -45,11 +46,26 @@ private:
 	
 	// Used to know whether the object we collided with is 
 	// above, below, left or right of the ball.
-	Point m_previousGridPosition;
+	Vector2Int m_previousGridPosition;
 	bool m_penetrate = false;
 	bool m_powerUpApplied = false;
 	float m_powerUpResetTime = 0;
 
-	void applyChangeOfDirection(const Edge edge);
+	void applyChangeOfDirection ( const Edge edge );
+	
+	/// <summary>
+	/// Gets the angle at which the ball should return at having hit the paddle.
+	/// Direction must be set to Left ( -1, 0 ) before applying the result of this function.
+	/// Note that grid positions are used rather than the absolute position of the ball and the paddle.
+	/// This reduced complexity but it also gives the player a fairer experience as they can't know the absolute position of 
+	/// either the paddle or the ball.
+	/// </summary>
+	/// <param name="paddle">The paddle that this ball has collided with.</param>
+	/// <param name="collisionPoint">The grid position that the ball hit the paddle.</param>
+	/// <returns>
+	/// Angle in degrees. 
+	/// 90 represents straight up.
+	/// </returns>
+	const float calculatePaddleReturnAngle( const GameObject & paddle, const Vector2Int & collisionPoint ) const;
 };
 

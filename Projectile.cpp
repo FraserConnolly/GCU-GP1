@@ -1,7 +1,7 @@
 #include "Projectile.h"
 #include "GameSource.h"
 
-void Projectile::launch ( const Point startGridPosition, const float speed )
+void Projectile::launch ( const Vector2Int startGridPosition, const float speed )
 {
 	if ( m_active )
 	{
@@ -22,7 +22,7 @@ void Projectile::tick ( GameSource * game )
 		return;
 	}
 
-	translate ( m_speed * game->getDeltaTime() * m_xDirection, m_speed * game->getDeltaTime() * m_yDirection );
+	translate ( m_direction * m_speed * game->getDeltaTime() );
 
 	if ( outOfBoundsCheck ( game->getScreenWidth ( ), game->getScreenHeight ( ) ) )
 	{

@@ -17,11 +17,11 @@ void Paddle::applyPowerUp(const POWER_UP_TYPE type, ParanoidGameSource * const g
 	switch ( type )
 	{
 		case POWER_UP_TYPE::PADDLE_DECREASE:
-			m_width = PADDLE_WIDTH_SMALL;
+			resizePaddle( PADDLE_WIDTH_SMALL );
 			break;
 
 		case POWER_UP_TYPE::PADDLE_INCREASE:
-			m_width = PADDLE_WIDTH_LARGE;
+			resizePaddle ( PADDLE_WIDTH_LARGE );
 			break;
 
 		case POWER_UP_TYPE::PADDLE_SPEED_DECREASE:
@@ -38,12 +38,22 @@ void Paddle::applyPowerUp(const POWER_UP_TYPE type, ParanoidGameSource * const g
 
 	m_powerUpApplied = true;
 	m_powerUpResetTime = game->getGameTime ( ) + POWER_UP_DURATION;
+
+	// prevent the player going off the edge of the screen
+	if ( getGridX ( ) + getWidth ( ) >= ( unsigned int ) game->getScreenWidth ( ) )
+	{
+		setGridX ( game->getScreenWidth ( ) - m_width );
+	}
+	else if ( getGridX ( ) < 0 )
+	{
+		setGridX ( 0 );
+	}
 }
 
 void Paddle::resetPowerUps()
 {
 	m_powerUpApplied = false;
-	m_width = PADDLE_WIDTH_NORMAL;
+	resizePaddle ( PADDLE_WIDTH_NORMAL );
 	m_speed = PADDLE_SPEED;
 }
 
@@ -57,17 +67,16 @@ void Paddle::processMovement(ParanoidGameSource * const game)
 		return;
 	}
 
-	const float speedMultiplyer = 40;
 	float horivontalMovement = 0;
 
 	if (leftInputPressed)
 	{
-		horivontalMovement = speedMultiplyer * game->getDeltaTime() * -1;
+		horivontalMovement = m_speed * game->getDeltaTime() * -1;
 		//translateByGridUnit ( -1, 0 );
 	}
 	else if (rightInputPressed)
 	{
-		horivontalMovement = speedMultiplyer * game->getDeltaTime() * 1;
+		horivontalMovement = m_speed * game->getDeltaTime() * 1;
 		//translateByGridUnit ( 1, 0 );
 	}
 
@@ -99,4 +108,30 @@ void Paddle::processInput(ParanoidGameSource * const game)
 		// start level
 		game->startLevel();
 	}
+}
+
+void Paddle::resizePaddle ( unsigned int newSize )
+{ 
+	if ( m_width == newSize )
+	{
+		return;
+	}
+
+	// cap the size of the paddle.
+	if ( newSize == 0 )
+	{
+		newSize = 1;
+	}
+	else if ( newSize > PADDLE_WIDTH_LARGE )
+	{
+		newSize = PADDLE_WIDTH_LARGE;
+	}
+
+	// calculate how far the paddle must move to maintain the same centre point.
+	int changeInSize = m_width - newSize;
+	float changeInX = changeInSize / 2.0;
+	translate ( changeInX, 0 );
+
+	// apply the new size
+	m_width = newSize;
 }

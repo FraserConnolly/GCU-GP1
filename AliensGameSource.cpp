@@ -280,7 +280,7 @@ void AliensGameSource::setAlienPositions()
 
 	int leftX, rightX;
 
-	Point translation ( 0, 0 );
+	Vector2Int translation ( 0, 0 );
 
 	Alien::getEdgeAlienColumns(leftX, rightX);
 
@@ -474,7 +474,7 @@ void AliensGameSource::tryDropBomb()
 		}
 
 		// spawn point for the bomb.
-		Point startPosition = alien->getGridPosition();
+		Vector2Int startPosition = alien->getGridPosition();
 		startPosition.X += 2;
 		startPosition.Y += 2;
 

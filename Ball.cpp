@@ -7,9 +7,11 @@
 
 //#define USE_BALL_DEBUG_VISUAL
 
-void Ball::onCollision(const GameObject& collision, const Point & collisionPoint)
+#define PADDLE_RETURN_ANGLE_MAX 65
+
+void Ball::onCollision(const GameObject& collision, const Vector2Int & collisionPoint)
 {
-	Point translation;
+	Vector2Int translation;
 
 	// check if the ball collided with a block or with the ground.
 
@@ -56,20 +58,20 @@ void Ball::onCollision(const GameObject& collision, const Point & collisionPoint
 
 
 			// force the ball to move by a grid unit to prevent duplicate collisions.
-			if (m_xDirection > 0)
+			if (m_direction.X > 0)
 			{
 				translation.X = 1;
 			}
-			else if (m_xDirection < 0)
+			else if (m_direction.X < 0)
 			{
 				translation.X = -1;
 			}
 
-			if (m_yDirection > 0)
+			if (m_direction.Y > 0)
 			{
 				translation.Y = 1;
 			}
-			else if (m_yDirection < 0)
+			else if (m_direction.Y < 0)
 			{
 				translation.Y = -1;
 			}
@@ -84,7 +86,17 @@ void Ball::onCollision(const GameObject& collision, const Point & collisionPoint
 
 	if (paddle != nullptr)
 	{
-		applyChangeOfDirection(Edge::HORIZONTAL_EDGE);
+		float returnAngle = calculatePaddleReturnAngle ( *paddle, collisionPoint );
+		setDirection ( -1, 0 );
+		rotate ( returnAngle );
+
+		if ( m_direction.Y > 0 )
+		{
+			m_direction.Y *= -1;
+		}
+
+		m_direction.normalise ( );
+
 		// force the ball to move up by one.
 		translation.Y = - 1;
 		translateByGridUnit(translation);
@@ -110,11 +122,11 @@ void Ball::tick(GameSource* game)
 	m_previousGridPosition.X = getGridX();
 	m_previousGridPosition.Y = getGridY();
 
-	translate(m_speed * game->getDeltaTime() * m_xDirection, m_speed * game->getDeltaTime() * m_yDirection);
+	translate ( m_direction * m_speed * game->getDeltaTime ( ) );
 
 	// check if the ball has gone out of bounds
 
-	Point screenSize(
+	Vector2Int screenSize(
 		game->getScreenWidth() - 1,
 		game->getScreenHeight() - 1
 	);
@@ -202,7 +214,7 @@ void Ball::resetPowerUps ( )
 void Ball::applyChangeOfDirection(const Edge edge)
 {
 	// get current direction
-	FPoint direction(m_xDirection, m_yDirection);
+	Vector2 direction = getDirection ( );
 	auto gridPosition = getGridPosition();
 
 	switch (edge)
@@ -227,6 +239,19 @@ void Ball::applyChangeOfDirection(const Edge edge)
 	}
 
 	// apply new direction
+	direction.normalise ( );
 	setDirection(direction);
+}
+
+const float Ball::calculatePaddleReturnAngle ( const GameObject & paddle, const Vector2Int & collisionPoint ) const
+{ 
+	int relativeX = collisionPoint.X - paddle.getGridX ( );
+
+	float angleStep = (float) ( PADDLE_RETURN_ANGLE_MAX * 2) / paddle.getWidth ( );
+
+	float returnAngle = ( angleStep * relativeX ) ;
+	returnAngle += 90 - PADDLE_RETURN_ANGLE_MAX;
+
+	return returnAngle;
 }
 

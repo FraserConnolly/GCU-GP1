@@ -172,9 +172,17 @@ void ParanoidGameSource::updateGame ( )
 					}
 
 					Ball * ball = activeBalls [ i ];
-					FPoint direction = ball->getDirection ( );
-					direction *= -1;
+					Vector2 direction = ball->getDirection ( );
 					newBall->setDirection ( direction );
+
+					// get a random new angle between -15 and 15 degrees
+					float newAngle = ( float ) (
+						( ( float ) rand ( ) / RAND_MAX ) * 30 ) - 15;
+
+					// turn the ball 90 degree left or right relative to the original ball at random.
+					newAngle += ( rand ( ) > RAND_MAX / 2 ) ? 90 : -90;
+
+					newBall->rotate ( newAngle );
 					newBall->launch ( ball->getGridPosition ( ), BALL_STARTING_SPEED );
 				}
 			}
@@ -237,11 +245,13 @@ void ParanoidGameSource::startLevel()
 	}
 
 	// set the direction to at a 45 degree angle from the paddle.
-	firstBall->setDirection(1, -1);
+	Vector2 direction ( 1, -1 );
+	direction.normalise ( );
+	firstBall->setDirection(direction);
 
 	// launch the ball from above the center of the paddle
 	firstBall->launch(
-		Point(m_paddle.getGridX() + (m_paddle.getWidth() / 2),
+		Vector2Int(m_paddle.getGridX() + (m_paddle.getWidth() / 2),
 			m_paddle.getGridY() - 1),
 		BALL_STARTING_SPEED
 	);
@@ -468,7 +478,7 @@ void ParanoidGameSource::initaliseLevel ( )
 	m_levelStartTime = 0;
 }
 
-void ParanoidGameSource::tryLaunchPowerUp ( const Point & launchPoint )
+void ParanoidGameSource::tryLaunchPowerUp ( const Vector2Int & launchPoint )
 { 
 	PowerUp * powerUp = getAvilablePowerUp ( );
 

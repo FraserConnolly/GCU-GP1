@@ -18,10 +18,10 @@ public:
 		return (pRenderCellData)m_symbol;
 	};
 
-	void onCollision( const GameObject& collision, const Point & collisionPoint );
+	void onCollision( const GameObject& collision, const Vector2Int & collisionPoint );
 	void setColour( const CellColour colour );
 	void setDamage( const int damage );
-	const bool isCorner( const Point& point ) const;
+	const bool isCorner( const Vector2Int& point ) const;
 
 private:
 	RenderCellData m_symbol[BLOCK_MAX_CELL_COUNT];

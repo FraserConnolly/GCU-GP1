@@ -38,7 +38,7 @@ Block::Block(const int width, const int height) : GameObject(width, height)
 	setColour(CellColour::Fore_White);
 }
 
-void Block::onCollision(const GameObject& collision, const Point & collisionPoint)
+void Block::onCollision(const GameObject& collision, const Vector2Int & collisionPoint)
 {
 	setDamage(m_damage + 1);
 }
@@ -87,7 +87,7 @@ void Block::setDamage(const int damage)
 /// </summary>
 /// <param name="point">Point to check.</param>
 /// <returns>True if the specified point is the same point as a corner of this block.</returns>
-const bool Block::isCorner(const Point& point) const
+const bool Block::isCorner(const Vector2Int& point) const
 {
 	if (point == getGridPosition())
 	{
