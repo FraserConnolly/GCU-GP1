@@ -9,7 +9,7 @@ enum Edge
 	VERTICAL_EDGE		
 };
 
-#define POWER_UP_PENETRATION_DURATION 10.0
+#define POWER_UP_PENETRATION_DURATION 10.0f
 
 #define BALL_SYMBOL_NORMAL    0x25CF // Bullet 
 #define BALL_SYMBOL_PENETRATE 0x25CC // hollow circle
@@ -22,7 +22,7 @@ class Ball :
     public Projectile
 {
 public:
-	Ball( ) : Projectile(0, 0)
+	Ball( ) : Projectile(0.0f, 0.0f)
 	{
 
 		m_symbol[0].UnicodeChar = BALL_SYMBOL_NORMAL; 

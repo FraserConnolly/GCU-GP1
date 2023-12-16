@@ -140,15 +140,13 @@ typedef struct _vector2Int
 
 typedef struct _vector2
 {
-	_vector2()
-		: X(0), Y(0)
-	{
-	}
+	_vector2 ( )
+		: X ( 0.0f ), Y ( 0.0f )
+	{ }
 
-	_vector2(const float x, const float y)
-		: X(x), Y(y)
-	{
-	}
+	_vector2 ( const float x, const float y )
+		: X ( x ), Y ( y )
+	{ }
 
 #pragma region Operators
 
@@ -316,8 +314,8 @@ typedef struct _vector2
 	/// <param name="angleInRadians">Angle by which to change the direction (in radians)</param>
 	void rotateRadians ( double angleInRadians )
 	{
-		X = X * std::cos ( angleInRadians ) - Y * std::sin ( angleInRadians );
-		Y = X * std::sin ( angleInRadians ) + Y * std::cos ( angleInRadians );
+		X = static_cast<float> ( X * std::cos ( angleInRadians ) - Y * std::sin ( angleInRadians ) );
+		Y = static_cast<float> ( X * std::sin ( angleInRadians ) + Y * std::cos ( angleInRadians ) );
 	}
 
 #pragma endregion

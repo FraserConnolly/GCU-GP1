@@ -9,9 +9,9 @@
 #define PADDLE_COLOUR CellColour::Fore_White
 
 #define PADDLE_SPEED 40
-#define PADDLE_SPEED_POWER_UP_MULTIPLYER 0.2
+#define PADDLE_SPEED_POWER_UP_MULTIPLYER 0.2f
 
-#define POWER_UP_DURATION 5.0
+#define POWER_UP_DURATION 5.0f
 
 // forward declaration 
 class ParanoidGameSource;

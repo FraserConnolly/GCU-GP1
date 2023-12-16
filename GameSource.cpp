@@ -29,7 +29,8 @@ void GameSource::initaliseGame ( )
 										this->quitKeyPressed ( );
 									} );
 
-	std::cout << "Game initialised" << std::endl;
+	// seed the random number generator with the current time.
+	std::srand ( static_cast< unsigned int >( std::time ( 0 ) ) );
 }
 
 void GameSource::processInput ( )

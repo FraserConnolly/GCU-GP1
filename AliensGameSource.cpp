@@ -444,7 +444,7 @@ void AliensGameSource::tryDropBomb()
 		}
 
 		// get a random alien to drop the bomb
-		int randomIndex = ((double)rand() / RAND_MAX) * (ALIEN_COUNT - 0);
+		int randomIndex = static_cast<int>( ((double)rand() / RAND_MAX) * ALIEN_COUNT );
 
 		// note that the alien at this index in the array may not be 
 		// active so increment the random index until an alive alien is found.
@@ -481,9 +481,9 @@ void AliensGameSource::tryDropBomb()
 		bomb->launch(startPosition, BOMB_SPEED);
 
 		// get a random delay between the minimum and maximum delay range.
-		float bombTimeout =
-			( ( double ) rand ( ) / RAND_MAX ) * 
-			( BOMB_DROP_TIMEOUT_MAX - BOMB_DROP_TIMEOUT_MIN ) + BOMB_DROP_TIMEOUT_MIN;
+		float bombTimeout = static_cast< float > (
+			( ( float ) rand ( ) / RAND_MAX ) *
+			( BOMB_DROP_TIMEOUT_MAX - BOMB_DROP_TIMEOUT_MIN ) + BOMB_DROP_TIMEOUT_MIN );
 
 		m_nextAlienBomb = getGameTime() + bombTimeout;
 	}

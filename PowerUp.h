@@ -35,10 +35,10 @@ class PowerUp :
 {
 public:
 
-	PowerUp() : Projectile(0, 1)
+	PowerUp ( ) : Projectile ( 0.0f, 1.0f )
 	{
-		m_symbol[0].UnicodeChar = '?';
-		m_symbol[0].Attributes = CellColour::Fore_White;
+		m_symbol [ 0 ].UnicodeChar = '?';
+		m_symbol [ 0 ].Attributes = CellColour::Fore_White;
 	}
 
 	// Inherited via GameObject

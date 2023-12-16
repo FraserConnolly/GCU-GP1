@@ -8,7 +8,7 @@ class Laser
 	: public Projectile
 {
 public : 
-	Laser ( ) : Projectile ( 0, -1 )
+	Laser ( ) : Projectile ( 0.0f, -1.0f )
 	{
 		m_symbol [ 0 ].UnicodeChar = 0x25CF;
 		m_symbol [ 0 ].Attributes = CellColour::Fore_Green;

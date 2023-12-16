@@ -9,7 +9,7 @@ class Bomb
 {
 public:
 
-	Bomb ( ) : Projectile( 0, 1 )
+	Bomb ( ) : Projectile( 0.0f, 1.0f )
 	{ 
 		m_symbol [ 0 ].UnicodeChar = 0x25CF;
 		m_symbol [ 0 ].Attributes = CellColour::Fore_Yellow;

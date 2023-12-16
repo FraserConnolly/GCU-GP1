@@ -11,6 +11,8 @@ void ParanoidGameSource::initaliseGame()
 	m_ground.setGridPosition(0, 42);
 
 	m_scoreText.setGridPosition(5, 43);
+	m_ballDirectionText.setGridPosition ( 5, 44 );
+	m_ballGridPositionText.setGridPosition ( 5, 45 );
 	m_frameCountText.setGridPosition(5, 46);
 
 	m_keyboardInput.registerKey(VK_SPACE);
@@ -200,6 +202,9 @@ void ParanoidGameSource::updateGame ( )
 
 	m_scoreText.updateText(m_score);
 	m_frameCountText.updateText(1/getDeltaTime());
+	m_ballDirectionText.updateText ( m_balls [ 0 ].getDirection().X, m_balls [ 0 ].getDirection ( ).Y );
+	m_ballGridPositionText.updateText ( m_balls [ 0 ].getGridX ( ), m_balls [ 0 ].getGridY ( ) );
+
 }
 
 void ParanoidGameSource::drawGame()
@@ -225,6 +230,9 @@ void ParanoidGameSource::drawGame()
 	// Draw UI
 	drawGameObject(m_scoreText);
 	drawGameObject(m_frameCountText);
+	drawGameObject ( m_ballDirectionText );
+	drawGameObject ( m_ballGridPositionText );
+
 }
 
 void ParanoidGameSource::startLevel()
@@ -248,7 +256,7 @@ void ParanoidGameSource::startLevel()
 	Vector2 direction ( 1, -1 );
 	direction.normalise ( );
 	firstBall->setDirection(direction);
-
+	
 	// launch the ball from above the center of the paddle
 	firstBall->launch(
 		Vector2Int(m_paddle.getGridX() + (m_paddle.getWidth() / 2),
@@ -488,7 +496,8 @@ void ParanoidGameSource::tryLaunchPowerUp ( const Vector2Int & launchPoint )
 		return;
 	}
 
-	int randomPowerUp = ( ( ( double ) rand ( ) / RAND_MAX ) * ( (int) POWER_UP_TYPE::POWER_UP_COUNT - 0 ) );
+	int randomPowerUp = static_cast<int> ( 
+		( static_cast<double> ( rand ( ) ) / RAND_MAX ) * static_cast<int> ( POWER_UP_TYPE::POWER_UP_COUNT ) );
 
 	powerUp->setPowerUp ( ( POWER_UP_TYPE ) randomPowerUp );
 	powerUp->launch ( launchPoint, POWER_UP_SPEED );

@@ -6,7 +6,7 @@
 
 // set this to skip the menu and play a specific game.
 //#define TestGame SPACE_INVADERS
-#define TestGame PARANOID
+//#define TestGame PARANOID
 
 #include "GameSelectionMenu.h"
 #include "AliensGameSource.h"

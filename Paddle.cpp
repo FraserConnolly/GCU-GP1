@@ -129,8 +129,8 @@ void Paddle::resizePaddle ( unsigned int newSize )
 
 	// calculate how far the paddle must move to maintain the same centre point.
 	int changeInSize = m_width - newSize;
-	float changeInX = changeInSize / 2.0;
-	translate ( changeInX, 0 );
+	float changeInX = changeInSize / 2.0f;
+	translate ( changeInX, 0.0f );
 
 	// apply the new size
 	m_width = newSize;
