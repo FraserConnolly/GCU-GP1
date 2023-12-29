@@ -1,5 +1,5 @@
 #pragma once
-#include "GameSource.h"
+#include "GameScene.h"
 #include "Alien.h"
 #include "Barrier.h"
 #include "Ground.h"
@@ -34,18 +34,18 @@
 /// <summary>
 /// Reference game https://freeinvaders.org/
 /// </summary>
-class AliensGameSource :
-	public GameSource
+class SpaceInvaderMainScene :
+	public GameScene
 {
 public:
 
-	AliensGameSource ( ) : 
+	SpaceInvaderMainScene ( ) : 
 		m_ground ( 160 ),
 		m_scoreText ( "Score: %i", 100 ),
 		m_previousMovement( MovementDirection::DOWN )
 	{ }
 
-	~AliensGameSource ( ) override
+	~SpaceInvaderMainScene ( ) override
 	{ }
 
 	void initaliseGame ( ) override;

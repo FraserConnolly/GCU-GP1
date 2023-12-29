@@ -1,16 +1,16 @@
-#include "AliensGameSource.h"
+#include "SpaceInvaderMainScene.h"
 #include "Player.h"
 
 #define PLAYER_SPEED 25
 #define LASER_SPEED 40
 
-void Player::tick ( AliensGameSource * game )
+void Player::tick ( SpaceInvaderMainScene * game )
 {
 	processMovement ( game );
 	processCombat   ( game );
 }
 
-void Player::processMovement ( AliensGameSource * game )
+void Player::processMovement ( SpaceInvaderMainScene * game )
 { 
 	bool leftInputPressed  = game->m_keyboardInput.isPressed ( VK_LEFT );
 	bool rightInputPressed = game->m_keyboardInput.isPressed ( VK_RIGHT );
@@ -46,7 +46,7 @@ void Player::processMovement ( AliensGameSource * game )
 	}
 }
 
-void Player::processCombat ( AliensGameSource * game )
+void Player::processCombat ( SpaceInvaderMainScene * game )
 {
 	bool fireInputPressed = game->m_keyboardInput.isPressed ( VK_RCONTROL );
 

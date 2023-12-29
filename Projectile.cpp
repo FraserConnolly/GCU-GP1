@@ -1,5 +1,5 @@
 #include "Projectile.h"
-#include "GameSource.h"
+#include "GameScene.h"
 
 void Projectile::launch ( const Vector2Int startGridPosition, const float speed )
 {
@@ -15,7 +15,7 @@ void Projectile::launch ( const Vector2Int startGridPosition, const float speed 
 	setGridPosition ( startGridPosition.X, startGridPosition.Y );
 }
 
-void Projectile::tick ( GameSource * game )
+void Projectile::tick ( GameScene * game )
 {
 	if ( !m_active )
 	{

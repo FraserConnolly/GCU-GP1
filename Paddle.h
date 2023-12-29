@@ -14,7 +14,7 @@
 #define POWER_UP_DURATION 5.0f
 
 // forward declaration 
-class ParanoidGameSource;
+class ParanoidGameMainScene;
 enum class POWER_UP_TYPE;
 
 class Paddle : 
@@ -36,9 +36,9 @@ public:
 		return m_active ? (pRenderCellData)m_symbol : nullptr;
 	};
 
-	void tick( ParanoidGameSource * const game);
+	void tick( ParanoidGameMainScene * const game);
 
-	void applyPowerUp(const POWER_UP_TYPE type, ParanoidGameSource * const game );
+	void applyPowerUp(const POWER_UP_TYPE type, ParanoidGameMainScene * const game );
 
 	void resetPowerUps();
 
@@ -49,8 +49,8 @@ private:
 	bool m_powerUpApplied = false;
 	float m_powerUpResetTime = 0;
 
-	void processMovement(ParanoidGameSource * const game);
-	void processInput(ParanoidGameSource * const game);
+	void processMovement(ParanoidGameMainScene * const game);
+	void processInput(ParanoidGameMainScene * const game);
 	void resizePaddle ( unsigned int newSize );
 };
 

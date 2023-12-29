@@ -1,8 +1,8 @@
-#include "ParanoidGameSource.h"
+#include "ParanoidGameMainScene.h"
 
-void ParanoidGameSource::initaliseGame()
+void ParanoidGameMainScene::initaliseGame()
 {
-	GameSource::initaliseGame();
+	GameScene::initaliseGame();
 
 	initaliseLevel();
 
@@ -20,9 +20,9 @@ void ParanoidGameSource::initaliseGame()
 	m_keyboardInput.registerKey(VK_RIGHT);
 }
 
-void ParanoidGameSource::updateGame ( )
+void ParanoidGameMainScene::updateGame ( )
 { 
-	GameSource::updateGame ( );
+	GameScene::updateGame ( );
 
 	if (getHasStarted())
 	{
@@ -41,7 +41,7 @@ void ParanoidGameSource::updateGame ( )
 		if (allBallsLost)
 		{
 			// level over - lose
-			GameSource::quit();
+			GameScene::quit();
 			return;
 		}
 
@@ -201,13 +201,13 @@ void ParanoidGameSource::updateGame ( )
 	}
 
 	m_scoreText.updateText(m_score);
-	m_frameCountText.updateText(1/getDeltaTime());
-	m_ballDirectionText.updateText ( m_balls [ 0 ].getDirection().X, m_balls [ 0 ].getDirection ( ).Y );
-	m_ballGridPositionText.updateText ( m_balls [ 0 ].getGridX ( ), m_balls [ 0 ].getGridY ( ) );
+	//m_frameCountText.updateText(1/getDeltaTime());
+	//m_ballDirectionText.updateText ( m_balls [ 0 ].getDirection().X, m_balls [ 0 ].getDirection ( ).Y );
+	//m_ballGridPositionText.updateText ( m_balls [ 0 ].getGridX ( ), m_balls [ 0 ].getGridY ( ) );
 
 }
 
-void ParanoidGameSource::drawGame()
+void ParanoidGameMainScene::drawGame()
 {
 	// populate the back buffer
 	pRenderCellData toBeDrawn = nullptr;
@@ -219,13 +219,13 @@ void ParanoidGameSource::drawGame()
 	drawGameObject(m_ground);
 
 	// Draw blocks
-	GameSource::drawObjectsInArray(m_blocks, BLOCK_MAX_COUNT);
+	GameScene::drawObjectsInArray(m_blocks, BLOCK_MAX_COUNT);
 
 	// Draw balls
-	GameSource::drawObjectsInArray(m_balls, BALL_COUNT_MAX);
+	GameScene::drawObjectsInArray(m_balls, BALL_COUNT_MAX);
 
 	// Draw power ups
-	GameSource::drawObjectsInArray(m_powerUps, POWER_UP_MAX_COUNT);
+	GameScene::drawObjectsInArray(m_powerUps, POWER_UP_MAX_COUNT);
 
 	// Draw UI
 	drawGameObject(m_scoreText);
@@ -235,7 +235,7 @@ void ParanoidGameSource::drawGame()
 
 }
 
-void ParanoidGameSource::startLevel()
+void ParanoidGameMainScene::startLevel()
 {
 	if (getHasStarted())
 	{
@@ -265,7 +265,7 @@ void ParanoidGameSource::startLevel()
 	);
 }
 
-Ball* const ParanoidGameSource::getAvilableBall()
+Ball* const ParanoidGameMainScene::getAvilableBall()
 {
 	for (int i = 0; i < BALL_COUNT_MAX; i++)
 	{
@@ -280,7 +280,7 @@ Ball* const ParanoidGameSource::getAvilableBall()
 	return nullptr;
 }
 
-PowerUp* const ParanoidGameSource::getAvilablePowerUp()
+PowerUp* const ParanoidGameMainScene::getAvilablePowerUp()
 {
 	for (int i = 0; i < POWER_UP_MAX_COUNT; i++)
 	{
@@ -295,7 +295,7 @@ PowerUp* const ParanoidGameSource::getAvilablePowerUp()
 	return nullptr;
 }
 
-void ParanoidGameSource::initaliseLevel ( )
+void ParanoidGameMainScene::initaliseLevel ( )
 {
 	// set the position of each block depending on which level is loading.
 	int levelIndex = m_level % 3; // 3 == number of playable levels
@@ -486,7 +486,7 @@ void ParanoidGameSource::initaliseLevel ( )
 	m_levelStartTime = 0;
 }
 
-void ParanoidGameSource::tryLaunchPowerUp ( const Vector2Int & launchPoint )
+void ParanoidGameMainScene::tryLaunchPowerUp ( const Vector2Int & launchPoint )
 { 
 	PowerUp * powerUp = getAvilablePowerUp ( );
 
@@ -503,6 +503,6 @@ void ParanoidGameSource::tryLaunchPowerUp ( const Vector2Int & launchPoint )
 	powerUp->launch ( launchPoint, POWER_UP_SPEED );
 }
 
-void ParanoidGameSource::playMuisc( )
+void ParanoidGameMainScene::playMuisc( )
 {
 }

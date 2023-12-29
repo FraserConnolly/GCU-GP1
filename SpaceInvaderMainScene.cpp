@@ -1,9 +1,9 @@
-#include "AliensGameSource.h"
+#include "SpaceInvaderMainScene.h"
 #include <random>
 
-void AliensGameSource::initaliseGame ( )
+void SpaceInvaderMainScene::initaliseGame ( )
 {
-	GameSource::initaliseGame ( );
+	GameScene::initaliseGame ( );
 	setBarrierPositions ( );
 
 	initaliseLevel();
@@ -25,7 +25,7 @@ void AliensGameSource::initaliseGame ( )
 	m_keyboardInput.registerKey ( VK_RCONTROL );
 }
 
-void AliensGameSource::initaliseLevel()
+void SpaceInvaderMainScene::initaliseLevel()
 {
 	m_level++;
 
@@ -58,16 +58,16 @@ void AliensGameSource::initaliseLevel()
 	updateEdgeAlienPointers( );
 }
 
-void AliensGameSource::updateGame()
+void SpaceInvaderMainScene::updateGame()
 {
-	GameSource::updateGame ( );
+	GameScene::updateGame ( );
 
 	// check level over conditions
 
 	if (!m_player.getActive())
 	{
 		// level over - lose
-		GameSource::quit();
+		GameScene::quit();
 		return;
 	}
 
@@ -100,7 +100,7 @@ void AliensGameSource::updateGame()
 		{
 			// level over - lose
 			// one of the aliens reached their goal line.
-			GameSource::quit ( );
+			GameScene::quit ( );
 			return;
 		}
 	}
@@ -219,19 +219,19 @@ void AliensGameSource::updateGame()
 
 }
 
-void AliensGameSource::drawGame ( )
+void SpaceInvaderMainScene::drawGame ( )
 {
 	// Draw barrier
-	GameSource::drawObjectsInArray ( m_barriers, BARRIER_COUNT_MAX );
+	GameScene::drawObjectsInArray ( m_barriers, BARRIER_COUNT_MAX );
 
 	// Draw Aliens
-	GameSource::drawObjectsInArray ( m_aliens, ALIEN_COUNT );
+	GameScene::drawObjectsInArray ( m_aliens, ALIEN_COUNT );
 
 	// Draw bombs
-	GameSource::drawObjectsInArray ( m_bombs, BOMB_COUNT_MAX );
+	GameScene::drawObjectsInArray ( m_bombs, BOMB_COUNT_MAX );
 
 	// Draw lasers
-	GameSource::drawObjectsInArray ( m_lasers, LASER_COUNT_MAX );
+	GameScene::drawObjectsInArray ( m_lasers, LASER_COUNT_MAX );
 
 	// Draw ground
 	drawGameObject ( m_ground );
@@ -243,7 +243,7 @@ void AliensGameSource::drawGame ( )
 	drawGameObject ( m_scoreText );
 }
 
-void AliensGameSource::playMuisc ( )
+void SpaceInvaderMainScene::playMuisc ( )
 {
 	// Declare the first few notes of the song, "Mary Had A Little Lamb".
 	Note * Mary = new Note [ 13 ]
@@ -268,7 +268,7 @@ void AliensGameSource::playMuisc ( )
 	m_musicPlayer.Play ( Mary, 13 );
 }
 
-void AliensGameSource::setAlienPositions()
+void SpaceInvaderMainScene::setAlienPositions()
 {
 	if (m_nextAlienMoveTime > getGameTime())
 	{
@@ -286,21 +286,21 @@ void AliensGameSource::setAlienPositions()
 
 	m_nextAlienMoveTime = getGameTime() + m_alienMoveTimeout;
 
-	if (m_previousMovement == AliensGameSource::DOWN)
+	if (m_previousMovement == SpaceInvaderMainScene::DOWN)
 	{
 		m_alienMoveTimeout = Alien::getMovementTimeout();
 		// check which edge has been reached, and set the direction to be the opposite.
-		m_previousMovement = (leftX <= leftEdge) ? AliensGameSource::RIGHT : AliensGameSource::LEFT;
+		m_previousMovement = (leftX <= leftEdge) ? SpaceInvaderMainScene::RIGHT : SpaceInvaderMainScene::LEFT;
 	}
 
 	// update movement direction
 	switch (m_previousMovement)
 	{
-	case AliensGameSource::LEFT:
+	case SpaceInvaderMainScene::LEFT:
 		if (leftX <= leftEdge)
 		{
 			// left edge reached
-			m_previousMovement = AliensGameSource::DOWN;
+			m_previousMovement = SpaceInvaderMainScene::DOWN;
 			translation.X = 0;
 			translation.Y = 1;
 			break;
@@ -310,11 +310,11 @@ void AliensGameSource::setAlienPositions()
 		translation.Y = 0;
 
 		break;
-	case AliensGameSource::RIGHT:
+	case SpaceInvaderMainScene::RIGHT:
 		if (rightX >= rightEdge)
 		{
 			// right edge reached
-			m_previousMovement = AliensGameSource::DOWN;
+			m_previousMovement = SpaceInvaderMainScene::DOWN;
 			translation.X = 0;
 			translation.Y = 1;
 			break;
@@ -342,7 +342,7 @@ void AliensGameSource::setAlienPositions()
 	}
 }
 
-void AliensGameSource::updateEdgeAlienPointers()
+void SpaceInvaderMainScene::updateEdgeAlienPointers()
 {
 	int leftMostColumn = getScreenWidth();
 	int rightMostColumn = 0;
@@ -375,7 +375,7 @@ void AliensGameSource::updateEdgeAlienPointers()
 	Alien::setEdgeAliens(left, right);
 }
 
-void AliensGameSource::setBarrierPositions ( )
+void SpaceInvaderMainScene::setBarrierPositions ( )
 { 
 	int xOffset = BARRIER_BLOCK_EDGE_PADDING;
 	for ( int b = 0; b < BARRIER_BLOCK_COUNT; b++ )
@@ -430,7 +430,7 @@ void AliensGameSource::setBarrierPositions ( )
 	}
 }
 
-void AliensGameSource::tryDropBomb()
+void SpaceInvaderMainScene::tryDropBomb()
 {
 
 	if (getGameTime() > m_nextAlienBomb)
@@ -490,7 +490,7 @@ void AliensGameSource::tryDropBomb()
 
 }
 
-Laser * const AliensGameSource::getAvilableLaser ( )
+Laser * const SpaceInvaderMainScene::getAvilableLaser ( )
 {
 	for (int i = 0; i < LASER_COUNT_MAX; i++)
 	{
@@ -505,7 +505,7 @@ Laser * const AliensGameSource::getAvilableLaser ( )
 	return nullptr;
 }
 
-Bomb * const AliensGameSource::getAvilableBomb()
+Bomb * const SpaceInvaderMainScene::getAvilableBomb()
 {
 	for (int i = 0; i < LASER_COUNT_MAX; i++)
 	{

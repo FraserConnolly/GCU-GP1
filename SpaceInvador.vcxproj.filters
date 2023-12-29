@@ -30,7 +30,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameSource.cpp">
+    <ClCompile Include="GameScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
@@ -57,7 +57,7 @@
     <ClCompile Include="Alien.cpp">
       <Filter>Source Files\Space Invaders</Filter>
     </ClCompile>
-    <ClCompile Include="AliensGameSource.cpp">
+    <ClCompile Include="SpaceInvaderMainScene.cpp">
       <Filter>Source Files\Space Invaders</Filter>
     </ClCompile>
     <ClCompile Include="Barrier.cpp">
@@ -72,7 +72,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Space Invaders</Filter>
     </ClCompile>
-    <ClCompile Include="ParanoidGameSource.cpp">
+    <ClCompile Include="ParanoidGameMainScene.cpp">
       <Filter>Source Files\Paranoid</Filter>
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
@@ -101,7 +101,7 @@
     <ClInclude Include="Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameSource.h">
+    <ClInclude Include="GameScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FrameTimer.h">
@@ -125,7 +125,7 @@
     <ClInclude Include="Alien.h">
       <Filter>Header Files\SpaceInvaders</Filter>
     </ClInclude>
-    <ClInclude Include="AliensGameSource.h">
+    <ClInclude Include="SpaceInvaderMainScene.h">
       <Filter>Header Files\SpaceInvaders</Filter>
     </ClInclude>
     <ClInclude Include="Barrier.h">
@@ -140,7 +140,7 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\SpaceInvaders</Filter>
     </ClInclude>
-    <ClInclude Include="ParanoidGameSource.h">
+    <ClInclude Include="ParanoidGameMainScene.h">
       <Filter>Header Files\Paranoid</Filter>
     </ClInclude>
     <ClInclude Include="Bomb.h">

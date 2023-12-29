@@ -4,7 +4,7 @@
 #define PLAYER_FIRE_TIMEOUT 0.2f
 
 // forward declaration 
-class AliensGameSource;
+class SpaceInvaderMainScene;
 
 class Player
 	: public GameObject
@@ -50,7 +50,7 @@ public:
 		setActive ( false );
 	}
 
-	void tick ( AliensGameSource * game );
+	void tick ( SpaceInvaderMainScene * game );
 
 private:
 	RenderCellData m_symbol [ 15 ];
@@ -58,8 +58,8 @@ private:
 	float fireTimeout = PLAYER_FIRE_TIMEOUT;
 	float m_lastFireTime = 0;
 
-	void processMovement ( AliensGameSource * game );
-	void processCombat   ( AliensGameSource * game );
+	void processMovement ( SpaceInvaderMainScene * game );
+	void processCombat   ( SpaceInvaderMainScene * game );
 
 };
 

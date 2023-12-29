@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-class GameSource;
+class GameScene;
 
 class Projectile :
     public GameObject
@@ -17,7 +17,7 @@ public:
     }
 
     virtual void launch ( const Vector2Int startGridPosition, const float speed );
-    virtual void tick ( GameSource * game );
+    virtual void tick ( GameScene * game );
     virtual void onCollision ( const GameObject & collision, const Vector2Int & collisionPoint ) override
     {
         GameObject::onCollision ( collision, collisionPoint );

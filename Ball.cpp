@@ -1,9 +1,9 @@
 #include "Ball.h"
-#include "GameSource.h"
+#include "GameScene.h"
 #include "Ground.h"
 #include "Block.h"
 #include "Paddle.h"
-#include "ParanoidGameSource.h"
+#include "ParanoidGameMainScene.h"
 
 //#define USE_BALL_DEBUG_VISUAL
 
@@ -105,7 +105,7 @@ void Ball::onCollision(const GameObject& collision, const Vector2Int & collision
 
 // Projectiles implementation of tick will deactivate a projectile if it goes off screen.
 // But for the ball we want it to bounce of the top and sides of the screen.
-void Ball::tick(GameSource* game)
+void Ball::tick(GameScene* game)
 {
 	if (!m_active)
 	{
@@ -186,7 +186,7 @@ void Ball::tick(GameSource* game)
 #endif
 }
 
-void Ball::applyPowerUp ( const POWER_UP_TYPE type, ParanoidGameSource * const game )
+void Ball::applyPowerUp ( const POWER_UP_TYPE type, ParanoidGameMainScene * const game )
 {
 	switch ( type )
 	{

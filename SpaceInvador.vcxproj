@@ -128,14 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
-    <ClCompile Include="AliensGameSource.cpp" />
+    <ClCompile Include="SpaceInvaderMainScene.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Barrier.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameSource.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -143,7 +143,7 @@
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="Paddle.cpp" />
-    <ClCompile Include="ParanoidGameSource.cpp" />
+    <ClCompile Include="ParanoidGameMainScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -153,7 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
-    <ClInclude Include="AliensGameSource.h" />
+    <ClInclude Include="SpaceInvaderMainScene.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Barrier.h" />
     <ClInclude Include="Block.h" />
@@ -162,13 +162,13 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameSource.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="GameSelectionMenu.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="MusicPlayer.h" />
-    <ClInclude Include="ParanoidGameSource.h" />
+    <ClInclude Include="ParanoidGameMainScene.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Projectile.h" />

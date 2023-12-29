@@ -16,14 +16,14 @@
 
 class GameObject;
 
-class GameSource
+class GameScene
 {
 public:
-	GameSource()
+	GameScene()
 		: m_stdWindow(GetStdHandle(STD_OUTPUT_HANDLE))
 	{ };
 
-	virtual ~GameSource()
+	virtual ~GameScene()
 	{
 		delete m_backBuffer;
 		delete m_frontBuffer;

@@ -5,12 +5,12 @@
 * 2023-10-12 Separated out implementation from header files.
 */
 
-#define PrintDebugRulers
+//#define PrintDebugRulers
 
-#include "GameSource.h"
+#include "GameScene.h"
 #include "GameObject.h"
 
-void GameSource::initaliseGame ( )
+void GameScene::initaliseGame ( )
 {
 	m_deltaTimeMs = 0;
 	m_frameTimer.start ( );
@@ -33,12 +33,12 @@ void GameSource::initaliseGame ( )
 	std::srand ( static_cast< unsigned int >( std::time ( 0 ) ) );
 }
 
-void GameSource::processInput ( )
+void GameScene::processInput ( )
 {
 	m_keyboardInput.tick ( m_deltaTime );
 }
 
-void GameSource::updateGame ( )
+void GameScene::updateGame ( )
 {
 	m_musicPlayer.tick ( m_deltaTimeMs );
 }
@@ -47,7 +47,7 @@ void GameSource::updateGame ( )
 /// Helper method that draws a GameObject to the back buffer.
 /// </summary>
 /// <param name="object">The object to draw.</param>
-void GameSource::drawGameObject ( const GameObject & object )
+void GameScene::drawGameObject ( const GameObject & object )
 {
 	if (!object.getActive())
 	{
@@ -60,7 +60,7 @@ void GameSource::drawGameObject ( const GameObject & object )
 									object.draw ( ) );
 }
 
-void GameSource::renderFrame ( )
+void GameScene::renderFrame ( )
 {
 	// swap front and back buffer
 	auto buffer = m_frontBuffer;
@@ -116,7 +116,7 @@ void GameSource::renderFrame ( )
 	m_frontBuffer->displayBuffer();
 }
 
-void GameSource::gameLoop ( )
+void GameScene::gameLoop ( )
 {
 	if ( !m_runLoop )
 	{
@@ -137,12 +137,12 @@ void GameSource::gameLoop ( )
 	}
 }
 
-void GameSource::quit ( )
+void GameScene::quit ( )
 {
 	m_runLoop = false;
 }
 
-void GameSource::quitKeyPressed ( )
+void GameScene::quitKeyPressed ( )
 {
 	quit ( );
 }

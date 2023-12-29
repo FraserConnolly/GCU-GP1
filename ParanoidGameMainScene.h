@@ -1,5 +1,5 @@
 #pragma once
-#include "GameSource.h"
+#include "GameScene.h"
 #include "Paddle.h" // player
 #include "Block.h"
 #include "Ball.h"
@@ -15,18 +15,20 @@
 #define POWER_UP_MAX_COUNT 10
 #define POWER_UP_SPEED 18
 
-class ParanoidGameSource :
-	public GameSource
+class ParanoidGameMainScene :
+	public GameScene
 {
 public:
 
-	ParanoidGameSource() :
+	ParanoidGameMainScene() :
 		m_ground(160),
 		m_scoreText("Score: %i", 100),
+		m_ballGridPositionText ( "Ball (%i, %i)", 50 ),
+		m_ballDirectionText ( "Direction (%f, %f)", 50 ),
 		m_frameCountText("FPS: %f", 25)
 	{ }
 
-	~ParanoidGameSource() override
+	~ParanoidGameMainScene() override
 	{ }
 
 	void initaliseGame() override;
@@ -63,6 +65,8 @@ private:
 
 	/* For debugging */
 	UiText m_frameCountText;
+	UiText m_ballGridPositionText;
+	UiText m_ballDirectionText;
 
 
 	int m_score = 0;

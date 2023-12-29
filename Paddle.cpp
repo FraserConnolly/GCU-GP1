@@ -1,7 +1,7 @@
-#include "ParanoidGameSource.h"
+#include "ParanoidGameMainScene.h"
 #include "Paddle.h"
 
-void Paddle::tick(ParanoidGameSource * const game)
+void Paddle::tick(ParanoidGameMainScene * const game)
 {
 	if ( m_powerUpApplied && game->getGameTime ( ) > m_powerUpResetTime )
 	{
@@ -12,7 +12,7 @@ void Paddle::tick(ParanoidGameSource * const game)
 	processInput(game);
 }
 
-void Paddle::applyPowerUp(const POWER_UP_TYPE type, ParanoidGameSource * const game )
+void Paddle::applyPowerUp(const POWER_UP_TYPE type, ParanoidGameMainScene * const game )
 {
 	switch ( type )
 	{
@@ -57,7 +57,7 @@ void Paddle::resetPowerUps()
 	m_speed = PADDLE_SPEED;
 }
 
-void Paddle::processMovement(ParanoidGameSource * const game)
+void Paddle::processMovement(ParanoidGameMainScene * const game)
 {
 	bool leftInputPressed = game->m_keyboardInput.isPressed(VK_LEFT);
 	bool rightInputPressed = game->m_keyboardInput.isPressed(VK_RIGHT);
@@ -94,7 +94,7 @@ void Paddle::processMovement(ParanoidGameSource * const game)
 
 }
 
-void Paddle::processInput(ParanoidGameSource * const game)
+void Paddle::processInput(ParanoidGameMainScene * const game)
 {
 	if (game->getHasStarted())
 	{

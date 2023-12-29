@@ -9,12 +9,12 @@
 //#define TestGame PARANOID
 
 #include "GameSelectionMenu.h"
-#include "AliensGameSource.h"
-#include "ParanoidGameSource.h"
+#include "SpaceInvaderMainScene.h"
+#include "ParanoidGameMainScene.h"
 
 int main ( )
 {
-	std::unique_ptr<GameSource> game;
+	std::unique_ptr<GameScene> game;
 
 	system("cls");
 
@@ -32,10 +32,10 @@ int main ( )
 			case GameSelectionMenu::QUIT:
 				return 0;
 			case GameSelectionMenu::SPACE_INVADERS:
-				game = std::make_unique<AliensGameSource>();
+				game = std::make_unique<SpaceInvaderMainScene>();
 				break;
 			case GameSelectionMenu::PARANOID:
-				game = std::make_unique<ParanoidGameSource>();
+				game = std::make_unique<ParanoidGameMainScene>();
 				break;
 			default:
 				return -2; // unknown menu selection

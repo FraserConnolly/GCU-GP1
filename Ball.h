@@ -14,7 +14,7 @@ enum Edge
 #define BALL_SYMBOL_NORMAL    0x25CF // Bullet 
 #define BALL_SYMBOL_PENETRATE 0x25CC // hollow circle
 
-class ParanoidGameSource;
+class ParanoidGameMainScene;
 class Paddle;
 enum class POWER_UP_TYPE;
 
@@ -36,9 +36,9 @@ public:
 	}
 
 	void onCollision(const GameObject& collision, const Vector2Int& collisionPoint) override;
-	void tick(GameSource* game) override;
+	void tick(GameScene* game) override;
 	
-	void applyPowerUp ( const POWER_UP_TYPE type, ParanoidGameSource * const game );
+	void applyPowerUp ( const POWER_UP_TYPE type, ParanoidGameMainScene * const game );
 	void resetPowerUps ( );
 
 private:
