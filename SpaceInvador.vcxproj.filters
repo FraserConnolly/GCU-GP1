@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Paranoid">
       <UniqueIdentifier>{8ee9dc5b-8f33-4b7e-825a-8264dbb33593}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Menu">
+      <UniqueIdentifier>{93624c42-6c16-4f20-957d-9b6694b96824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu">
+      <UniqueIdentifier>{4401702f-0055-458a-b030-1e7e080aaa8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -95,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="PowerUp.cpp">
       <Filter>Source Files\Paranoid</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +181,15 @@
     </ClInclude>
     <ClInclude Include="PowerUp.h">
       <Filter>Header Files\Paranoid</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

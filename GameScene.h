@@ -32,8 +32,9 @@ public:
 		SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
 	}
 
-	virtual void initaliseGame ( );
+	virtual void initaliseGame ( int lastGameSceneResponse );
 	void gameLoop ( );
+	virtual int loadNextScene ( std::shared_ptr<GameScene> & newScene, bool & loadAdditively ) = 0;
 	void quit ( );
 
 	KeyboardInput m_keyboardInput;
@@ -138,6 +139,8 @@ private:
 	/// </summary>
 	float m_deltaTimeMs = 0;
 	int m_frameCount = 0;
+	
+	bool isInitialised = false;
 
 	ScreenBuffer* m_frontBuffer = nullptr;
 	Window m_stdWindow;

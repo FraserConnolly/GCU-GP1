@@ -10,27 +10,31 @@
 #include "GameScene.h"
 #include "GameObject.h"
 
-void GameScene::initaliseGame ( )
+void GameScene::initaliseGame ( int lastGameSceneResponse )
 {
 	m_deltaTimeMs = 0;
 	m_frameTimer.start ( );
-	
-	m_stdWindow.setWindow(160, 50);
-
-	m_frontBuffer = new ScreenBuffer(160, 50);
-	m_backBuffer  = new ScreenBuffer(160, 50);
-	
 	m_runLoop = true;
-	
-	m_keyboardInput = KeyboardInput ( GetStdHandle ( STD_INPUT_HANDLE ) );
-	m_keyboardInput.registerOnKey ( VK_ESCAPE,
-									[ this ] ( WORD key, short status )
-									{
-										this->quitKeyPressed ( );
-									} );
 
-	// seed the random number generator with the current time.
-	std::srand ( static_cast< unsigned int >( std::time ( 0 ) ) );
+	if ( !isInitialised )
+	{
+		isInitialised = true;
+
+		m_stdWindow.setWindow ( 160, 50 );
+
+		m_frontBuffer = new ScreenBuffer ( 160, 50 );
+		m_backBuffer = new ScreenBuffer ( 160, 50 );
+
+		m_keyboardInput = KeyboardInput ( GetStdHandle ( STD_INPUT_HANDLE ) );
+		m_keyboardInput.registerOnKey ( VK_ESCAPE,
+										[ this ] ( WORD key, short status )
+										{
+											this->quitKeyPressed ( );
+										} );
+
+		// seed the random number generator with the current time.
+		std::srand ( static_cast< unsigned int >( std::time ( 0 ) ) );
+	}
 }
 
 void GameScene::processInput ( )
@@ -118,11 +122,6 @@ void GameScene::renderFrame ( )
 
 void GameScene::gameLoop ( )
 {
-	if ( !m_runLoop )
-	{
-		initaliseGame ( );
-	}
-
 	for ( ; m_runLoop == true; )
 	{
 		processInput ( );

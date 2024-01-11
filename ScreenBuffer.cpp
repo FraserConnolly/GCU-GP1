@@ -178,6 +178,11 @@ WCHAR ScreenBuffer::getChar ( const int x, const int y ) const
 
 void ScreenBuffer::setChar ( const int x, const int y, char c )
 {
+	m_rowPtr [ y ][ x ].Char.AsciiChar = c;
+}
+
+void ScreenBuffer::setChar ( const int x, const int y, WCHAR c )
+{
 	m_rowPtr [ y ][ x ].Char.UnicodeChar = c;
 }
 

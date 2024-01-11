@@ -1,9 +1,9 @@
 #include "SpaceInvaderMainScene.h"
 #include <random>
 
-void SpaceInvaderMainScene::initaliseGame ( )
+void SpaceInvaderMainScene::initaliseGame ( int lastGameSceneResponse )
 {
-	GameScene::initaliseGame ( );
+	GameScene::initaliseGame ( lastGameSceneResponse );
 	setBarrierPositions ( );
 
 	initaliseLevel();
@@ -23,6 +23,11 @@ void SpaceInvaderMainScene::initaliseGame ( )
 	m_keyboardInput.registerKey ( VK_LEFT );
 	m_keyboardInput.registerKey ( VK_RIGHT );
 	m_keyboardInput.registerKey ( VK_RCONTROL );
+}
+
+int SpaceInvaderMainScene::loadNextScene ( std::shared_ptr<GameScene> & newScene, bool & loadAdditively )
+{
+	return 0;
 }
 
 void SpaceInvaderMainScene::initaliseLevel()

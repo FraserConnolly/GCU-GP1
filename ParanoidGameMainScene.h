@@ -31,9 +31,10 @@ public:
 	~ParanoidGameMainScene() override
 	{ }
 
-	void initaliseGame() override;
+	void initaliseGame( int lastGameSceneResponse ) override;
 	void updateGame( ) override;
 	void drawGame() override;
+	int loadNextScene ( std::shared_ptr<GameScene> & newScene, bool & loadAdditively ) override;
 	
 	bool getHasStarted() const
 	{

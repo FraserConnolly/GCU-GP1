@@ -1,8 +1,8 @@
 #include "ParanoidGameMainScene.h"
 
-void ParanoidGameMainScene::initaliseGame()
+void ParanoidGameMainScene::initaliseGame( int lastGameSceneResponse )
 {
-	GameScene::initaliseGame();
+	GameScene::initaliseGame( lastGameSceneResponse );
 
 	initaliseLevel();
 
@@ -233,6 +233,11 @@ void ParanoidGameMainScene::drawGame()
 	drawGameObject ( m_ballDirectionText );
 	drawGameObject ( m_ballGridPositionText );
 
+}
+
+int ParanoidGameMainScene::loadNextScene ( std::shared_ptr<GameScene> & newScene, bool & loadAdditively )
+{
+	return 0;
 }
 
 void ParanoidGameMainScene::startLevel()

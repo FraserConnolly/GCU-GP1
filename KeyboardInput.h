@@ -30,7 +30,7 @@ public:
 	bool registerKey ( WORD key );
 	bool registerOnKey ( WORD key, std::function<void ( WORD, short )> callback );
 
-	bool wasPressThisFrame ( WORD key );
+	bool wasPressedThisFrame ( WORD key );
 	bool isPressed ( WORD key );
 private:
 	HANDLE m_bufferHandle = nullptr;

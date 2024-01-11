@@ -110,7 +110,7 @@ bool KeyboardInput::registerOnKey ( WORD key, std::function<void ( WORD , short 
     return true;
 }
 
-bool KeyboardInput::wasPressThisFrame ( WORD key )
+bool KeyboardInput::wasPressedThisFrame ( WORD key )
 {
     auto const status = m_keyRegistrations [ key ];
     return status->isPressed && status->pressedDuration == 0;

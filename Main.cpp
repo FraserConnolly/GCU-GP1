@@ -5,51 +5,59 @@
 */
 
 // set this to skip the menu and play a specific game.
-//#define TestGame SPACE_INVADERS
-//#define TestGame PARANOID
+//#define SPACE_INVADERS
+//#define PARANOID
 
-#include "GameSelectionMenu.h"
+#include <stack>
+#if defined SPACE_INVADERS
 #include "SpaceInvaderMainScene.h"
+#elif defined PARANOID
 #include "ParanoidGameMainScene.h"
+#else
+#include "Menu.h"
+#endif
 
 int main ( )
 {
-	std::unique_ptr<GameScene> game;
+	std::stack<std::shared_ptr<GameScene>> scenes;
 
+	// clear the screen
 	system("cls");
 
-#ifndef TestGame
-	for ( ; ; )
-	{
-		GameSelectionMenu menu;
-		GameSelectionMenu::MenuOption selection = menu.GetMenuSelection();
-#else
-		GameSelectionMenu::MenuOption selection = GameSelectionMenu::TestGame;
-#endif // !TestGame
+	int lastGameSceneResponse = 0;
 
-		switch (selection)
+#if defined SPACE_INVADERS
+	scenes.push ( std::make_shared<SpaceInvaderMainScene> ( ) );
+#elif defined PARANOID
+	scenes.push ( std::make_shared<ParanoidGameMainScene> ( ) );
+#else
+	scenes.push ( std::make_shared<Menu> ( ) );
+#endif
+
+	while ( ! scenes.empty() )
+	{
+		std::shared_ptr<GameScene> game = scenes.top ( );
+
+		if ( game == nullptr )
 		{
-			case GameSelectionMenu::QUIT:
-				return 0;
-			case GameSelectionMenu::SPACE_INVADERS:
-				game = std::make_unique<SpaceInvaderMainScene>();
-				break;
-			case GameSelectionMenu::PARANOID:
-				game = std::make_unique<ParanoidGameMainScene>();
-				break;
-			default:
-				return -2; // unknown menu selection
+			scenes.pop ( );
+			continue;
 		}
 
-		game -> initaliseGame ( );
+		game -> initaliseGame ( lastGameSceneResponse );
 		game -> gameLoop ( );
 
-		// the game has finished so clear the pointer so the destructors can run.
-		game.reset( );
+		std::shared_ptr<GameScene> newScene = nullptr;
+		bool loadAdditively = false;
+		lastGameSceneResponse = game -> loadNextScene ( newScene, loadAdditively );
 
-#ifndef TestGame
-}
-#endif // !TestGame
+		if ( ! loadAdditively )
+		{
+			scenes.pop ( );
+		}
+
+		scenes.push ( newScene );
+	}
 	
 	return 0;
 }

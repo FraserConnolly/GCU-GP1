@@ -48,7 +48,8 @@ public:
 	~SpaceInvaderMainScene ( ) override
 	{ }
 
-	void initaliseGame ( ) override;
+	void initaliseGame ( int lastGameSceneResponse ) override;
+	int loadNextScene ( std::shared_ptr<GameScene> & newScene, bool & loadAdditively ) override;
 
 	Laser * const getAvilableLaser();
 	Bomb  * const getAvilableBomb ();
