@@ -7,6 +7,9 @@ void ParanoidGameMainScene::initaliseGame( int lastGameSceneResponse )
 
 	GameScene::initaliseGame( lastGameSceneResponse );
 
+	m_score = 0;
+	m_level = 0;
+
 	initaliseLevel();
 
 	m_paddle.setGridPosition(getScreenWidth() / 2, 40);
@@ -19,8 +22,6 @@ void ParanoidGameMainScene::initaliseGame( int lastGameSceneResponse )
 	m_keyboardInput.registerKey(VK_LEFT);
 	m_keyboardInput.registerKey(VK_RIGHT);
 
-	m_score = 0;
-	m_level = 0;
 }
 
 void ParanoidGameMainScene::updateGame ( )
