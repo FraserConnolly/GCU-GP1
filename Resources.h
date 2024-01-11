@@ -20,12 +20,21 @@ extern const size_t exitTextDataCols;
 extern const wchar_t retryTextData [ ];
 extern const size_t retryTextDataCols;
 
+extern const wchar_t courseTextData [ ];
+extern const size_t courseTextDataCols;
+
+extern const wchar_t universityTextData [ ];
+extern const size_t universityTextDataCols;
+extern const size_t universityTextDataRows;
+
+extern const wchar_t fraserConnollyTextData [ ];
+extern const size_t fraserConnollyTextDataCols;
+
 // Bloody Font Art
 
 extern const wchar_t  gameOverTextData  [ ];
 extern const size_t gameOversTextDataCols;
 
-// Full Screen Art
+// Borders
 
-extern const wchar_t spashScreenData [ ];
-extern const wchar_t menuScreenData [ ];
+extern const wchar_t borderData [ ];

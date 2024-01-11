@@ -26,6 +26,12 @@ private:
     int m_highlightOption = 0;
     int m_selectedOption = 0;
 
+    // Splash screen objects
+    Button m_name;
+    Button m_course;
+    Button m_university;
+
+    // menu objects
     Button m_btnSpaceInvader;
     Button m_btnParanoid;
     Button m_btnPortfolio;

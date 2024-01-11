@@ -4,6 +4,7 @@
 #include "Resources.h"
 
 #define OPTION_COUNT 4
+#define PORTFOLIO_URL "https://fraserconnolly.co.uk"
 
 void Menu::initaliseGame ( int lastGameSceneResponse )
 { 
@@ -21,15 +22,30 @@ void Menu::initaliseGame ( int lastGameSceneResponse )
 	m_keyboardInput.registerKey ( '3' );
 	m_keyboardInput.registerKey ( '4' );
 
-	m_btnSpaceInvader.setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Red ), ( CellColour ) ( CellColour::Back_Red | CellColour::Fore_Black ) );
+	m_name            .setColours ( CellColour::Fore_Red, CellColour::Fore_Red );
+	m_name            .setCharacters ( fraserConnollyTextData, fraserConnollyTextDataCols, asciiArtShadowRows );
+	m_name            .setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_name.getWidth ( ) / 2 ), 4 );
+	m_name            .setActive ( true );
+
+	m_course          .setColours ( CellColour::Fore_Green, CellColour::Fore_Green );
+	m_course          .setCharacters ( courseTextData, courseTextDataCols, asciiArtShadowRows );
+	m_course          .setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_course.getWidth ( ) / 2 ), 15 );
+	m_course          .setActive ( showSplashScreen );
+
+	m_university      .setColours ( CellColour::Fore_Cyan, CellColour::Fore_Cyan );
+	m_university      .setCharacters ( universityTextData, universityTextDataCols, universityTextDataRows );
+	m_university      .setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_university.getWidth ( ) / 2 ), 28 );
+	m_university      .setActive ( showSplashScreen );
+
+	m_btnSpaceInvader.setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Yellow ), ( CellColour ) ( CellColour::Back_Yellow | CellColour::Fore_Black ) );
 	m_btnSpaceInvader.setGridPosition ( 24, 12 );
 	m_btnSpaceInvader.setCharacters ( spaceInvadorsTextData, spaceInvadorsTextDataCols, asciiArtShadowRows, 2, 1 );
 	
-	m_btnParanoid    .setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Yellow ), ( CellColour ) ( CellColour::Back_Yellow | CellColour::Fore_Black ) );
+	m_btnParanoid    .setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Green ), ( CellColour ) ( CellColour::Back_Green | CellColour::Fore_Black ) );
 	m_btnParanoid    .setGridPosition ( 24, m_btnSpaceInvader.getGridY() + m_btnSpaceInvader.getHeight() + 1 );
 	m_btnParanoid    .setCharacters ( paranoidTextData, paranoidTextDataCols, asciiArtShadowRows, 24, 1 );
 
-	m_btnPortfolio   .setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Green ), ( CellColour ) ( CellColour::Back_Green | CellColour::Fore_Black ) );
+	m_btnPortfolio   .setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Cyan ), ( CellColour ) ( CellColour::Back_Cyan | CellColour::Fore_Black ) );
 	m_btnPortfolio   .setGridPosition ( 24, m_btnParanoid.getGridY ( ) + m_btnParanoid.getHeight ( ) + 1 );
 	m_btnPortfolio   .setCharacters ( portfolioTextData, portfolioTextDataCols, asciiArtShadowRows, 19, 1 );
 
@@ -89,26 +105,17 @@ void Menu::updateGame ( )
 
 void Menu::drawGame ( )
 { 
-	if ( showSplashScreen )
-	{
-		for ( size_t x = 0; x < getScreenWidth ( ); x++ )
-		{
-			for ( size_t y = 0; y < getScreenHeight ( ); y++ )
-			{
-				m_backBuffer->setChar ( x, y, spashScreenData [ x + y * getScreenWidth ( ) ] );
-			}
-		}
-		
-		return ;
-	}
-
 	for ( size_t x = 0; x < getScreenWidth ( ); x++ )
 	{
 		for ( size_t y = 0; y < getScreenHeight ( ); y++ )
 		{
-			m_backBuffer->setChar ( x, y, menuScreenData [ x + y * getScreenWidth ( ) ] );
+			m_backBuffer->setChar ( x, y, borderData [ x + y * getScreenWidth ( ) ] );
 		}
 	}
+
+	drawGameObject ( m_name );
+	drawGameObject ( m_course );
+	drawGameObject ( m_university );
 
 	drawGameObject ( m_btnSpaceInvader );
 	drawGameObject ( m_btnParanoid );
@@ -125,6 +132,9 @@ void Menu::processSplashScreen ( )
 	else
 	{
 		showSplashScreen = false;
+		m_course.setActive ( false );
+		m_university.setActive ( false );
+
 		m_btnSpaceInvader.setActive ( true );
 		m_btnParanoid.setActive ( true );
 		m_btnPortfolio.setActive ( true );
@@ -138,7 +148,7 @@ void Menu::processMenu ( )
 	// Select Space Invaders
 	if ( m_keyboardInput.wasPressedThisFrame ( '1' ) )
 	{
-		m_highlightOption = 1;
+		m_selectedOption = 1;
 		m_runLoop = false;
 		return;
 	}
@@ -146,7 +156,7 @@ void Menu::processMenu ( )
 	// Select Paranoid
 	if ( m_keyboardInput.wasPressedThisFrame ( '2' ) )
 	{
-		m_highlightOption = 2;
+		m_selectedOption = 2;
 		m_runLoop = false;
 		return;
 	}
@@ -154,15 +164,15 @@ void Menu::processMenu ( )
 	// Select Portfolio
 	if ( m_keyboardInput.wasPressedThisFrame ( '3' ) )
 	{
-		m_highlightOption = 3;
-		ShellExecuteA ( nullptr, "open", "https://fraserconnolly.co.uk", nullptr, nullptr, SW_SHOWNORMAL );
+		m_selectedOption = 3;
+		ShellExecuteA ( nullptr, "open", PORTFOLIO_URL, nullptr, nullptr, SW_SHOWNORMAL );
 		return;
 	}
 
 	// Select Exit
 	if ( m_keyboardInput.wasPressedThisFrame ( '4' ) )
 	{
-		m_highlightOption = 4;
+		m_selectedOption = 4;
 		m_runLoop = false;
 		return;
 	}
@@ -190,6 +200,7 @@ void Menu::processMenu ( )
 	{
 		if ( m_highlightOption == 3 )
 		{
+			ShellExecuteA ( nullptr, "open", PORTFOLIO_URL, nullptr, nullptr, SW_SHOWNORMAL );
 			return;
 		}
 

@@ -38,7 +38,7 @@ int SpaceInvaderMainScene::loadNextScene ( std::shared_ptr<GameScene> & newScene
 		auto hs = std::make_shared<HighScoreScene> ( );
 
 		hs->setScore ( m_score );
-		hs->setGameLabel ( spaceInvadorsTextData, spaceInvadorsTextDataCols, asciiArtShadowRows, CellColour::Fore_Red );
+		hs->setGameLabel ( spaceInvadorsTextData, spaceInvadorsTextDataCols, asciiArtShadowRows, CellColour::Fore_Yellow );
 
 		loadAdditively = true;
 		newScene = hs;

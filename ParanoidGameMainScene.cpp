@@ -241,7 +241,7 @@ int ParanoidGameMainScene::loadNextScene ( std::shared_ptr<GameScene> & newScene
 		auto hs = std::make_shared<HighScoreScene> ( );
 	
 		hs->setScore ( m_score );
-		hs->setGameLabel ( paranoidTextData, paranoidTextDataCols, asciiArtShadowRows, CellColour::Fore_Yellow );
+		hs->setGameLabel ( paranoidTextData, paranoidTextDataCols, asciiArtShadowRows, CellColour::Fore_Green );
 
 		loadAdditively = true;
 		newScene = hs;
