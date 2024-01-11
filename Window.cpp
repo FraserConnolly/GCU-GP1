@@ -65,14 +65,14 @@ void Window::setWindow ( short width, short height )
 		cout << "SetConsoleScreenBufferSize failed with error " << GetLastError ( ) << endl;
 	}
 
-	SMALL_RECT windowSize = { 0, 0, coord.X -1 , coord.Y - 1};
+	SMALL_RECT windowSize = { 0, 0, width - 1 , height - 1};
 
 	if ( !SetConsoleWindowInfo ( m_hConsole, TRUE, &windowSize ) )
 	{
 		cout << "SetConsoleWindowInfo failed with error " << GetLastError ( ) << endl;
 	}
 
-	if ( !SetConsoleTitle ( L"Space Invaders" ) )
+	if ( !SetConsoleTitle ( L"Fraser Connolly" ) )
 	{
 		cout << "SetConsoleTitle failed with error " << GetLastError ( ) << endl;
 	}
