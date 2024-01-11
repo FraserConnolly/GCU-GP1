@@ -43,7 +43,15 @@ void GameScene::initaliseGame ( int lastGameSceneResponse )
 
 void GameScene::processInput ( )
 {
-	m_keyboardInput.tick ( m_deltaTime );
+	if ( GetConsoleWindow ( ) == GetForegroundWindow ( ) )
+	{
+		// only check for keyboard input when our window is the foreground window.
+		m_keyboardInput.tick ( m_deltaTime );
+	}
+	else
+	{
+		m_keyboardInput.resetKeyPresses ( );
+	}
 }
 
 void GameScene::updateGame ( )
