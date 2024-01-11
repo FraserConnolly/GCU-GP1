@@ -166,7 +166,7 @@ void ScreenBuffer::displayBuffer ( )
 
 	auto result = WriteConsoleOutput (
 		m_bufferHandle,
-		m_rowPtr [ 0 ],
+		m_buffer,
 		dwBufferSize,
 		dwBufferCoord,
 		&writeRegion
