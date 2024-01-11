@@ -32,9 +32,9 @@ public:
 		m_symbol[13].AsciiChar = ' ';
 		m_symbol[14].AsciiChar = '\\';
 
-		for (size_t i = 0; i < (size_t)(m_width * m_height); i++)
+		for (int i = 0; i < (int) ( m_width * m_height ); i++)
 		{
-			m_symbol[i].Attributes = CellColour::Fore_Cyan;
+			m_symbol[ i ].Attributes = CellColour::Fore_Cyan;
 		}
 
 	}

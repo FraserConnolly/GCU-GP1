@@ -28,7 +28,7 @@ void Button::setSelectionStatus ( const bool selected )
 		return;
 	}
 
-	for ( size_t i = 0; i < m_width * m_height; i++ )
+	for ( unsigned int i = 0; i < m_width * m_height; i++ )
 	{
 		m_symbol [ i ].Attributes = m_selected ? m_selectedColour : m_neutralColour;
 	}
@@ -42,11 +42,11 @@ void Button::setCharacters ( const WCHAR * characters, size_t columns, size_t ro
 void Button::setCharacters ( const WCHAR * characters, size_t columns, size_t rows, size_t horizontalMargin, size_t verticalMargin )
 { 
 	m_horizontalMargin = horizontalMargin;
-	m_verticalMargin = verticalMargin;
-	m_textWidth = columns;
+	m_verticalMargin   = verticalMargin;
+	m_textWidth  = columns;
 	m_textHeight = rows;
-	m_width = columns + ( horizontalMargin * 2 );
-	m_height = rows + ( verticalMargin * 2 );
+	m_width  = ( unsigned int ) ( columns + ( horizontalMargin * 2 ) );
+	m_height = ( unsigned int ) ( rows +    ( verticalMargin   * 2 ) );
 
 	if ( m_symbol != nullptr )
 	{
@@ -55,13 +55,13 @@ void Button::setCharacters ( const WCHAR * characters, size_t columns, size_t ro
 
 	m_symbol = new RenderCellData [ m_width * m_height ];
 
-	for ( size_t i = 0; i < m_width * m_height; i++ )
+	for ( int i = 0; i < (int) ( m_width * m_height ); i++ )
 	{
 		m_symbol [ i ].UnicodeChar = ' ';
 		m_symbol [ i ].Attributes = m_selected ? m_selectedColour : m_neutralColour;
 	}
 
-	int marginOffset = m_verticalMargin * m_width;
+	size_t marginOffset = m_verticalMargin * m_width;
 
 	for ( size_t r = 0, i = 0; r < m_textHeight; r++ )
 	{

@@ -12,6 +12,8 @@ enum class POWER_UP_TYPE
 	BALL_MULTIPLY,
 	BALL_PENETRATE,
 
+	// The number of no power ups determines the probability that a power up will be dropped.
+	// The more no power ups are defined the fewer power ups will be dropped.
 	NO_POWER_UP,
 	NO_POWER_UP_02,
 	NO_POWER_UP_03,
@@ -26,6 +28,8 @@ enum class POWER_UP_TYPE
 	NO_POWER_UP_12,
 	NO_POWER_UP_13,
 	NO_POWER_UP_14,
+	NO_POWER_UP_15,
+	NO_POWER_UP_16,
 
 	POWER_UP_COUNT
 };
@@ -66,9 +70,11 @@ public:
 	}
 
 private:
-	RenderCellData m_symbol[1];
+	
+	RenderCellData m_symbol[ 1 ];
 
 	POWER_UP_TYPE m_powerUpType = POWER_UP_TYPE::UNSET;
+
 };
 
 

@@ -15,7 +15,7 @@ void Ball::onCollision(const GameObject& collision, const Vector2Int & collision
 
 	// check if the ball collided with a block or with the ground.
 
-	const Ground * ground = dynamic_cast<const Ground*>(&collision);
+	const Ground * ground = dynamic_cast< const Ground * >( &collision );
 
 	if (ground != nullptr)
 	{
@@ -23,7 +23,7 @@ void Ball::onCollision(const GameObject& collision, const Vector2Int & collision
 		return;
 	}
 
-	const Block* block = dynamic_cast<const Block*>(&collision);
+	const Block * block = dynamic_cast< const Block * >( &collision );
 
 	if (block != nullptr)
 	{

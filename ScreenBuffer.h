@@ -2,18 +2,11 @@
 #include "Window.h"
 #include "RenderCellData.h"
 
-// note that in Lab 8 Bryan Young has this declared as a struct.
 class ScreenBuffer
 {
 public:
 
 	ScreenBuffer ( const int x, const int y );
-
-	ScreenBuffer ( const ScreenBuffer & other );		// Copy constructor
-	ScreenBuffer ( ScreenBuffer && other ) noexcept;	// Move constructor
-
-	ScreenBuffer & operator=( const ScreenBuffer & other );		// Copy Assignment Operator
-	ScreenBuffer & operator=( ScreenBuffer && other ) noexcept;	// Move Assignment Operator
 
 	~ScreenBuffer ( );
 

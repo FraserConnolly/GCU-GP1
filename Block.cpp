@@ -1,7 +1,5 @@
 #include "Block.h"
 
-
-
 enum BlockChar : char16_t
 {
 #ifndef USE_BLOCK_DEBUG_VISUAL
@@ -46,7 +44,7 @@ void Block::onCollision(const GameObject& collision, const Vector2Int & collisio
 
 void Block::setColour(const CellColour colour)
 {
-	for (size_t i = 0; i < m_width * m_height; i++)
+	for ( unsigned int i = 0; i < m_width * m_height; i++ )
 	{
 		m_symbol[i].Attributes = colour;
 	}
@@ -76,7 +74,7 @@ void Block::setDamage(const int damage)
 		break;
 	}
 
-	for (size_t i = 0; i < m_width * m_height; i++)
+	for ( unsigned int i = 0; i < m_width * m_height; i++ )
 	{
 		m_symbol[i].UnicodeChar = c;
 	}

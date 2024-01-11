@@ -1,10 +1,3 @@
-/*
-* Created By: Fraser Connolly
-* Created Date: 2023-10-12
-* 
-* 2023-10-19 Moved Aliens game code to its own derived class.
-*/
-
 #pragma once
 #include <iostream>
 #include <string>
@@ -84,7 +77,6 @@ protected:
 	virtual void processInput ( );
 	virtual void updateGame ( );
 	virtual void drawGame ( ) = 0;
-
 
 	/// <summary>
 	/// Helper method that takes in the pointer to an array of GameObjects

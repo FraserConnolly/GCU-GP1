@@ -53,7 +53,7 @@ void KeyboardInput::tick ( const float deltaTime )
                 key.second->isPressed = true;
 
                 // if this is the first frame for this scene then don't process on pressed or wasPressedThisFrame.
-                key.second->pressedDuration = deltaTime > 0 ? 0 : 0.001;
+                key.second->pressedDuration = deltaTime > 0 ? 0 : 0.001f;
                 if ( key.second->onPressCallback != nullptr && deltaTime > 0 )
                 {
                     key.second->onPressCallback ( key.first, result );

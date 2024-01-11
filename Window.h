@@ -1,8 +1,3 @@
-/*
-* Created By: Fraser Connolly
-* Created Date: 2023-10-12
-*/
-
 #pragma once
 
 #include <windows.h>

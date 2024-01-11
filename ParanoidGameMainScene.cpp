@@ -146,7 +146,7 @@ void ParanoidGameMainScene::updateGame ( )
 
 			if ( powerUp.getPowerUp ( ) == POWER_UP_TYPE::BALL_MULTIPLY )
 			{
-				Ball * activeBalls [ BALL_COUNT_MAX ] ;
+				Ball * activeBalls [ BALL_COUNT_MAX ] { } ;
 
 				for ( size_t i = 0; i < BALL_COUNT_MAX; i++ )
 				{

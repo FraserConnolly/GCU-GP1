@@ -72,12 +72,10 @@ void Paddle::processMovement(ParanoidGameMainScene * const game)
 	if (leftInputPressed)
 	{
 		horivontalMovement = m_speed * game->getDeltaTime() * -1;
-		//translateByGridUnit ( -1, 0 );
 	}
 	else if (rightInputPressed)
 	{
 		horivontalMovement = m_speed * game->getDeltaTime() * 1;
-		//translateByGridUnit ( 1, 0 );
 	}
 
 	translate(horivontalMovement, 0);

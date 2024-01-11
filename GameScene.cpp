@@ -1,10 +1,4 @@
-/*
-* Created By: Fraser Connolly
-* Created Date: 2023-09-28
-* 
-* 2023-10-12 Separated out implementation from header files.
-*/
-
+// include this define to create a set of rulers on the edges of the screen.
 //#define PrintDebugRulers
 
 #include "GameScene.h"
@@ -84,7 +78,7 @@ void GameScene::renderFrame ( )
 #ifdef PrintDebugRulers
 
 	// Draw Debug rows
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < getScreenHeight( ); i++)
 	{
 		char buffer[4];
 
@@ -101,7 +95,7 @@ void GameScene::renderFrame ( )
 		m_backBuffer->setChar(getScreenWidth() - 1, i, buffer[2]);
 	}
 
-	for (int i = 0; i < 160; i++)
+	for (int i = 0; i < getScreenWidth( ); i++)
 	{
 		m_backBuffer->setCharColour(i, 0, CellColour::Fore_Black, CellColour::Back_White);
 		m_backBuffer->setCharColour(i, getScreenHeight()-1, CellColour::Fore_Black, CellColour::Back_White);

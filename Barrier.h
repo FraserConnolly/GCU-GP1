@@ -11,7 +11,7 @@ public:
 
 	Barrier ( ) : GameObject ( BARRIER_CELL_WIDTH, BARRIER_CELL_HEIGHT )
 	{
-		for ( size_t i = 0; i < (size_t) ( m_width * m_height ); i++ )
+		for ( int i = 0; i < (int) ( m_width * m_height ); i++ )
 		{
 			m_symbol [ i ].UnicodeChar = 0x2588;
 			m_symbol [ i ].Attributes = CellColour::Fore_Green;

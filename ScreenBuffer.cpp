@@ -50,121 +50,12 @@ ScreenBuffer::ScreenBuffer ( const int x, const int y )
 	clearBuffer ( );
 }
 
-// Copy constructor
-ScreenBuffer::ScreenBuffer ( const ScreenBuffer & other )
-	: m_col ( other.m_row ),
-	m_row ( other.m_col ),
-	m_buffer ( nullptr ),
-	m_rowPtr ( nullptr ),
-	m_bufferHandle ( other.m_bufferHandle ),
-	m_defaultAttribute ( other.m_defaultAttribute )
-{
-	m_window = new Window ( *other.m_window );
-
-	// allocate a single continuous block of memory big enough to story the whole screen buffer.
-	m_buffer = new CHAR_INFO [ m_row * m_col ];
-
-	// establish pointers to each row in the continuous block of memory.
-	// this allows for get/sets to operate as if they have a 2D array.
-	m_rowPtr = new CHAR_INFO * [ m_row ];
-	for ( int i = 0; i < m_row; i++ )
-	{
-		m_rowPtr [ i ] = &m_buffer [ i * m_col ];
-	}
-
-	// Copy the data from other to this object
-	memcpy ( m_buffer, other.m_buffer, m_row * m_col * sizeof ( CHAR_INFO ) );
-}
-
-// move constructor
-ScreenBuffer::ScreenBuffer ( ScreenBuffer && other ) noexcept
-	: m_col ( 0 ),
-	m_row ( 0 ),
-	m_buffer ( nullptr ),
-	m_rowPtr ( nullptr ),
-	m_bufferHandle ( nullptr ),
-	m_defaultAttribute ( DEFAULT_ATTRIBUTE )
-{
-	// https://learn.microsoft.com/en-us/cpp/cpp/move-constructors-and-move-assignment-operators-cpp?view=msvc-170#robust-programming
-	*this = std::move ( other );
-}
-
 // destructor
 ScreenBuffer::~ScreenBuffer ( )
 {
 	delete [ ] m_buffer;
 	delete [ ] m_rowPtr;
 	delete m_window;
-}
-
-// Copy operator 
-ScreenBuffer & ScreenBuffer::operator=( const ScreenBuffer & other ) // Copy Assignment Operator
-{
-	if ( this == &other )
-	{
-		return *this;
-	}
-
-	// Deallocate existing memory
-	delete [ ] m_buffer;
-	delete [ ] m_rowPtr;
-	delete m_window;
-
-	// Allocate memory for new data
-	m_row = other.m_row;
-	m_col = other.m_col;
-	m_bufferHandle = other.m_bufferHandle;
-	m_defaultAttribute = other.m_defaultAttribute;
-	m_window = new Window ( *other.m_window );
-
-	// allocate a single continuous block of memory big enough to story the whole screen buffer.
-	m_buffer = new CHAR_INFO [ m_row * m_col ];
-
-	// establish pointers to each row in the continuous block of memory.
-	// this allows for get/sets to operate as if they have a 2D array.
-	m_rowPtr = new CHAR_INFO * [ m_row ];
-	for ( int i = 0; i < m_row; i++ )
-	{
-		m_rowPtr [ i ] = &m_buffer [ i * m_col ];
-	}
-
-	memcpy ( m_buffer, other.m_buffer, m_row * m_col * sizeof( CHAR_INFO ) );
-
-	return *this;
-}
-
-// Move operator
-ScreenBuffer & ScreenBuffer::operator=( ScreenBuffer && other ) noexcept
-{
-	if ( this == &other )
-	{
-		return *this;
-	}
-
-	// Deallocate existing memory
-	delete [ ] m_buffer;
-	delete [ ] m_rowPtr;
-	delete m_window;
-
-	// Copy data from source object.
-	m_row = other.m_row;
-	m_col = other.m_col;
-	m_bufferHandle = other.m_bufferHandle;
-	m_defaultAttribute = other.m_defaultAttribute;
-	m_window = other.m_window;
-	m_rowPtr = other.m_rowPtr;
-
-	// Release the data pointer from the source object so that
-	// the destructor does not free the memory multiple times.
-	m_row = 0;
-	m_col = 0;
-	m_defaultAttribute = DEFAULT_ATTRIBUTE;
-	m_window = nullptr;
-	m_bufferHandle = nullptr;
-	m_buffer = nullptr;
-	m_rowPtr = nullptr;
-
-	return *this;
 }
 
 #pragma endregion
@@ -240,10 +131,7 @@ void ScreenBuffer::applyRenderData ( const int x, const int y, const unsigned in
 
 void ScreenBuffer::clearBuffer ( )
 {
-	CHAR_INFO defaultInfo;
-
-	defaultInfo.Char.UnicodeChar = ' ';
-	defaultInfo.Attributes = m_defaultAttribute;
+	CHAR_INFO defaultInfo = { ' ', m_defaultAttribute };
 
 	int length = m_row * m_col;
 
@@ -266,19 +154,15 @@ void ScreenBuffer::displayBuffer ( )
 		return;
 	}
 
-	COORD dwBufferSize;
-	dwBufferSize.X = m_col;
-	dwBufferSize.Y = m_row;
+	COORD dwBufferSize = { (short) m_col, (short) m_row };
 
-	COORD dwBufferCoord;
-	dwBufferCoord.X = 0;
-	dwBufferCoord.Y = 0;
+	COORD dwBufferCoord = { 0, 0 };
 
-	SMALL_RECT writeRegion;
-	writeRegion.Top = 0;
-	writeRegion.Left = 0;
+	SMALL_RECT writeRegion = { 0, 0, 0, 0 };
+	writeRegion.Top    = 0;
+	writeRegion.Left   = 0;
 	writeRegion.Bottom = m_row - 1;
-	writeRegion.Right = m_col - 1;
+	writeRegion.Right  = m_col - 1;
 
 	auto result = WriteConsoleOutput (
 		m_bufferHandle,

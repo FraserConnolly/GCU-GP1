@@ -1,28 +1,18 @@
-/*
-* Created By: Fraser Connolly
-* Created Date: 2023-10-05
-* 
-* 2023-10-12 Separated out definitions from decelerations. 
-* 2023-11-23 Added copy constructor
-*/
-
 #include "Window.h"
 
 #pragma region Constructors, destructors, and operators
 
-Window::Window(HANDLE handle) 
-	: m_hConsole( handle ),
-	m_width( 0 ), 
-	m_height( 0 )
-{
-}
+Window::Window ( HANDLE handle )
+	: m_hConsole ( handle ),
+	m_width ( 0 ),
+	m_height ( 0 )
+{ }
 
-Window::Window(const Window& other) 
-	: m_hConsole(other.m_hConsole),
-	m_width(other.m_width),
-	m_height(other.m_height)
-{
-}
+Window::Window ( const Window & other )
+	: m_hConsole ( other.m_hConsole ),
+	m_width ( other.m_width ),
+	m_height ( other.m_height )
+{ }
 
 Window::~Window()
 {
@@ -65,7 +55,7 @@ void Window::setWindow ( short width, short height )
 		cout << "SetConsoleScreenBufferSize failed with error " << GetLastError ( ) << endl;
 	}
 
-	SMALL_RECT windowSize = { 0, 0, width - 1 , height - 1};
+	SMALL_RECT windowSize = { 0, 0, width - 1 , height - 1 };
 
 	if ( !SetConsoleWindowInfo ( m_hConsole, TRUE, &windowSize ) )
 	{

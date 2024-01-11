@@ -1,11 +1,9 @@
 #include "PowerUp.h"
 
-
 /// <summary>
 /// Must be called before launch.
 /// </summary>
 /// <param name="type">The type of power up this projectile should be.</param>
-
 void PowerUp::setPowerUp ( const POWER_UP_TYPE type )
 {
 	if ( m_active )

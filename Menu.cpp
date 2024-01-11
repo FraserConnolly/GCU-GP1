@@ -105,9 +105,9 @@ void Menu::updateGame ( )
 
 void Menu::drawGame ( )
 { 
-	for ( size_t x = 0; x < getScreenWidth ( ); x++ )
+	for ( int x = 0; x < getScreenWidth ( ); x++ )
 	{
-		for ( size_t y = 0; y < getScreenHeight ( ); y++ )
+		for ( int y = 0; y < getScreenHeight ( ); y++ )
 		{
 			m_backBuffer->setChar ( x, y, borderData [ x + y * getScreenWidth ( ) ] );
 		}

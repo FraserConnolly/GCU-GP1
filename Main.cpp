@@ -1,7 +1,8 @@
 /*
-* Created By: Fraser Connolly
-* Created Date: 2023-09-28
-* 2023-09-11 Added menu system
+* Fraser Connolly
+* Games Development - Games Programming 1
+* Module Leader: Bryan Young
+* Submission Date 2024-01-12
 */
 
 // set this to skip the menu and play a specific game.
@@ -34,7 +35,7 @@ int main ( )
 	scenes.push ( std::make_shared<Menu> ( ) );
 #endif
 
-	while ( ! scenes.empty() )
+	while ( ! scenes.empty( ) )
 	{
 		std::shared_ptr<GameScene> game = scenes.top ( );
 
