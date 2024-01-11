@@ -13,8 +13,8 @@ public:
     ~Button ( );
     
     void setSelectionStatus ( const bool selected );
-    void setCharacters ( const WCHAR * characters, size_t rows, size_t columns );
-    void setCharacters ( const WCHAR * characters, size_t rows, size_t columns, size_t horizontalMargin, size_t verticalMargin );
+    void setCharacters ( const WCHAR * characters, size_t columns, size_t rows );
+    void setCharacters ( const WCHAR * characters, size_t columns, size_t rows, size_t horizontalMargin, size_t verticalMargin );
     void setColours ( const CellColour neutralColour, const CellColour selectedColour )
     {
         m_neutralColour = neutralColour;

@@ -9,6 +9,9 @@ void Menu::initaliseGame ( int lastGameSceneResponse )
 { 
 	GameScene::initaliseGame ( lastGameSceneResponse );
 
+	m_highlightOption = 1;
+	m_selectedOption = 0;
+
 	m_keyboardInput.registerKey ( VK_UP );
 	m_keyboardInput.registerKey ( VK_DOWN );
 	m_keyboardInput.registerKey ( VK_SPACE );
@@ -20,24 +23,24 @@ void Menu::initaliseGame ( int lastGameSceneResponse )
 
 	m_btnSpaceInvader.setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Red ), ( CellColour ) ( CellColour::Back_Red | CellColour::Fore_Black ) );
 	m_btnSpaceInvader.setGridPosition ( 24, 12 );
-	m_btnSpaceInvader.setCharacters ( spaceInvadorsTextData, 106, 6, 2, 1 );
+	m_btnSpaceInvader.setCharacters ( spaceInvadorsTextData, spaceInvadorsTextDataCols, asciiArtShadowRows, 2, 1 );
 	
 	m_btnParanoid    .setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Yellow ), ( CellColour ) ( CellColour::Back_Yellow | CellColour::Fore_Black ) );
 	m_btnParanoid    .setGridPosition ( 24, m_btnSpaceInvader.getGridY() + m_btnSpaceInvader.getHeight() + 1 );
-	m_btnParanoid    .setCharacters ( paranoidTextData, 62, 6, 24, 1 );
+	m_btnParanoid    .setCharacters ( paranoidTextData, paranoidTextDataCols, asciiArtShadowRows, 24, 1 );
 
 	m_btnPortfolio   .setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Green ), ( CellColour ) ( CellColour::Back_Green | CellColour::Fore_Black ) );
 	m_btnPortfolio   .setGridPosition ( 24, m_btnParanoid.getGridY ( ) + m_btnParanoid.getHeight ( ) + 1 );
-	m_btnPortfolio   .setCharacters ( portfolioTextData, 72, 6, 19, 1 );
+	m_btnPortfolio   .setCharacters ( portfolioTextData, portfolioTextDataCols, asciiArtShadowRows, 19, 1 );
 
 	m_btnExit        .setColours ( ( CellColour ) ( CellColour::Back_Black | CellColour::Fore_Magenta ), ( CellColour ) ( CellColour::Back_Magenta | CellColour::Fore_Black ) );
 	m_btnExit        .setGridPosition ( 24, m_btnPortfolio.getGridY ( ) + m_btnPortfolio.getHeight ( ) + 1 );
-	m_btnExit        .setCharacters ( exitTextData, 28, 6, 41, 1 );
+	m_btnExit        .setCharacters ( exitTextData, exitTextDataCols, asciiArtShadowRows, 41, 1 );
 }
 
 int Menu::loadNextScene ( std::shared_ptr<GameScene> &newScene, bool & loadAdditively )
 {
-	switch ( selectedOption )
+	switch ( m_selectedOption )
 	{
 		case 1:
 			newScene = std::make_shared<SpaceInvaderMainScene> ( );
@@ -78,10 +81,10 @@ void Menu::updateGame ( )
 
 	processMenu ( );
 
-	m_btnSpaceInvader.setSelectionStatus ( selectedOption == 1 );
-	m_btnParanoid.setSelectionStatus ( selectedOption == 2 );
-	m_btnPortfolio.setSelectionStatus ( selectedOption == 3 );
-	m_btnExit.setSelectionStatus ( selectedOption == 4 );
+	m_btnSpaceInvader.setSelectionStatus ( m_highlightOption == 1 );
+	m_btnParanoid.setSelectionStatus ( m_highlightOption == 2 );
+	m_btnPortfolio.setSelectionStatus ( m_highlightOption == 3 );
+	m_btnExit.setSelectionStatus ( m_highlightOption == 4 );
 }
 
 void Menu::drawGame ( )
@@ -126,7 +129,7 @@ void Menu::processSplashScreen ( )
 		m_btnParanoid.setActive ( true );
 		m_btnPortfolio.setActive ( true );
 		m_btnExit.setActive ( true );
-		selectedOption = 1;
+		m_highlightOption = 1;
 	}
 }
 
@@ -135,7 +138,7 @@ void Menu::processMenu ( )
 	// Select Space Invaders
 	if ( m_keyboardInput.wasPressedThisFrame ( '1' ) )
 	{
-		selectedOption = 1;
+		m_highlightOption = 1;
 		m_runLoop = false;
 		return;
 	}
@@ -143,7 +146,7 @@ void Menu::processMenu ( )
 	// Select Paranoid
 	if ( m_keyboardInput.wasPressedThisFrame ( '2' ) )
 	{
-		selectedOption = 2;
+		m_highlightOption = 2;
 		m_runLoop = false;
 		return;
 	}
@@ -151,7 +154,7 @@ void Menu::processMenu ( )
 	// Select Portfolio
 	if ( m_keyboardInput.wasPressedThisFrame ( '3' ) )
 	{
-		selectedOption = 3;
+		m_highlightOption = 3;
 		ShellExecuteA ( nullptr, "open", "https://fraserconnolly.co.uk", nullptr, nullptr, SW_SHOWNORMAL );
 		return;
 	}
@@ -159,38 +162,38 @@ void Menu::processMenu ( )
 	// Select Exit
 	if ( m_keyboardInput.wasPressedThisFrame ( '4' ) )
 	{
-		selectedOption = 4;
+		m_highlightOption = 4;
 		m_runLoop = false;
 		return;
 	}
 
 	if ( m_keyboardInput.wasPressedThisFrame ( VK_DOWN ) )
 	{
-		selectedOption++;
+		m_highlightOption++;
 	}
 
 	if ( m_keyboardInput.wasPressedThisFrame ( VK_UP ) )
 	{
-		selectedOption--;
+		m_highlightOption--;
 	}
 
-	if ( selectedOption < 1 )
+	if ( m_highlightOption < 1 )
 	{
-		selectedOption = OPTION_COUNT;
+		m_highlightOption = OPTION_COUNT;
 	}
-	else if ( selectedOption > OPTION_COUNT )
+	else if ( m_highlightOption > OPTION_COUNT )
 	{
-		selectedOption = 1;
+		m_highlightOption = 1;
 	}
 	
 	if ( m_keyboardInput.wasPressedThisFrame ( VK_RETURN ) || m_keyboardInput.wasPressedThisFrame (VK_SPACE) )
 	{
-		if ( selectedOption == 3 )
+		if ( m_highlightOption == 3 )
 		{
-			ShellExecuteA ( nullptr, "open", "https://fraserconnolly.co.uk", nullptr, nullptr, SW_SHOWNORMAL );
 			return;
 		}
 
+		m_selectedOption = m_highlightOption;
 		m_runLoop = false;
 	}
 

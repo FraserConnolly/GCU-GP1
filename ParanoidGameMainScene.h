@@ -22,10 +22,7 @@ public:
 
 	ParanoidGameMainScene() :
 		m_ground(160),
-		m_scoreText("Score: %i", 100),
-		m_ballGridPositionText ( "Ball (%i, %i)", 50 ),
-		m_ballDirectionText ( "Direction (%f, %f)", 50 ),
-		m_frameCountText("FPS: %f", 25)
+		m_scoreText("Score: %i", 100)
 	{ }
 
 	~ParanoidGameMainScene() override
@@ -63,12 +60,6 @@ private:
 	Ground  m_ground;
 
 	UiText m_scoreText;
-
-	/* For debugging */
-	UiText m_frameCountText;
-	UiText m_ballGridPositionText;
-	UiText m_ballDirectionText;
-
 
 	int m_score = 0;
 	int m_level = 0;

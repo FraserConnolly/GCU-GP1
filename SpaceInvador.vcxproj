@@ -129,7 +129,9 @@
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="HighScoreScene.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Resources.cpp" />
     <ClCompile Include="SpaceInvaderMainScene.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Barrier.cpp" />
@@ -156,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="Alien.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="HighScoreScene.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="SpaceInvaderMainScene.h" />

@@ -1,5 +1,7 @@
-#include "SpaceInvaderMainScene.h"
 #include <random>
+#include "SpaceInvaderMainScene.h"
+#include "Resources.h"
+#include "HighScoreScene.h"
 
 void SpaceInvaderMainScene::initaliseGame ( int lastGameSceneResponse )
 {
@@ -8,7 +10,10 @@ void SpaceInvaderMainScene::initaliseGame ( int lastGameSceneResponse )
 
 	initaliseLevel();
 
+	m_score = 0;
+
 	m_player.setGridPosition ( getScreenWidth( ) / 2, PLAYER_ROW );
+	m_player.setActive ( true );
 
 	m_ground.setGridPosition ( 0, GROUND_ROW );
 
@@ -27,6 +32,19 @@ void SpaceInvaderMainScene::initaliseGame ( int lastGameSceneResponse )
 
 int SpaceInvaderMainScene::loadNextScene ( std::shared_ptr<GameScene> & newScene, bool & loadAdditively )
 {
+	if ( getFrameCount ( ) > 0 )
+	{
+		// show score
+		auto hs = std::make_shared<HighScoreScene> ( );
+
+		hs->setScore ( m_score );
+		hs->setGameLabel ( spaceInvadorsTextData, spaceInvadorsTextDataCols, asciiArtShadowRows, CellColour::Fore_Red );
+
+		loadAdditively = true;
+		newScene = hs;
+		return 0;
+	}
+
 	return 0;
 }
 

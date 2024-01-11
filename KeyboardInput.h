@@ -32,6 +32,10 @@ public:
 
 	bool wasPressedThisFrame ( WORD key );
 	bool isPressed ( WORD key );
+
+	// Call this whenever the scene loads to ensure that key holds are reset
+	void resetKeyPresses ( );
+
 private:
 	HANDLE m_bufferHandle = nullptr;
 	BOOL m_ready = false;

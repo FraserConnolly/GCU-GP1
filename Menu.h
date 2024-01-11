@@ -23,7 +23,8 @@ private:
 
     float splashScreenTimer = 2.5f;
     bool showSplashScreen = true;
-    int selectedOption = 0;
+    int m_highlightOption = 0;
+    int m_selectedOption = 0;
 
     Button m_btnSpaceInvader;
     Button m_btnParanoid;

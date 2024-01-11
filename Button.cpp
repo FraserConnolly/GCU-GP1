@@ -36,7 +36,7 @@ void Button::setSelectionStatus ( const bool selected )
 
 void Button::setCharacters ( const WCHAR * characters, size_t columns, size_t rows )
 { 
-	setCharacters ( characters, rows, columns, 0, 0 );
+	setCharacters ( characters, columns, rows, 0, 0 );
 }
 
 void Button::setCharacters ( const WCHAR * characters, size_t columns, size_t rows, size_t horizontalMargin, size_t verticalMargin )

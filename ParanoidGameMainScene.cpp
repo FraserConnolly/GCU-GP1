@@ -1,7 +1,10 @@
 #include "ParanoidGameMainScene.h"
+#include "HighScoreScene.h"
+#include "Resources.h"
 
 void ParanoidGameMainScene::initaliseGame( int lastGameSceneResponse )
 {
+
 	GameScene::initaliseGame( lastGameSceneResponse );
 
 	initaliseLevel();
@@ -11,13 +14,12 @@ void ParanoidGameMainScene::initaliseGame( int lastGameSceneResponse )
 	m_ground.setGridPosition(0, 42);
 
 	m_scoreText.setGridPosition(5, 43);
-	m_ballDirectionText.setGridPosition ( 5, 44 );
-	m_ballGridPositionText.setGridPosition ( 5, 45 );
-	m_frameCountText.setGridPosition(5, 46);
 
 	m_keyboardInput.registerKey(VK_SPACE);
 	m_keyboardInput.registerKey(VK_LEFT);
 	m_keyboardInput.registerKey(VK_RIGHT);
+
+	m_score = 0;
 }
 
 void ParanoidGameMainScene::updateGame ( )
@@ -229,14 +231,23 @@ void ParanoidGameMainScene::drawGame()
 
 	// Draw UI
 	drawGameObject(m_scoreText);
-	drawGameObject(m_frameCountText);
-	drawGameObject ( m_ballDirectionText );
-	drawGameObject ( m_ballGridPositionText );
-
 }
 
 int ParanoidGameMainScene::loadNextScene ( std::shared_ptr<GameScene> & newScene, bool & loadAdditively )
 {
+	if ( getFrameCount ( ) > 0 )
+	{
+		// show score
+		auto hs = std::make_shared<HighScoreScene> ( );
+	
+		hs->setScore ( m_score );
+		hs->setGameLabel ( paranoidTextData, paranoidTextDataCols, asciiArtShadowRows, CellColour::Fore_Yellow );
+
+		loadAdditively = true;
+		newScene = hs;
+		return 0;
+	}
+
 	return 0;
 }
 

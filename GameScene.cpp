@@ -12,9 +12,12 @@
 
 void GameScene::initaliseGame ( int lastGameSceneResponse )
 {
-	m_deltaTimeMs = 0;
-	m_frameTimer.start ( );
 	m_runLoop = true;
+	m_deltaTime = 0;
+	m_deltaTimeMs = 0;
+	m_frameCount = 0;
+
+	m_frameTimer.start ( );
 
 	if ( !isInitialised )
 	{
@@ -34,6 +37,13 @@ void GameScene::initaliseGame ( int lastGameSceneResponse )
 
 		// seed the random number generator with the current time.
 		std::srand ( static_cast< unsigned int >( std::time ( 0 ) ) );
+	}
+
+	m_keyboardInput.resetKeyPresses ( );
+
+	if ( lastGameSceneResponse == -1 )
+	{
+		quit ( );
 	}
 }
 

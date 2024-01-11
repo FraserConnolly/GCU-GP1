@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Menu">
       <UniqueIdentifier>{4401702f-0055-458a-b030-1e7e080aaa8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\High Scores">
+      <UniqueIdentifier>{fb0c46a9-b43e-456f-9648-8272a10b81b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\High Scores">
+      <UniqueIdentifier>{002d726c-8bf5-44a6-925e-cd387240800e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -107,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScoreScene.cpp">
+      <Filter>Source Files\High Scores</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreScene.h">
+      <Filter>Header Files\High Scores</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
