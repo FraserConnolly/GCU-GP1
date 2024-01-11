@@ -65,7 +65,5 @@ private:
 	int m_level = 0;
 	float m_levelStartTime = 0;
 
-	void playMuisc( );
-
 };
 

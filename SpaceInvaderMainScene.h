@@ -91,6 +91,5 @@ private:
 	float m_alienMoveTimeout = 0;
 	float m_nextAlienBomb = BOMB_DROP_TIMEOUT_MAX;
 
-	void playMuisc ( );
 };
 

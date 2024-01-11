@@ -518,7 +518,3 @@ void ParanoidGameMainScene::tryLaunchPowerUp ( const Vector2Int & launchPoint )
 	powerUp->setPowerUp ( ( POWER_UP_TYPE ) randomPowerUp );
 	powerUp->launch ( launchPoint, POWER_UP_SPEED );
 }
-
-void ParanoidGameMainScene::playMuisc( )
-{
-}

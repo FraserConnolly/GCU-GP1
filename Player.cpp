@@ -48,7 +48,7 @@ void Player::processMovement ( SpaceInvaderMainScene * game )
 
 void Player::processCombat ( SpaceInvaderMainScene * game )
 {
-	bool fireInputPressed = game->m_keyboardInput.isPressed ( VK_RCONTROL );
+	bool fireInputPressed = game->m_keyboardInput.isPressed ( VK_SPACE );
 
 	if ( ! fireInputPressed )
 	{

@@ -19,15 +19,9 @@ void SpaceInvaderMainScene::initaliseGame ( int lastGameSceneResponse )
 
 	m_scoreText.setGridPosition ( 5, SCORE_ROW );
 
-	m_keyboardInput.registerOnKey ( VK_SPACE,
-									[ this ] ( WORD key, short status )
-									{
-										this->playMuisc ( );
-									} );
-
 	m_keyboardInput.registerKey ( VK_LEFT );
 	m_keyboardInput.registerKey ( VK_RIGHT );
-	m_keyboardInput.registerKey ( VK_RCONTROL );
+	m_keyboardInput.registerKey ( VK_SPACE );
 }
 
 int SpaceInvaderMainScene::loadNextScene ( std::shared_ptr<GameScene> & newScene, bool & loadAdditively )
@@ -264,31 +258,6 @@ void SpaceInvaderMainScene::drawGame ( )
 
 	// Draw UI
 	drawGameObject ( m_scoreText );
-}
-
-void SpaceInvaderMainScene::playMuisc ( )
-{
-	// Declare the first few notes of the song, "Mary Had A Little Lamb".
-	Note * Mary = new Note [ 13 ]
-	{
-		Note ( Tone::B, Duration::QUARTER ),
-		Note ( Tone::A, Duration::QUARTER ),
-		Note ( Tone::GbelowC, Duration::QUARTER ),
-		Note ( Tone::A, Duration::QUARTER ),
-		Note ( Tone::B, Duration::QUARTER ),
-		Note ( Tone::B, Duration::QUARTER ),
-		Note ( Tone::B, Duration::HALF ),
-		Note ( Tone::A, Duration::QUARTER ),
-		Note ( Tone::A, Duration::QUARTER ),
-		Note ( Tone::A, Duration::HALF ),
-		Note ( Tone::B, Duration::QUARTER ),
-		Note ( Tone::D, Duration::QUARTER ),
-		Note ( Tone::D, Duration::HALF )
-	};
-
-	// Play the song
-	// note that the memory for Marry will be deallocated at the end of the playback.
-	m_musicPlayer.Play ( Mary, 13 );
 }
 
 void SpaceInvaderMainScene::setAlienPositions()
