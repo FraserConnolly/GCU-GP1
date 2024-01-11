@@ -12,13 +12,13 @@ void HighScoreScene::initaliseGame ( int lastGameSceneResponse )
 
 	m_btnGameOver.setColours ( CellColour::Fore_Red, CellColour::Fore_Red );
 	m_btnGameOver.setCharacters ( gameOverTextData, gameOversTextDataCols, asciiArtBloodyRows );
-	m_btnGameOver.setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_btnGameOver.getWidth ( ) / 2 ), 2 );
+	m_btnGameOver.setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_btnGameOver.getWidth ( ) / 2 ), 4 );
 	m_btnGameOver.setActive ( true );
 
 	m_lblHighScore.updateText ( );
-	m_lblHighScore.setGridPosition ( ( getScreenWidth() / 2 ) - ( m_lblHighScore.getWidth( ) / 2 ), 24 );
+	m_lblHighScore.setGridPosition ( ( getScreenWidth() / 2 ) - ( m_lblHighScore.getWidth( ) / 2 ), 26 );
 	
-	m_lblHighScoreValue.setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_lblHighScoreValue.getWidth ( ) / 2 ), 26 );
+	m_lblHighScoreValue.setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_lblHighScoreValue.getWidth ( ) / 2 ), 28 );
 
 	m_btnRetry.setCharacters ( retryTextData, retryTextDataCols, asciiArtShadowRows, 2, 2 );
 	m_btnRetry.setGridPosition ( 35, 35 );
@@ -28,7 +28,7 @@ void HighScoreScene::initaliseGame ( int lastGameSceneResponse )
 	m_btnExit.setGridPosition ( 95, 35 );
 	m_btnExit.setActive ( true );
 
-	m_btnGame.setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_btnGame.getWidth ( ) / 2 ), 14 );
+	m_btnGame.setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_btnGame.getWidth ( ) / 2 ), 18 );
 
 	m_highlightOption = 1;
 }
