@@ -20,12 +20,14 @@ void HighScoreScene::initaliseGame ( int lastGameSceneResponse )
 	
 	m_lblHighScoreValue.setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_lblHighScoreValue.getWidth ( ) / 2 ), 28 );
 
+	m_btnRetry.setColours ( CellColour::Fore_White, ( CellColour ) ( CellColour::Back_Magenta | CellColour::Fore_White ) );
 	m_btnRetry.setCharacters ( retryTextData, retryTextDataCols, asciiArtShadowRows, 2, 2 );
-	m_btnRetry.setGridPosition ( 35, 35 );
+	m_btnRetry.setGridPosition ( 25, 33 );
 	m_btnRetry.setActive ( true );
 
-	m_btnExit.setCharacters ( exitTextData, exitTextDataCols, asciiArtShadowRows, 2, 2 );
-	m_btnExit.setGridPosition ( 95, 35 );
+	m_btnExit.setColours ( CellColour::Fore_White, ( CellColour ) ( CellColour::Back_Magenta | CellColour::Fore_White ) );
+	m_btnExit.setCharacters ( exitTextData, exitTextDataCols, asciiArtShadowRows, 9, 2 );
+	m_btnExit.setGridPosition ( 85, 33 );
 	m_btnExit.setActive ( true );
 
 	m_btnGame.setGridPosition ( ( getScreenWidth ( ) / 2 ) - ( m_btnGame.getWidth ( ) / 2 ), 18 );
