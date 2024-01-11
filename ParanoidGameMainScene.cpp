@@ -20,6 +20,7 @@ void ParanoidGameMainScene::initaliseGame( int lastGameSceneResponse )
 	m_keyboardInput.registerKey(VK_RIGHT);
 
 	m_score = 0;
+	m_level = 0;
 }
 
 void ParanoidGameMainScene::updateGame ( )
