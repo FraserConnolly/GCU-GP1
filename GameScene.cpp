@@ -143,6 +143,16 @@ void GameScene::gameLoop ( )
 		m_frameTimer.restart ( );
 		m_deltaTimeMs = m_frameTimer.elapsedMilliseconds ( );
 		m_deltaTime = m_frameTimer.elapsedSeconds ( );
+		
+		// If delta time is too large (more than 1 second), we must have resumed from a breakpoint.
+		// Frame-lock to the target rate of 30fps.
+		// From Game Engine Architecture 3rd Edition by Jason Gregory 8.5.5 
+		if ( m_deltaTime > 1.0f )
+		{
+			m_deltaTime = 1.0f / 30.0f;
+			m_deltaTimeMs = m_deltaTime / 1000;
+		}
+		
 		m_gameTime += m_deltaTime;
 		m_frameCount++;
 	}
